@@ -16,8 +16,8 @@
 #!Debug/andrick-sdk.pdb
 #!x64/Debug/andrick-sdk.lib
 #!x64/Debug/andrick-sdk.pdb
-#!dependencies/lib/**
-#!dependencies/bin/**
+!dependencies/lib/**
+!dependencies/bin/**
 
 # Build results
 **/[Dd]ebug/**
@@ -26,7 +26,7 @@
 #**/x64/**
 !**/x64/[Dd]ebug/andrick-sdk.lib=
 
-**/x86/**
+#**/x86/**
 !**/[Dd]ebug/andrick-sdk.lib
 
 **/[Bb]in/**
