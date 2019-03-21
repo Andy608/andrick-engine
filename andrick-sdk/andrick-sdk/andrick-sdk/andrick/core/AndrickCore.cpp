@@ -1,12 +1,12 @@
 #include "AndrickCore.h"
 #include "../filesystem/FileSystem.h"
 #include "../logger/LoggerMaster.h"
-//#include "../window/GLARWindow.h"
-//#include "../event/EventQueue.h"
-//#include "../input/InputProcessor.h"
+#include "../event/AndrickEventQueue.h"
+#include "../window/AndrickWindow.h"
+#include "../setting/SettingsProcessor.h"
+#include "../input/InputProcessor.h"
 //#include "../asset/AssetManager.h"
 //#include "../render/RenderManager.h"
-//#include "../setting/SettingsProcessor.h"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image/stb_image.h>
@@ -14,7 +14,7 @@
 
 using namespace andrick;
 
-const std::string AndrickCore::msCLASS_NAME = "GLAR";
+const std::string AndrickCore::msCLASS_NAME = "Andrick";
 GLboolean AndrickCore::smIsInitialized = false;
 
 GLboolean AndrickCore::initAndrick()
@@ -27,7 +27,7 @@ GLboolean AndrickCore::initAndrick()
 		//with queues and error handling, but for now this is fine.
 
 		//Pre-init
-		//Foundation of GLAR.
+		//Foundation of Andrick.
 		ObjectTracker::init();
 
 		if (!FileSystem::init())
@@ -43,10 +43,10 @@ GLboolean AndrickCore::initAndrick()
 			LoggerMaster::getUniversalLogger().logCritical(msCLASS_NAME, "Failed to init " + LoggerMaster::msCLASS_NAME);
 		}
 
-		/*if (!success || !EventQueue::init())
+		if (!success || !AndrickEventQueue::init())
 		{
 			success = GL_FALSE;
-			LoggerMaster::getUniversalLogger().logCritical(msCLASS_NAME, "Failed to init " + EventQueue::msCLASS_NAME);
+			LoggerMaster::getUniversalLogger().logCritical(msCLASS_NAME, "Failed to init " + AndrickEventQueue::msCLASS_NAME);
 		}
 
 		if (!success || !InputProcessor::init())
@@ -55,13 +55,19 @@ GLboolean AndrickCore::initAndrick()
 			LoggerMaster::getUniversalLogger().logCritical(msCLASS_NAME, "Failed to init " + InputProcessor::msCLASS_NAME);
 		}
 
-		if (!success || !GLARWindow::init())
+		if (!success || !SettingsProcessor::init())
 		{
 			success = GL_FALSE;
-			LoggerMaster::getUniversalLogger().logCritical(msCLASS_NAME, "Failed to init " + GLARWindow::msCLASS_NAME);
+			LoggerMaster::getUniversalLogger().logCritical(msCLASS_NAME, "Failed to init " + SettingsProcessor::msCLASS_NAME);
 		}
 
-		if (!success || !AssetManager::init())
+		if (!success || !AndrickWindow::init())
+		{
+			success = GL_FALSE;
+			LoggerMaster::getUniversalLogger().logCritical(msCLASS_NAME, "Failed to init " + AndrickWindow::msCLASS_NAME);
+		}
+
+		/*if (!success || !AssetManager::init())
 		{
 			success = GL_FALSE;
 			LoggerMaster::getUniversalLogger().logCritical(msCLASS_NAME, "Failed to init " + AssetManager::msCLASS_NAME);
@@ -71,12 +77,6 @@ GLboolean AndrickCore::initAndrick()
 		{
 			success = GL_FALSE;
 			LoggerMaster::getUniversalLogger().logCritical(msCLASS_NAME, "Failed to init " + RenderManager::msCLASS_NAME);
-		}
-
-		if (!success || !SettingsProcessor::init())
-		{
-			success = GL_FALSE;
-			LoggerMaster::getUniversalLogger().logCritical(msCLASS_NAME, "Failed to init " + SettingsProcessor::msCLASS_NAME);
 		}*/
 	}
 
@@ -90,23 +90,23 @@ GLboolean AndrickCore::initAndrick()
 
 GLboolean AndrickCore::cleanupAndrick()
 {
-	////Cleanup SettingsProcessor
-	//SettingsProcessor::cleanup();
-
 	////Cleanup MeshRenderer
 	//RenderManager::cleanup();
 
 	////Cleanup AssetManager
 	//AssetManager::cleanup();
 
-	////Cleanup GLFW
-	//GLARWindow::cleanup();
+	//Cleanup GLFW
+	AndrickWindow::cleanup();
 
-	////Cleanup Input Processor
-	//InputProcessor::cleanup();
+	//Cleanup SettingsProcessor
+	SettingsProcessor::cleanup();
 
-	////Cleanup Event Queue
-	//EventQueue::cleanup();
+	//Cleanup Input Processor
+	InputProcessor::cleanup();
+
+	//Cleanup Event Queue
+	AndrickEventQueue::cleanup();
 
 	//Cleanup File System
 	FileSystem::cleanup();

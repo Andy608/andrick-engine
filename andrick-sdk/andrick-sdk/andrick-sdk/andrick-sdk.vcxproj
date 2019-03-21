@@ -131,6 +131,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="andrick\core\AndrickCore.h" />
+    <ClInclude Include="andrick\event\AndrickEvent.h" />
+    <ClInclude Include="andrick\event\AndrickEventListener.h" />
+    <ClInclude Include="andrick\event\AndrickEventQueue.h" />
     <ClInclude Include="andrick\filesystem\MacFilesystem.h" />
     <ClInclude Include="andrick\filesystem\path\directory\DirectoryLocation.h" />
     <ClInclude Include="andrick\filesystem\Filesystem.h" />
@@ -139,15 +142,32 @@
     <ClInclude Include="andrick\filesystem\path\file\io\StringFileWriter.h" />
     <ClInclude Include="andrick\filesystem\path\PathLocation.h" />
     <ClInclude Include="andrick\filesystem\WindowsFilesystem.h" />
+    <ClInclude Include="andrick\input\AndrickKeyBinding.h" />
+    <ClInclude Include="andrick\input\InputProcessor.h" />
     <ClInclude Include="andrick\logger\AndrickSinks.h" />
     <ClInclude Include="andrick\logger\Logger.h" />
     <ClInclude Include="andrick\logger\LoggerMaster.h" />
     <ClInclude Include="andrick\memory\NonCopyable.h" />
     <ClInclude Include="andrick\memory\ObjectTracker.h" />
     <ClInclude Include="andrick\memory\TrackableObject.h" />
+    <ClInclude Include="andrick\render\camera\Camera.h" />
+    <ClInclude Include="andrick\setting\BooleanSetting.h" />
+    <ClInclude Include="andrick\setting\GameSetting.h" />
+    <ClInclude Include="andrick\setting\IntegerSetting.h" />
+    <ClInclude Include="andrick\setting\KeySetting.h" />
+    <ClInclude Include="andrick\setting\SettingsProcessor.h" />
+    <ClInclude Include="andrick\util\math\MathHelper.h" />
+    <ClInclude Include="andrick\util\math\Transform.h" />
+    <ClInclude Include="andrick\util\string\StringUtil.h" />
+    <ClInclude Include="andrick\util\Timer.h" />
+    <ClInclude Include="andrick\window\AndrickViewport.h" />
+    <ClInclude Include="andrick\window\AndrickWindow.h" />
+    <ClInclude Include="andrick\window\callback\WindowCallbacks.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="andrick\core\AndrickCore.cpp" />
+    <ClCompile Include="andrick\event\AndrickEventListener.cpp" />
+    <ClCompile Include="andrick\event\AndrickEventQueue.cpp" />
     <ClCompile Include="andrick\filesystem\Filesystem.cpp" />
     <ClCompile Include="andrick\filesystem\MacFilesystem.cpp" />
     <ClCompile Include="andrick\filesystem\path\directory\DirectoryLocation.cpp" />
@@ -155,10 +175,22 @@
     <ClCompile Include="andrick\filesystem\path\file\io\StringFileReader.cpp" />
     <ClCompile Include="andrick\filesystem\path\file\io\StringFileWriter.cpp" />
     <ClCompile Include="andrick\filesystem\WindowsFilesystem.cpp" />
+    <ClCompile Include="andrick\input\AndrickKeyBinding.cpp" />
+    <ClCompile Include="andrick\input\InputProcessor.cpp" />
     <ClCompile Include="andrick\logger\Logger.cpp" />
     <ClCompile Include="andrick\logger\LoggerMaster.cpp" />
     <ClCompile Include="andrick\memory\ObjectTracker.cpp" />
     <ClCompile Include="andrick\memory\TrackableObject.cpp" />
+    <ClCompile Include="andrick\render\camera\Camera.cpp" />
+    <ClCompile Include="andrick\setting\BooleanSetting.cpp" />
+    <ClCompile Include="andrick\setting\IntegerSetting.cpp" />
+    <ClCompile Include="andrick\setting\KeySetting.cpp" />
+    <ClCompile Include="andrick\setting\SettingsProcessor.cpp" />
+    <ClCompile Include="andrick\util\math\MathHelper.cpp" />
+    <ClCompile Include="andrick\util\math\Transform.cpp" />
+    <ClCompile Include="andrick\util\string\StringUtil.cpp" />
+    <ClCompile Include="andrick\window\AndrickViewport.cpp" />
+    <ClCompile Include="andrick\window\AndrickWindow.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

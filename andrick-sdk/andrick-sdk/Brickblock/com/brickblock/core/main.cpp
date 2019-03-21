@@ -6,9 +6,9 @@ int main()
 {
 	andrick::AndrickCore::initAndrick();
 	andrick::LoggerMaster::getUniversalLogger().logWarn("main", "Hello andrick-sdk!");
-	std::cin.get();
-
 	andrick::AndrickCore::cleanupAndrick();
+
+	std::cin.get();
 
 	return 0;
 }
