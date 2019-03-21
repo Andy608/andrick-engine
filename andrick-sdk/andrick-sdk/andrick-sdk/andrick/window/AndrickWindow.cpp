@@ -397,12 +397,12 @@ void AndrickWindow::hideWindow() const
 }
 
 //This is going to move to a renderer in the future.
-void AndrickWindow::clearColor() const
+void AndrickWindow::clearColor(const GLfloat& red, const GLfloat& green, const GLfloat& blue, const GLfloat& alpha) const
 {
 	//Is this slow to set the context every time we do this? Not sure, need to research.
 	GLFWwindow* previousContext = glfwGetCurrentContext();
 	glfwMakeContextCurrent(mWindowContext);
-	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+	glClearColor(red, green, blue, alpha);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glfwMakeContextCurrent(previousContext);
 }

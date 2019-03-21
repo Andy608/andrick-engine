@@ -18,5 +18,31 @@
     <ClCompile Include="com\brickblock\core\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="com\brickblock\display\MainDisplay.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="com\brickblock\setting\SettingsData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="com\brickblock\core\Brickblock.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="com\brickblock\input\InputData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="com\brickblock\display\MainDisplay.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="com\brickblock\setting\SettingsData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="com\brickblock\core\Brickblock.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="com\brickblock\input\InputData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

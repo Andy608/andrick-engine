@@ -128,7 +128,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="com\brickblock\core\Brickblock.cpp" />
     <ClCompile Include="com\brickblock\core\main.cpp" />
+    <ClCompile Include="com\brickblock\display\MainDisplay.cpp" />
+    <ClCompile Include="com\brickblock\input\InputData.cpp" />
+    <ClCompile Include="com\brickblock\setting\SettingsData.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="com\brickblock\core\Brickblock.h" />
+    <ClInclude Include="com\brickblock\display\MainDisplay.h" />
+    <ClInclude Include="com\brickblock\input\InputData.h" />
+    <ClInclude Include="com\brickblock\setting\SettingsData.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -143,7 +143,16 @@ LoggerMaster::~LoggerMaster()
 
 const Logger& LoggerMaster::getUniversalLogger()
 {
-	return smpLoggerMaster->mUniversalLogger;
+	if (!mIsInitialized)
+	{
+		std::string error = std::string(msCLASS_NAME + " is not initialized! Did you forget to init Andrick?");
+		std::cout << error << std::endl;
+		throw std::exception(error.c_str());
+	}
+	else
+	{
+		return smpLoggerMaster->mUniversalLogger;
+	}
 }
 
 GLboolean LoggerMaster::isLoggerInList(std::string loggerID)

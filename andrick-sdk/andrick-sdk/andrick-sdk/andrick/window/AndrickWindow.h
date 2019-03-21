@@ -70,7 +70,7 @@ namespace andrick
 		void showWindow() const;
 		void hideWindow() const;
 
-		void clearColor() const;
+		void clearColor(const GLfloat& red, const GLfloat& green, const GLfloat& blue, const GLfloat& alpha) const;
 		void flip();
 		void setViewport(GLuint startX, GLuint startY, GLuint width, GLuint height) const;
 
