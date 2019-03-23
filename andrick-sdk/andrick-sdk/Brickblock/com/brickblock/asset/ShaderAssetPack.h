@@ -6,7 +6,7 @@
 #include <andrick/asset/shader/ShaderProgram.h>
 
 //For now adding mesh here too lol
-//#include <glar/mesh/Mesh.h>
+#include <andrick/asset/mesh/Mesh.h>
 
 namespace bb
 {
@@ -23,7 +23,8 @@ namespace bb
 		static andrick::Shader* mspLightSourceFS;
 		static andrick::ShaderProgram* mspLightSourceProgram;
 
-		//static andrick::Mesh* mspTestMesh;
+		//For now, all the meshes will load in a MeshPack in the future
+		static andrick::Mesh* mspTestMesh;
 
 	protected:
 		virtual GLboolean load() override;

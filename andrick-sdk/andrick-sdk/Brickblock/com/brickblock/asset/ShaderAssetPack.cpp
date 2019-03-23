@@ -10,7 +10,7 @@ namespace bb
 	andrick::Shader* ShaderAssetPack::mspLightSourceFS = nullptr;
 	andrick::ShaderProgram* ShaderAssetPack::mspLightSourceProgram = nullptr;
 
-	//andrick::Mesh* ShaderAssetPack::mspTestMesh = nullptr;
+	andrick::Mesh* ShaderAssetPack::mspTestMesh = nullptr;
 
 	const andrick::DirectoryLocation ShaderAssetPack::msSHADER_DIR = andrick::DirectoryLocation("assets", "shaders", andrick::PathLocation::EnumPathType::RELATIVE_PATH);
 
@@ -38,7 +38,7 @@ namespace bb
 		mspLightSourceProgram->addShader(*mspLightSourceVS);
 		mspLightSourceProgram->addShader(*mspLightSourceFS);
 
-		//mspTestMesh = new andrick::Mesh("test_mesh", andrick::FileLocation("assets/meshes", "test_mesh", andrick::FileLocation::EnumPathType::RELATIVE_PATH, andrick::FileLocation::EnumExtensionType::OBJ_EXT));
+		mspTestMesh = new andrick::Mesh("test_mesh", andrick::FileLocation("assets/meshes", "test_mesh", andrick::FileLocation::EnumPathType::RELATIVE_PATH, andrick::FileLocation::EnumExtensionType::OBJ_EXT));
 
 		registerAsset(mspTestVS);
 		registerAsset(mspTestFS);
@@ -48,7 +48,7 @@ namespace bb
 		registerAsset(mspLightSourceFS);
 		registerAsset(mspLightSourceProgram);
 
-		//registerAsset(mspTestMesh);
+		registerAsset(mspTestMesh);
 
 		return AssetPack::load();
 	}
