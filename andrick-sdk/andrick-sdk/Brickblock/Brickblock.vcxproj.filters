@@ -30,6 +30,12 @@
     <ClCompile Include="com\brickblock\input\InputData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="com\brickblock\asset\AssetLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="com\brickblock\asset\ShaderAssetPack.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="com\brickblock\display\MainDisplay.h">
@@ -42,6 +48,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="com\brickblock\input\InputData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="com\brickblock\asset\AssetLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="com\brickblock\asset\ShaderAssetPack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

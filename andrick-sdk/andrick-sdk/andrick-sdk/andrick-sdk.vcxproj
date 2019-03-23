@@ -130,6 +130,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="andrick\asset\Asset.h" />
+    <ClInclude Include="andrick\asset\AssetManager.h" />
+    <ClInclude Include="andrick\asset\mesh\Mesh.h" />
+    <ClInclude Include="andrick\asset\mesh\MeshFactory.h" />
+    <ClInclude Include="andrick\asset\pack\AssetPack.h" />
+    <ClInclude Include="andrick\asset\shader\Shader.h" />
+    <ClInclude Include="andrick\asset\shader\ShaderProgram.h" />
+    <ClInclude Include="andrick\asset\texture\Texture.h" />
     <ClInclude Include="andrick\core\AndrickCore.h" />
     <ClInclude Include="andrick\event\AndrickEvent.h" />
     <ClInclude Include="andrick\event\AndrickEventListener.h" />
@@ -138,8 +146,8 @@
     <ClInclude Include="andrick\filesystem\path\directory\DirectoryLocation.h" />
     <ClInclude Include="andrick\filesystem\Filesystem.h" />
     <ClInclude Include="andrick\filesystem\path\file\FileLocation.h" />
-    <ClInclude Include="andrick\filesystem\path\file\io\StringFileReader.h" />
-    <ClInclude Include="andrick\filesystem\path\file\io\StringFileWriter.h" />
+    <ClInclude Include="andrick\filesystem\path\file\io\string\StringFileReader.h" />
+    <ClInclude Include="andrick\filesystem\path\file\io\string\StringFileWriter.h" />
     <ClInclude Include="andrick\filesystem\path\PathLocation.h" />
     <ClInclude Include="andrick\filesystem\WindowsFilesystem.h" />
     <ClInclude Include="andrick\input\AndrickKeyBinding.h" />
@@ -151,6 +159,11 @@
     <ClInclude Include="andrick\memory\ObjectTracker.h" />
     <ClInclude Include="andrick\memory\TrackableObject.h" />
     <ClInclude Include="andrick\render\camera\Camera.h" />
+    <ClInclude Include="andrick\render\wrapper\ebo\EBOWrapper.h" />
+    <ClInclude Include="andrick\render\wrapper\GLObjectWrapper.h" />
+    <ClInclude Include="andrick\render\wrapper\texture\TextureWrapper.h" />
+    <ClInclude Include="andrick\render\wrapper\vao\VAOWrapper.h" />
+    <ClInclude Include="andrick\render\wrapper\vbo\VBOWrapper.h" />
     <ClInclude Include="andrick\setting\BooleanSetting.h" />
     <ClInclude Include="andrick\setting\GameSetting.h" />
     <ClInclude Include="andrick\setting\IntegerSetting.h" />
@@ -165,6 +178,14 @@
     <ClInclude Include="andrick\window\callback\WindowCallbacks.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="andrick\asset\Asset.cpp" />
+    <ClCompile Include="andrick\asset\AssetManager.cpp" />
+    <ClCompile Include="andrick\asset\mesh\Mesh.cpp" />
+    <ClCompile Include="andrick\asset\mesh\MeshFactory.cpp" />
+    <ClCompile Include="andrick\asset\pack\AssetPack.cpp" />
+    <ClCompile Include="andrick\asset\shader\Shader.cpp" />
+    <ClCompile Include="andrick\asset\shader\ShaderProgram.cpp" />
+    <ClCompile Include="andrick\asset\texture\Texture.cpp" />
     <ClCompile Include="andrick\core\AndrickCore.cpp" />
     <ClCompile Include="andrick\event\AndrickEventListener.cpp" />
     <ClCompile Include="andrick\event\AndrickEventQueue.cpp" />
@@ -172,8 +193,8 @@
     <ClCompile Include="andrick\filesystem\MacFilesystem.cpp" />
     <ClCompile Include="andrick\filesystem\path\directory\DirectoryLocation.cpp" />
     <ClCompile Include="andrick\filesystem\path\file\FileLocation.cpp" />
-    <ClCompile Include="andrick\filesystem\path\file\io\StringFileReader.cpp" />
-    <ClCompile Include="andrick\filesystem\path\file\io\StringFileWriter.cpp" />
+    <ClCompile Include="andrick\filesystem\path\file\io\string\StringFileReader.cpp" />
+    <ClCompile Include="andrick\filesystem\path\file\io\string\StringFileWriter.cpp" />
     <ClCompile Include="andrick\filesystem\WindowsFilesystem.cpp" />
     <ClCompile Include="andrick\input\AndrickKeyBinding.cpp" />
     <ClCompile Include="andrick\input\InputProcessor.cpp" />
@@ -182,6 +203,10 @@
     <ClCompile Include="andrick\memory\ObjectTracker.cpp" />
     <ClCompile Include="andrick\memory\TrackableObject.cpp" />
     <ClCompile Include="andrick\render\camera\Camera.cpp" />
+    <ClCompile Include="andrick\render\wrapper\ebo\EBOWrapper.cpp" />
+    <ClCompile Include="andrick\render\wrapper\texture\TextureWrapper.cpp" />
+    <ClCompile Include="andrick\render\wrapper\vao\VAOWrapper.cpp" />
+    <ClCompile Include="andrick\render\wrapper\vbo\VBOWrapper.cpp" />
     <ClCompile Include="andrick\setting\BooleanSetting.cpp" />
     <ClCompile Include="andrick\setting\IntegerSetting.cpp" />
     <ClCompile Include="andrick\setting\KeySetting.cpp" />

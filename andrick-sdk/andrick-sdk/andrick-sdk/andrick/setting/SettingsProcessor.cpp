@@ -1,8 +1,8 @@
 #include "SettingsProcessor.h"
 #include "../filesystem/FileSystem.h"
 #include "../logger/LoggerMaster.h"
-#include "../filesystem/path/file/io/StringFileReader.h"
-#include "../filesystem/path/file/io/StringFileWriter.h"
+#include "../filesystem/path/file/io/string/StringFileReader.h"
+#include "../filesystem/path/file/io/string/StringFileWriter.h"
 
 namespace andrick
 {

@@ -1,11 +1,11 @@
-//#include <andrick/asset/AssetManager.h>
+#include <andrick/asset/AssetManager.h>
 #include <andrick/input/InputProcessor.h>
 #include <andrick/logger/LoggerMaster.h>
 #include <andrick/util/Timer.h>
 #include <andrick/util/math/MathHelper.h>
 
 #include "Brickblock.h"
-//#include "../asset/AssetLoader.h"
+#include "../asset/AssetLoader.h"
 //#include "../block/util/BlockList.h"
 #include "../input/InputData.h"
 #include "../setting/SettingsData.h"
@@ -44,16 +44,16 @@ namespace bb
 		}
 
 		//Load the resources.
-		//AssetLoader::init();
-		//AssetLoader::mspInstance->initAssets();
-		//andrick::AssetManager::loadAssets();
+		AssetLoader::init();
+		AssetLoader::mspInstance->initAssets();
+		andrick::AssetManager::loadAssets();
 
 		//BlockList::init();
 		//BlockList::mspInstance->loadBlocks();
 		//BlockList::mspInstance->registerBlocks();
 
 		//Move this somewhere else
-		///andrick::AndrickWindow::disableCursor(MainDisplay::mspInstance->mpWindow);
+		andrick::AndrickWindow::disableCursor(MainDisplay::mspInstance->mpWindow);
 		//mspInstance->mpUniverse = new Universe("Test World");
 
 		/////////////////////
@@ -70,7 +70,7 @@ namespace bb
 			//Move these to an initialization handler in the future.
 			SettingsData::cleanup();
 			InputData::cleanup();
-			//AssetLoader::cleanup();
+			AssetLoader::cleanup();
 			//BlockList::cleanup();
 
 			delete mspInstance;
@@ -140,7 +140,7 @@ namespace bb
 
 				while (lagTime >= mTIME_SLICE)
 				{
-					//Move this to the AndrickWindow class in the GLAR library.
+					//Move this to the AndrickWindow class in the Andrick sdk.
 					update(mTIME_SLICE);
 					lagTime -= mTIME_SLICE;
 				}
@@ -158,11 +158,11 @@ namespace bb
 		}
 	}
 
-	static int ticks = 0;
-	static int frames = 0;
+	static GLuint ticks = 0;
+	static GLuint frames = 0;
 
-	static float sinFun;
-	static float cosFun;
+	static GLfloat sinFun;
+	static GLfloat cosFun;
 
 	void Brickblock::update(const GLdouble& deltaTime)
 	{
@@ -185,15 +185,16 @@ namespace bb
 			ticks = 0;
 		}
 
-		sinFun = sin(andrick::MathHelper::toRadians(ticks)) * 0.5f + 0.5f;
-		cosFun = cos(andrick::MathHelper::toRadians(ticks)) * 0.5f + 0.5f;
+		sinFun = sin(andrick::MathHelper::toRadians((GLfloat)ticks)) * 0.5f + 0.5f;
+		cosFun = cos(andrick::MathHelper::toRadians((GLfloat)ticks)) * 0.5f + 0.5f;
 	}
 
 	void Brickblock::render(const GLdouble& alpha)
 	{
 		frames++;
 
-		MainDisplay::mspInstance->mpWindow->clearColor(sinFun, sinFun + cosFun, cosFun, 1.0f);
+		//MainDisplay::mspInstance->mpWindow->clearColor(sinFun, sinFun + cosFun, cosFun, 1.0f);
+		MainDisplay::mspInstance->mpWindow->clearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		//MainDisplay::mspInstance->mpWindow->render(alpha);
 
 		//mpUniverse->render(alpha);

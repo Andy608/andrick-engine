@@ -5,7 +5,7 @@
 #include "../window/AndrickWindow.h"
 #include "../setting/SettingsProcessor.h"
 #include "../input/InputProcessor.h"
-//#include "../asset/AssetManager.h"
+#include "../asset/AssetManager.h"
 //#include "../render/RenderManager.h"
 
 #define STB_IMAGE_IMPLEMENTATION
@@ -67,13 +67,13 @@ GLboolean AndrickCore::initAndrick()
 			LoggerMaster::getUniversalLogger().logCritical(msCLASS_NAME, "Failed to init " + AndrickWindow::msCLASS_NAME);
 		}
 
-		/*if (!success || !AssetManager::init())
+		if (!success || !AssetManager::init())
 		{
 			success = GL_FALSE;
 			LoggerMaster::getUniversalLogger().logCritical(msCLASS_NAME, "Failed to init " + AssetManager::msCLASS_NAME);
 		}
 
-		if (!success || !RenderManager::init())
+		/*if (!success || !RenderManager::init())
 		{
 			success = GL_FALSE;
 			LoggerMaster::getUniversalLogger().logCritical(msCLASS_NAME, "Failed to init " + RenderManager::msCLASS_NAME);
@@ -93,8 +93,8 @@ GLboolean AndrickCore::cleanupAndrick()
 	////Cleanup MeshRenderer
 	//RenderManager::cleanup();
 
-	////Cleanup AssetManager
-	//AssetManager::cleanup();
+	//Cleanup AssetManager
+	AssetManager::cleanup();
 
 	//Cleanup GLFW
 	AndrickWindow::cleanup();
