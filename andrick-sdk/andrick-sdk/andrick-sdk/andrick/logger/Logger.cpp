@@ -25,7 +25,7 @@ std::string Logger::getFormattedMessage(const std::string& className, std::strin
 
 void Logger::log(EnumLoggerLevel level, const std::string& className, std::string message) const
 {
-	if (!LoggerMaster::isInitialized)
+	if (!LoggerMaster::isInitialized())
 	{
 		std::cout << "Logger is not initialized! Did you forget to initialize Andrick?" << std::endl;
 		return;

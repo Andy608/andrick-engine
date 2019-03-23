@@ -44,7 +44,7 @@ namespace andrick
 		{
 			str = std::to_string(*set.begin());
 
-			std::set<T>::iterator it;
+			typename std::set<T>::iterator it;
 
 			for (it = ++set.begin(); it != set.end(); ++it)
 			{

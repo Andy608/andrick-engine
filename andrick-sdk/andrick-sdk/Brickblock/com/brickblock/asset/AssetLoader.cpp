@@ -9,6 +9,8 @@
 
 #include "../asset/ShaderAssetPack.h"
 
+#include <set>
+
 namespace bb
 {
 	const std::string AssetLoader::msCLASS_NAME = "AssetLoader";
