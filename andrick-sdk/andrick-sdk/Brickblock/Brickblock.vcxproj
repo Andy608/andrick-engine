@@ -22,7 +22,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{D38A664A-AFE2-4973-BF15-E00B1136A35E}</ProjectGuid>
     <RootNamespace>Brickblock</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.10586.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -134,7 +134,9 @@
     <ClCompile Include="com\brickblock\core\main.cpp" />
     <ClCompile Include="com\brickblock\display\MainDisplay.cpp" />
     <ClCompile Include="com\brickblock\input\InputData.cpp" />
+    <ClCompile Include="com\brickblock\render\camera\FreeRoamCamera.cpp" />
     <ClCompile Include="com\brickblock\setting\SettingsData.cpp" />
+    <ClCompile Include="com\brickblock\world\Playground.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="com\brickblock\asset\AssetLoader.h" />
@@ -142,7 +144,9 @@
     <ClInclude Include="com\brickblock\core\Brickblock.h" />
     <ClInclude Include="com\brickblock\display\MainDisplay.h" />
     <ClInclude Include="com\brickblock\input\InputData.h" />
+    <ClInclude Include="com\brickblock\render\camera\FreeRoamCamera.h" />
     <ClInclude Include="com\brickblock\setting\SettingsData.h" />
+    <ClInclude Include="com\brickblock\world\Playground.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

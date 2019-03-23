@@ -10,8 +10,8 @@
 #include "../input/InputData.h"
 #include "../setting/SettingsData.h"
 
-#include <chrono>
-#include <thread>
+//#include <chrono>
+//#include <thread>
 
 namespace bb
 {
@@ -54,7 +54,7 @@ namespace bb
 
 		//Move this somewhere else
 		andrick::AndrickWindow::disableCursor(MainDisplay::mspInstance->mpWindow);
-		//mspInstance->mpUniverse = new Universe("Test World");
+		mspInstance->mpPlayground = new Playground();
 
 		/////////////////////
 
@@ -111,8 +111,8 @@ namespace bb
 		andrick::LoggerMaster::getLogger(msLOGGER_ID)->logTrace(msCLASS_NAME, "Destroying " + msCLASS_NAME + ".");
 
 		//Temporary Variables
-		//delete mpUniverse;
-		//mpUniverse = nullptr;
+		delete mpPlayground;
+		mpPlayground = nullptr;
 	}
 
 	void Brickblock::loop()
@@ -170,7 +170,7 @@ namespace bb
 		InputData::mspInstance->update(deltaTime);
 
 		MainDisplay::mspInstance->mpWindow->update(deltaTime);
-		//mpUniverse->update(deltaTime);
+		mpPlayground->update(deltaTime);
 
 		ticks++;
 
@@ -197,7 +197,7 @@ namespace bb
 		MainDisplay::mspInstance->mpWindow->clearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		//MainDisplay::mspInstance->mpWindow->render(alpha);
 
-		//mpUniverse->render(alpha);
+		mpPlayground->render(alpha);
 
 		MainDisplay::mspInstance->mpWindow->flip();
 	}

@@ -6,8 +6,8 @@
 #include "../../render/wrapper/vao/VAOWrapper.h"
 #include "../../render/wrapper/vbo/VBOWrapper.h"
 #include "../../render/wrapper/ebo/EBOWrapper.h"
+#include "../../render/IRenderable.h"
 #include <vector>
-#include <glm/vec4.hpp>
 
 namespace andrick
 {
@@ -22,7 +22,7 @@ namespace andrick
 		virtual GLboolean load() override;
 		virtual GLboolean unload() override;
 
-		virtual void render(const GLdouble& alpha) const;
+		virtual void render(/*const GLdouble& alpha*/) const;
 
 		const VBOWrapper* getVBO(VBOWrapper::EnumBufferType type) const;
 

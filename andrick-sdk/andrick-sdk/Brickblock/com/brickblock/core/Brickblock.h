@@ -5,7 +5,7 @@
 #include <andrick/memory/NonCopyable.h>
 
 #include "../display/MainDisplay.h"
-//#include "../universe/Universe.h"
+#include "../world/Playground.h"
 
 namespace bb
 {
@@ -37,7 +37,7 @@ namespace bb
 		virtual ~Brickblock();
 
 		//Temporary Variables
-		//Universe* mpUniverse;
+		Playground* mpPlayground;
 	};
 }
 

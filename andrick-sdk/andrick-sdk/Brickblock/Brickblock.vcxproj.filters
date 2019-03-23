@@ -36,6 +36,12 @@
     <ClCompile Include="com\brickblock\asset\ShaderAssetPack.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="com\brickblock\world\Playground.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="com\brickblock\render\camera\FreeRoamCamera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="com\brickblock\display\MainDisplay.h">
@@ -54,6 +60,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="com\brickblock\asset\ShaderAssetPack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="com\brickblock\world\Playground.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="com\brickblock\render\camera\FreeRoamCamera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

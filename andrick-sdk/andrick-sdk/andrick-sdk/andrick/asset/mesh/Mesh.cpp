@@ -43,7 +43,7 @@ namespace andrick
 		return (mIsLoaded == GL_FALSE);
 	}
 
-	void Mesh::render(const GLdouble& alpha) const
+	void Mesh::render(/*const GLdouble& alpha*/) const
 	{
 		mVAO->bind();
 		mEBO->bind();
