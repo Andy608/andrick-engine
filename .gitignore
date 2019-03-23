@@ -24,7 +24,7 @@
 !**/[Dd]ebug/andrick-sdk.lib
 
 #**/x64/**
-!**/x64/[Dd]ebug/andrick-sdk.lib=
+!**/x64/[Dd]ebug/andrick-sdk.lib
 
 #**/x86/**
 !**/[Dd]ebug/andrick-sdk.lib
@@ -78,7 +78,7 @@ StyleCopReport.xml
 *_i.h
 *.ilk
 *.meta
-*.obj
+#*.obj
 *.iobj
 *.pch
 *.pdb
@@ -346,7 +346,6 @@ ASALocalRun/
 
 #Project Files
 *logs*
-!Brickblock/assets/**
 #!Debug/andrick-sdk.lib
 #!Debug/andrick-sdk.pdb
 #!x64/Debug/andrick-sdk.lib
