@@ -6,8 +6,10 @@ namespace andrick
 {
 	const std::string Model::msCLASS_NAME = "Model";
 
-	Model::Model() :
-		mpModelTransform(new Transform(glm::vec3(), glm::vec3(), glm::vec3(1.0f))),
+	Model::Model(Mesh* pMesh, Transform* parentTransform) :
+		mpTransform(new Transform(glm::vec3(), glm::vec3(), glm::vec3(1.0f))),
+		mpParentTransform(parentTransform),
+		mpMesh(pMesh),
 		mpTextureWrapper(nullptr)
 	{
 
@@ -15,8 +17,8 @@ namespace andrick
 
 	Model::~Model()
 	{
-		delete mpModelTransform;
-		mpModelTransform = nullptr;
+		delete mpTransform;
+		mpTransform = nullptr;
 
 		if (mpTextureWrapper)
 		{
@@ -25,14 +27,39 @@ namespace andrick
 		}
 	}
 
-	void Model::update(const GLdouble& deltaTime)
+	void Model::updateTransform()
 	{
-		sync();
+		mpTransform->sync();
 	}
 
-	void Model::render(const GLdouble& alpha, const ShaderProgram& activeShader)
+	void Model::update(const GLdouble& deltaTime)
 	{
-		mpModelTransform->lerp(alpha);
+		updateTransform();
+	}
+
+	void Model::prepModelTransform(const GLdouble& alpha, const ShaderProgram& currentShader)
+	{
+		mpTransform->lerp(alpha);
+
+		glm::mat4 pParentTransformation;
+
+		if (mpParentTransform)
+		{
+			mpParentTransform->lerp(alpha);
+			pParentTransformation = mpParentTransform->getTransformationMat();
+		}
+		else
+		{
+			pParentTransformation = glm::mat4(1.0f);
+		}
+
+		glm::mat4 modelSpace = pParentTransformation * mpTransform->getTransformationMat();
+		currentShader.loadMat4("transformMatrix", GL_FALSE, glm::value_ptr(modelSpace));
+	}
+
+	void Model::render(const GLdouble& alpha)
+	{
+		mpMesh->render();
 	}
 
 	void Model::setTexture(Texture& texture,
@@ -47,58 +74,52 @@ namespace andrick
 
 		if (!mpTextureWrapper)
 		{
-			mpTextureWrapper = new TextureWrapper(texture);
+			mpTextureWrapper = new TextureWrapper(texture, wrapStyleS, wrapStyleT, minFilter, magFilter);
 		}
 		else
 		{
-			mpTextureWrapper->setTexture(texture);
+			mpTextureWrapper->updateProperties(texture, wrapStyleS, wrapStyleT, minFilter, magFilter);
 		}
 
-		mpTextureWrapper->setWrapStyleS(wrapStyleS);
-		mpTextureWrapper->setWrapStyleT(wrapStyleT);
-		mpTextureWrapper->setMinifyFilter(minFilter);
-		mpTextureWrapper->setMagnifyFilter(magFilter);
 		mpTextureWrapper->generateGLTexture();
 	}
 
 	/* Component Node */
 
-	Model::ComponentNode::ComponentNode(Mesh* pMesh, ComponentNode* pParent) :
-		mpMesh(pMesh),
-		mParentComponent(pParent),
-		mpMeshTransform(new Transform(glm::vec3(), glm::vec3(), glm::vec3(1.0f)))
-	{
+	//Model::ComponentNode::ComponentNode(Mesh* pMesh, ComponentNode* pParent) :
+	//	mpMesh(pMesh),
+	//	mParentComponent(pParent),
+	//	mpMeshTransform(new Transform(glm::vec3(), glm::vec3(), glm::vec3(1.0f)))
+	//{
 
-	}
+	//}
 
-	Model::ComponentNode::~ComponentNode()
-	{
-		delete mpMeshTransform;
-		mpMeshTransform = nullptr;
-	}
+	//Model::ComponentNode::~ComponentNode()
+	//{
+	//	delete mpMeshTransform;
+	//	mpMeshTransform = nullptr;
+	//}
 
-	void Model::ComponentNode::render(const GLdouble& alpha, const glm::mat4& modelTransform, const ShaderProgram& activeShader)
-	{
-		mpMeshTransform->lerp(alpha);
+	//void Model::ComponentNode::render(const GLdouble& alpha, const glm::mat4& modelTransform, const ShaderProgram& activeShader)
+	//{
+	//	mpMeshTransform->lerp(alpha);
 
-		glm::mat4 parentTransform;
+	//	glm::mat4 parentTransform;
 
-		if (mParentComponent)
-		{
-			Transform* pParent = mParentComponent->mpMeshTransform;
-			pParent->lerp(alpha);
-			parentTransform = pParent->getTransformationMat();
-		}
-		else
-		{
-			parentTransform = glm::mat4(1.0f);
-		}
+	//	if (mParentComponent)
+	//	{
+	//		Transform* pParent = mParentComponent->mpMeshTransform;
+	//		pParent->lerp(alpha);
+	//		parentTransform = pParent->getTransformationMat();
+	//	}
+	//	else
+	//	{
+	//		parentTransform = glm::mat4(1.0f);
+	//	}
 
-		glm::mat4 modelSpace = modelTransform * parentTransform * mpMeshTransform->getTransformationMat();
+	//	glm::mat4 modelSpace = modelTransform * parentTransform * mpMeshTransform->getTransformationMat();
 
-		//BBLogger::logDebug("Model.cpp", "MODEL TRANSFORM: " + MatrixUtil::to_string(modelTransform), Logger::EnumLogLocation::CONSOLE);
-
-		activeShader.loadMat4("transformMatrix", GL_FALSE, glm::value_ptr(modelSpace));
-		mpMesh->render(/*alpha*/);
-	}
+	//	activeShader.loadMat4("transformMatrix", GL_FALSE, glm::value_ptr(modelSpace));
+	//	mpMesh->render(/*alpha*/);
+	//}
 }

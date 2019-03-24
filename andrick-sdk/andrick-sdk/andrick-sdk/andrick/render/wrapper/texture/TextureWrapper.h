@@ -31,13 +31,24 @@ namespace andrick
 			LINEAR = GL_LINEAR
 		};
 
-		TextureWrapper(Texture& texture);
+		TextureWrapper(Texture& texture, 
+			const EnumWrapStyle& wrapStyleS = EnumWrapStyle::REPEAT, 
+			const EnumWrapStyle& wrapStyleT = EnumWrapStyle::REPEAT,
+			const EnumMinFilter& minify = EnumMinFilter::LINEAR_MIPMAP_LINEAR,
+			const EnumMagFilter& magnify = EnumMagFilter::LINEAR);
+
 		~TextureWrapper();
 
 		virtual void bind() const;
 		virtual void unbind() const;
 
-		void setTexture(Texture &texture);
+		void updateProperties(Texture& texture,
+			const EnumWrapStyle& wrapStyleS = EnumWrapStyle::REPEAT,
+			const EnumWrapStyle& wrapStyleT = EnumWrapStyle::REPEAT,
+			const EnumMinFilter& minify = EnumMinFilter::LINEAR_MIPMAP_LINEAR,
+			const EnumMagFilter& magnify = EnumMagFilter::LINEAR);
+
+		void setTexture(Texture& texture);
 
 		void setWrapStyleS(const EnumWrapStyle& wrapStyleS);
 		void setWrapStyleT(const EnumWrapStyle& wrapStyleT);

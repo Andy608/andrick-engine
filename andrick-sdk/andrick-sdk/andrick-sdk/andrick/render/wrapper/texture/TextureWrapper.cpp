@@ -2,9 +2,15 @@
 
 namespace andrick
 {
-	TextureWrapper::TextureWrapper(Texture &texture) :
+	TextureWrapper::TextureWrapper(Texture &texture, 
+		const EnumWrapStyle& wrapStyleS, const EnumWrapStyle& wrapStyleT,
+		const EnumMinFilter& minify, const EnumMagFilter& magnify) :
 		mTexture(texture)
 	{
+		setWrapStyleS(wrapStyleS);
+		setWrapStyleT(wrapStyleT);
+		setMinifyFilter(minify);
+		setMagnifyFilter(magnify);
 		createID();
 	}
 
@@ -21,6 +27,17 @@ namespace andrick
 	void TextureWrapper::unbind() const
 	{
 		glBindTexture(GL_TEXTURE_2D, 0);
+	}
+
+	void TextureWrapper::updateProperties(Texture& texture,
+		const EnumWrapStyle& wrapStyleS, const EnumWrapStyle& wrapStyleT,
+		const EnumMinFilter& minify, const EnumMagFilter& magnify)
+	{
+		setTexture(texture);
+		setWrapStyleS(wrapStyleS);
+		setWrapStyleT(wrapStyleT);
+		setMinifyFilter(minify);
+		setMagnifyFilter(magnify);
 	}
 
 	void TextureWrapper::setTexture(Texture& texture)

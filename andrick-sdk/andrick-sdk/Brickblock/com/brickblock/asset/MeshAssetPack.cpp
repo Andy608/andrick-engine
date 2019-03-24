@@ -7,6 +7,7 @@ namespace bb
 	andrick::Mesh* MeshAssetPack::mspQuadMesh = nullptr;
 
 	andrick::Texture* MeshAssetPack::mspBarrelTexture = nullptr;
+	andrick::Texture* MeshAssetPack::mspLoveTexture = nullptr;
 
 	const andrick::DirectoryLocation MeshAssetPack::msMESH_DIR = andrick::DirectoryLocation("assets", "meshes", andrick::PathLocation::EnumPathType::RELATIVE_PATH);
 
@@ -27,12 +28,14 @@ namespace bb
 		mspQuadMesh = new andrick::Mesh("quad_mesh", andrick::FileLocation(msMESH_DIR, "test_plane", andrick::FileLocation::EnumExtensionType::OBJ_EXT));
 
 		mspBarrelTexture = new andrick::Texture("barrel_texture", andrick::FileLocation("assets/textures", "model_barrel", andrick::FileLocation::EnumPathType::RELATIVE_PATH, andrick::FileLocation::EnumExtensionType::PNG_EXT));
+		mspLoveTexture = new andrick::Texture("love_texture", andrick::FileLocation("assets/textures", "test_img", andrick::FileLocation::EnumPathType::RELATIVE_PATH, andrick::FileLocation::EnumExtensionType::PNG_EXT));
 
 		registerAsset(mspTestMesh);
 		registerAsset(mspBarrelMesh);
 		registerAsset(mspQuadMesh);
 
 		registerAsset(mspBarrelTexture);
+		registerAsset(mspLoveTexture);
 
 		return AssetPack::load();
 	}
