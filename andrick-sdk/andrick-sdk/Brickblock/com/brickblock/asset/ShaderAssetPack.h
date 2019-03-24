@@ -5,8 +5,9 @@
 #include <andrick/asset/shader/Shader.h>
 #include <andrick/asset/shader/ShaderProgram.h>
 
-//For now adding mesh here too lol
+//For now adding everything here lol
 #include <andrick/asset/mesh/Mesh.h>
+#include <andrick/asset/texture/Texture.h>
 
 namespace bb
 {
@@ -25,6 +26,8 @@ namespace bb
 
 		//For now, all the meshes will load in a MeshPack in the future
 		static andrick::Mesh* mspTestMesh;
+		static andrick::Mesh* mspBarrelMesh;
+		static andrick::Texture* mspBarrelTexture;
 
 	protected:
 		virtual GLboolean load() override;

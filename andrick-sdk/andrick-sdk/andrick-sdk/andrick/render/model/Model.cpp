@@ -58,6 +58,7 @@ namespace andrick
 		mpTextureWrapper->setWrapStyleT(wrapStyleT);
 		mpTextureWrapper->setMinifyFilter(minFilter);
 		mpTextureWrapper->setMagnifyFilter(magFilter);
+		mpTextureWrapper->generateGLTexture();
 	}
 
 	/* Component Node */

@@ -35,8 +35,12 @@ namespace andrick
 
 			if (currentObj)
 			{
+				glActiveTexture(GL_TEXTURE0);
+				currentObj->getTextureWrapper()->bind();
 				//I don't like how this takes in the shader program. Change in the future.
 				currentObj->render(alpha, *mpShaderProgram);
+
+				currentObj->getTextureWrapper()->unbind();
 			}
 		}
 

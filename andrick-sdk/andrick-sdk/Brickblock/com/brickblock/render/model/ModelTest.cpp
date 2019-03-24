@@ -10,9 +10,13 @@ namespace bb
 {
 	ModelTest::ModelTest()
 	{
-		andrick::Mesh* mesh = ShaderAssetPack::mspTestMesh;
+		andrick::Mesh* mesh = ShaderAssetPack::mspBarrelMesh;
 		mTest = new ComponentNode(mesh, nullptr);
 		mOrbit = new ComponentNode(mesh, mTest);
+
+		setTexture(*ShaderAssetPack::mspBarrelTexture, 
+			andrick::TextureWrapper::EnumWrapStyle::CLAMP_TO_BORDER, andrick::TextureWrapper::EnumWrapStyle::CLAMP_TO_BORDER, 
+			andrick::TextureWrapper::EnumMinFilter::LINEAR_MIPMAP_LINEAR, andrick::TextureWrapper::EnumMagFilter::LINEAR);
 
 		//mModelTransform->addPosition(1.0, 0.0, 0.0);
 		//mTest->mpMeshTransform->addPosition(2.0, 0.0, 0.0);
