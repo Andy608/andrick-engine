@@ -19,6 +19,7 @@ namespace bb
 	private:
 		ComponentNode* mTest;
 		ComponentNode* mOrbit;
+		ComponentNode* mFloor;
 	};
 }
 

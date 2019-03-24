@@ -3,11 +3,9 @@
 #include <andrick/logger/LoggerMaster.h>
 
 #include <andrick/filesystem/path/directory/DirectoryLocation.h>
-//#include <andrick/shader/ShaderProgram.h>
 
-//#include <andrick/mesh/Mesh.h>
-
-#include "../asset/ShaderAssetPack.h"
+#include "ShaderAssetPack.h"
+#include "MeshAssetPack.h"
 
 #include <set>
 
@@ -50,6 +48,7 @@ namespace bb
 		else
 		{
 			andrick::AssetManager::registerAssetPack(new ShaderAssetPack());
+			andrick::AssetManager::registerAssetPack(new MeshAssetPack());
 			//andrick::AssetManager::registerAssetPack(new BlockModelList());
 		}
 	}

@@ -4,17 +4,19 @@
 #include <andrick/asset/AssetManager.h>
 #include <andrick/asset/mesh/Mesh.h>
 #include <andrick/logger/LoggerMaster.h>
-#include "../../asset/ShaderAssetPack.h"
+#include "../../asset/MeshAssetPack.h"
 
 namespace bb
 {
 	ModelTest::ModelTest()
 	{
-		andrick::Mesh* mesh = ShaderAssetPack::mspBarrelMesh;
-		mTest = new ComponentNode(mesh, nullptr);
-		mOrbit = new ComponentNode(mesh, mTest);
+		andrick::Mesh* barrel = MeshAssetPack::mspBarrelMesh;
+		andrick::Mesh* plane = MeshAssetPack::mspQuadMesh;
+		mTest = new ComponentNode(barrel, nullptr);
+		mOrbit = new ComponentNode(barrel, mTest);
+		mFloor = new ComponentNode(plane, mTest);
 
-		setTexture(*ShaderAssetPack::mspBarrelTexture, 
+		setTexture(*MeshAssetPack::mspBarrelTexture,
 			andrick::TextureWrapper::EnumWrapStyle::CLAMP_TO_BORDER, andrick::TextureWrapper::EnumWrapStyle::CLAMP_TO_BORDER, 
 			andrick::TextureWrapper::EnumMinFilter::LINEAR_MIPMAP_LINEAR, andrick::TextureWrapper::EnumMagFilter::LINEAR);
 
@@ -28,6 +30,10 @@ namespace bb
 		orbitTransform->mPosition.x = (3.0f * (cos(andrick::MathHelper::toRadians(0.0f))));
 		orbitTransform->mPosition.z = (3.0f * (sin(andrick::MathHelper::toRadians(0.0f))));
 
+		andrick::Transform* floorTransform = mFloor->mpMeshTransform;
+		floorTransform->setPosition(0.0f, -0.5f, 0.0f);
+		floorTransform->setScale(2.0f, 2.0f, 2.0f);
+
 		sync();
 	}
 
@@ -35,6 +41,7 @@ namespace bb
 	{
 		delete mTest;
 		delete mOrbit;
+		delete mFloor;
 	}
 
 	void ModelTest::sync()
@@ -42,6 +49,7 @@ namespace bb
 		mpModelTransform->sync();
 		mTest->mpMeshTransform->sync();
 		mOrbit->mpMeshTransform->sync();
+		mFloor->mpMeshTransform->sync();
 	}
 
 	void ModelTest::update(const GLdouble& deltaTime)
@@ -50,8 +58,8 @@ namespace bb
 
 		andrick::Transform* orbitTransform = mOrbit->mpMeshTransform;
 
-		static GLdouble time = 0.0f;
-		time += (10.0f * deltaTime);
+		static GLfloat time = 0.0f;
+		time += (10.0f * static_cast<GLfloat>(deltaTime));
 
 		orbitTransform->mPosition.x = (3.0f * (cos(andrick::MathHelper::toRadians(time))));
 		orbitTransform->mPosition.z = (3.0f * (sin(andrick::MathHelper::toRadians(time))));
@@ -71,5 +79,6 @@ namespace bb
 
 		mTest->render(alpha, mpModelTransform->getTransformationMat(), activeShader);
 		mOrbit->render(alpha, mpModelTransform->getTransformationMat(), activeShader);
+		mFloor->render(alpha, mpModelTransform->getTransformationMat(), activeShader);
 	}
 }

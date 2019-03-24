@@ -5,10 +5,6 @@
 #include <andrick/asset/shader/Shader.h>
 #include <andrick/asset/shader/ShaderProgram.h>
 
-//For now adding everything here lol
-#include <andrick/asset/mesh/Mesh.h>
-#include <andrick/asset/texture/Texture.h>
-
 namespace bb
 {
 	class ShaderAssetPack : public andrick::AssetPack
@@ -23,11 +19,6 @@ namespace bb
 		static andrick::Shader* mspLightSourceVS;
 		static andrick::Shader* mspLightSourceFS;
 		static andrick::ShaderProgram* mspLightSourceProgram;
-
-		//For now, all the meshes will load in a MeshPack in the future
-		static andrick::Mesh* mspTestMesh;
-		static andrick::Mesh* mspBarrelMesh;
-		static andrick::Texture* mspBarrelTexture;
 
 	protected:
 		virtual GLboolean load() override;

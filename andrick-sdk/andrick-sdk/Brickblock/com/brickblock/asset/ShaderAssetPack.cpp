@@ -10,10 +10,6 @@ namespace bb
 	andrick::Shader* ShaderAssetPack::mspLightSourceFS = nullptr;
 	andrick::ShaderProgram* ShaderAssetPack::mspLightSourceProgram = nullptr;
 
-	andrick::Mesh* ShaderAssetPack::mspTestMesh = nullptr;
-	andrick::Mesh* ShaderAssetPack::mspBarrelMesh = nullptr;
-	andrick::Texture* ShaderAssetPack::mspBarrelTexture = nullptr;
-
 	const andrick::DirectoryLocation ShaderAssetPack::msSHADER_DIR = andrick::DirectoryLocation("assets", "shaders", andrick::PathLocation::EnumPathType::RELATIVE_PATH);
 
 	ShaderAssetPack::ShaderAssetPack() : AssetPack("shader_asset_pack")
@@ -40,16 +36,6 @@ namespace bb
 		mspLightSourceProgram->addShader(*mspLightSourceVS);
 		mspLightSourceProgram->addShader(*mspLightSourceFS);
 
-		//Extra stuff that will be moved.
-
-		mspTestMesh = new andrick::Mesh("test_mesh", andrick::FileLocation("assets/meshes", "test_mesh", andrick::FileLocation::EnumPathType::RELATIVE_PATH, andrick::FileLocation::EnumExtensionType::OBJ_EXT));
-
-		mspBarrelMesh = new andrick::Mesh("barrel_mesh", andrick::FileLocation("assets/meshes", "barrel", andrick::FileLocation::EnumPathType::RELATIVE_PATH, andrick::FileLocation::EnumExtensionType::OBJ_EXT));
-
-		mspBarrelTexture = new andrick::Texture("barrel_texture", andrick::FileLocation("assets/textures", "model_barrel", andrick::FileLocation::EnumPathType::RELATIVE_PATH, andrick::FileLocation::EnumExtensionType::PNG_EXT));
-
-		//////////////////////////////////
-
 		registerAsset(mspTestVS);
 		registerAsset(mspTestFS);
 		registerAsset(mspTestProgram);
@@ -57,14 +43,6 @@ namespace bb
 		registerAsset(mspLightSourceVS);
 		registerAsset(mspLightSourceFS);
 		registerAsset(mspLightSourceProgram);
-
-		//Extra stuff that will be moved.
-		registerAsset(mspTestMesh);
-		registerAsset(mspBarrelMesh);
-
-		registerAsset(mspBarrelTexture);
-
-		//////////////////////////////////
 
 		return AssetPack::load();
 	}
