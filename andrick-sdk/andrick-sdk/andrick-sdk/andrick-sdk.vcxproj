@@ -161,6 +161,7 @@
     <ClInclude Include="andrick\render\camera\Camera.h" />
     <ClInclude Include="andrick\render\IRenderable.h" />
     <ClInclude Include="andrick\render\MeshRenderer.h" />
+    <ClInclude Include="andrick\render\model\Model.h" />
     <ClInclude Include="andrick\render\Renderer.h" />
     <ClInclude Include="andrick\render\wrapper\ebo\EBOWrapper.h" />
     <ClInclude Include="andrick\render\wrapper\GLObjectWrapper.h" />
@@ -207,6 +208,7 @@
     <ClCompile Include="andrick\memory\TrackableObject.cpp" />
     <ClCompile Include="andrick\render\camera\Camera.cpp" />
     <ClCompile Include="andrick\render\MeshRenderer.cpp" />
+    <ClCompile Include="andrick\render\model\Model.cpp" />
     <ClCompile Include="andrick\render\wrapper\ebo\EBOWrapper.cpp" />
     <ClCompile Include="andrick\render\wrapper\texture\TextureWrapper.cpp" />
     <ClCompile Include="andrick\render\wrapper\vao\VAOWrapper.cpp" />
