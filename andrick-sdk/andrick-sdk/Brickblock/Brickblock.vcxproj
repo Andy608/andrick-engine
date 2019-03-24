@@ -135,6 +135,7 @@
     <ClCompile Include="com\brickblock\display\MainDisplay.cpp" />
     <ClCompile Include="com\brickblock\input\InputData.cpp" />
     <ClCompile Include="com\brickblock\render\camera\FreeRoamCamera.cpp" />
+    <ClCompile Include="com\brickblock\render\model\ModelTest.cpp" />
     <ClCompile Include="com\brickblock\setting\SettingsData.cpp" />
     <ClCompile Include="com\brickblock\world\Playground.cpp" />
   </ItemGroup>
@@ -145,6 +146,7 @@
     <ClInclude Include="com\brickblock\display\MainDisplay.h" />
     <ClInclude Include="com\brickblock\input\InputData.h" />
     <ClInclude Include="com\brickblock\render\camera\FreeRoamCamera.h" />
+    <ClInclude Include="com\brickblock\render\model\ModelTest.h" />
     <ClInclude Include="com\brickblock\setting\SettingsData.h" />
     <ClInclude Include="com\brickblock\world\Playground.h" />
   </ItemGroup>

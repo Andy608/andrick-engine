@@ -27,10 +27,10 @@ namespace andrick
 
 	void Model::update(const GLdouble& deltaTime)
 	{
-		//sync();
+		sync();
 	}
 
-	void Model::render(const GLdouble& alpha)
+	void Model::render(const GLdouble& alpha, const ShaderProgram& activeShader)
 	{
 		mpModelTransform->lerp(alpha);
 	}
@@ -76,8 +76,28 @@ namespace andrick
 		mpMeshTransform = nullptr;
 	}
 
-	Model::ComponentNode::render(const GLdouble& alpha)
+	void Model::ComponentNode::render(const GLdouble& alpha, const glm::mat4& modelTransform, const ShaderProgram& activeShader)
 	{
+		mpMeshTransform->lerp(alpha);
 
+		glm::mat4 parentTransform;
+
+		if (mParentComponent)
+		{
+			Transform* pParent = mParentComponent->mpMeshTransform;
+			pParent->lerp(alpha);
+			parentTransform = pParent->getTransformationMat();
+		}
+		else
+		{
+			parentTransform = glm::mat4(1.0f);
+		}
+
+		glm::mat4 modelSpace = modelTransform * parentTransform * mpMeshTransform->getTransformationMat();
+
+		//BBLogger::logDebug("Model.cpp", "MODEL TRANSFORM: " + MatrixUtil::to_string(modelTransform), Logger::EnumLogLocation::CONSOLE);
+
+		activeShader.loadMat4("transformMatrix", GL_FALSE, glm::value_ptr(modelSpace));
+		mpMesh->render(/*alpha*/);
 	}
 }

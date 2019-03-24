@@ -3,7 +3,7 @@
 
 #include <andrick/memory/TrackableObject.h>
 #include <andrick/memory/NonCopyable.h>
-#include <andrick/render/MeshRenderer.h>
+#include <andrick/render/renderer/ModelRenderer.h>
 
 #include <andrick/render/camera/Camera.h>
 
@@ -17,7 +17,7 @@ namespace bb
 		static const std::string& msCLASS_NAME;
 
 		andrick::Camera* mpCamera;
-		andrick::MeshRenderer* mpMeshRenderer;
+		andrick::ModelRenderer* mpModelRenderer;
 
 		Playground();
 		~Playground();

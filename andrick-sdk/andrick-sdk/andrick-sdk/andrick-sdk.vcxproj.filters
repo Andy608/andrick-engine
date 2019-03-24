@@ -153,13 +153,19 @@
     <ClInclude Include="andrick\asset\mesh\MeshFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="andrick\render\Renderer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="andrick\render\MeshRenderer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="andrick\render\IRenderable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="andrick\render\model\Model.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="andrick\render\renderer\MeshRenderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="andrick\render\renderer\ModelRenderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="andrick\render\renderer\Renderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -278,7 +284,13 @@
     <ClCompile Include="andrick\asset\mesh\MeshFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="andrick\render\MeshRenderer.cpp">
+    <ClCompile Include="andrick\render\model\Model.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="andrick\render\renderer\MeshRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="andrick\render\renderer\ModelRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
