@@ -22,6 +22,11 @@ namespace andrick
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
 
+	void FBOWrapper::attachRBO()
+	{
+		//glFramebufferRenderbuffer(GL_FRAMEBUFFER, );
+	}
+
 	void FBOWrapper::createID()
 	{
 		glGenFramebuffers(1, &mID);
