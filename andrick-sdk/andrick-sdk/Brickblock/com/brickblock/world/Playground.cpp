@@ -15,6 +15,7 @@ namespace bb
 	static std::vector<andrick::Model*> models;
 	andrick::Model* pFloor;
 	andrick::Model* pBarrel;
+	andrick::Model* pLight;
 
 	Playground::Playground() :
 		mpCamera(new FreeRoamCamera(glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3())),
@@ -31,8 +32,12 @@ namespace bb
 		pBarrel = new andrick::Model(MeshAssetPack::mspBarrelMesh);
 		pBarrel->setTexture(*MeshAssetPack::mspBarrelTexture);
 
+		pLight = new andrick::Model(MeshAssetPack::mspTestMesh);
+		pLight->getTransform()->setPosition(0.0f, 3.0f, 0.0f);
+
 		models.push_back(pFloor);
 		models.push_back(pBarrel);
+		models.push_back(pLight);
 
 		//mpModelRenderer->setCamera(mpCamera);
 		//mpModelRenderer->setShaderProgram(ShaderAssetPack::mspTestProgram);
@@ -97,6 +102,9 @@ namespace bb
 		pBarrel->getTextureWrapper()->bind();
 		pBarrel->render(alpha);
 		pBarrel->getTextureWrapper()->unbind();
+
+		pLight->prepModelTransform(alpha, *currentProgram);
+		pLight->render(alpha);
 
 		glDisable(GL_DEPTH_TEST);
 		glActiveTexture(0);

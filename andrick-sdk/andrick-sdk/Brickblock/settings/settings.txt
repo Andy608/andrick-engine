@@ -1,10 +1,10 @@
-v_sync=1
 mouse_sensitivity=12
+v_sync=1
+move_backward=83
+move_left=65
+pause=256
+move_down=340
+quit=256
 move_right=68
 move_up=32
 move_forward=87
-move_down=340
-quit=256
-pause=256
-move_backward=83
-move_left=65
