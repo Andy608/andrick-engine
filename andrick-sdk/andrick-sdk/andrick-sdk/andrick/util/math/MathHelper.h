@@ -30,7 +30,7 @@ namespace andrick
 		static glm::mat4 createTransformationMat(const glm::vec3& position, const glm::vec3& rotationInDeg, const glm::vec3& scale);
 		
 		//Normal matrix
-		static glm::mat4 createNormalMat(const glm::mat4& transformationMat, const glm::mat4& viewMat);
+		static glm::mat3 createNormalMat(const glm::mat4& transformationMat, const glm::mat4& viewMat);
 
 		static std::string to_string(const glm::mat4& mat);
 
