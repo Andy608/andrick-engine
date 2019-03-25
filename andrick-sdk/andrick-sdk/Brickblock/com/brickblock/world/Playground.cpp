@@ -1,10 +1,10 @@
 #include "Playground.h"
-#include "../render/camera/FreeRoamCamera.h"
 #include <andrick/window/AndrickWindow.h>
-#include "../asset/ShaderAssetPack.h"
-
-//#include "../render/model/ModelTest.h"
+#include <andrick/util/math/MathHelper.h>
 #include <andrick/render/model/Model.h>
+
+#include "../render/camera/FreeRoamCamera.h"
+#include "../asset/ShaderAssetPack.h"
 #include "../asset/MeshAssetPack.h"
 #include <andrick/util/Timer.h>
 
@@ -18,6 +18,9 @@ namespace bb
 	andrick::Model* pBarrel;
 	andrick::TextureWrapper* pColRamp;
 
+	andrick::Model* pLight;
+	andrick::Model* pSuzanne;
+
 	Playground::Playground() :
 		mpCamera(new FreeRoamCamera(glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3())),
 		mpModelRenderer(new andrick::ModelRenderer())
@@ -30,13 +33,23 @@ namespace bb
 		pFloor->getTransform()->setRotation(-90.0f, 0.0f, 0.0f);
 		pFloor->getTransform()->setScale(5.0f, 5.0f, 5.0f);
 
-		pBarrel = new andrick::Model(MeshAssetPack::mspBarrelMesh);
+		pBarrel = new andrick::Model(MeshAssetPack::mspTestMesh);
 		pBarrel->setTexture(*MeshAssetPack::mspBarrelTexture);
 
 		pColRamp = new andrick::TextureWrapper(*MeshAssetPack::mspColorRampTexture);
+		pLight = new andrick::Model(MeshAssetPack::mspTestMesh);
+		pLight->getTransform()->setPosition(0.0f, 3.0f, 0.0f);
+
+		pSuzanne = new andrick::Model(MeshAssetPack::mspSuzanneMesh);
+		pSuzanne->setTexture(*MeshAssetPack::mspDefaultTexture, 
+			andrick::TextureWrapper::EnumWrapStyle::REPEAT, andrick::TextureWrapper::EnumWrapStyle::REPEAT, 
+			andrick::TextureWrapper::EnumMinFilter::NEAREST_MIPMAP_NEAREST, andrick::TextureWrapper::EnumMagFilter::NEAREST);
+		pSuzanne->getTransform()->setPosition(0.0f, 2.0f, 3.0f);
 
 		models.push_back(pFloor);
 		models.push_back(pBarrel);
+		models.push_back(pLight);
+		models.push_back(pSuzanne);
 
 		//mpModelRenderer->setCamera(mpCamera);
 		//mpModelRenderer->setShaderProgram(ShaderAssetPack::mspTestProgram);
@@ -71,7 +84,14 @@ namespace bb
 		}
 
 		//pFloor->getTransform()->addRotation(0.0f, 180.0f * (GLfloat)deltaTime, 0.0f);
-		//pBarrel->getTransform()->addRotation(0.0f, 60.0f * (GLfloat)deltaTime, 0.0f);
+
+		static GLfloat time = 0.0f;
+		time += (100.0f * static_cast<GLfloat>(deltaTime));
+
+		GLfloat x = (3.0f * (cos(andrick::MathHelper::toRadians(time))));
+		GLfloat z = (3.0f * (sin(andrick::MathHelper::toRadians(time))));
+
+		//pLight->getTransform()->setPosition(x, 60.0f * (GLfloat)deltaTime, z);
 	}
 
 	void Playground::render(const GLdouble& alpha)
@@ -82,39 +102,65 @@ namespace bb
 		glPolygonMode(andrick::ModelRenderer::EnumCullType::FRONT_ONLY, andrick::ModelRenderer::EnumDrawType::FILL);
 		glEnable(GL_DEPTH_TEST);
 		glActiveTexture(GL_TEXTURE0);
-		glActiveTexture(GL_TEXTURE1);
+		//glActiveTexture(GL_TEXTURE1);
 
 		//Picking shader program
 		andrick::ShaderProgram* currentProgram = ShaderAssetPack::mspJuliaFractalProgram;
 		currentProgram->use();
 
 		//Loading general stuff to shader program
-		currentProgram->loadMat4("viewMatrix", GL_FALSE, mpCamera->getViewMatrixPtr());
-		currentProgram->loadMat4("projectionMatrix", GL_FALSE, mpCamera->getProjectionMatrixPtr());
+		currentProgram->loadMat4("viewMatrix", GL_FALSE, mpCamera->getViewMatrix());
+		currentProgram->loadMat4("projectionMatrix", GL_FALSE, mpCamera->getProjectionMatrix());
 		currentProgram->loadFloat("time", static_cast<GLfloat>(andrick::Timer::getCurrentTime()));
 
 		//Loading model stuff to shader program
 		pFloor->prepModelTransform(alpha, *currentProgram);
 
 		//Render model
-		pColRamp->bind();
+		//pColRamp->bind();
 		pFloor->getTextureWrapper()->bind();
 		pFloor->render(alpha);
 		pFloor->getTextureWrapper()->unbind();
-		pColRamp->unbind();
+		//pColRamp->unbind();
 
-		//currentProgram = ShaderAssetPack::mspTestProgram;
-		//currentProgram->use();
-		//
-		////Loading general stuff to shader program
-		//currentProgram->loadMat4("viewMatrix", GL_FALSE, mpCamera->getViewMatrixPtr());
-		//currentProgram->loadMat4("projectionMatrix", GL_FALSE, mpCamera->getProjectionMatrixPtr());
-		//
-		//pBarrel->prepModelTransform(alpha, *currentProgram);
-		//
-		//pBarrel->getTextureWrapper()->bind();
-		//pBarrel->render(alpha);
-		//pBarrel->getTextureWrapper()->unbind();
+
+
+		currentProgram = ShaderAssetPack::mspPhongShadingProgram;
+		currentProgram->use();
+
+		//Loading general stuff to shader program
+		currentProgram->loadMat4("viewMatrix", GL_FALSE, mpCamera->getViewMatrix());
+		currentProgram->loadMat4("projectionMatrix", GL_FALSE, mpCamera->getProjectionMatrix());
+		currentProgram->loadVec3("lightColor", glm::vec3(1.0, 1.0, 1.0));
+		currentProgram->loadVec3("lightPos", pLight->getTransform()->getLerpedPosition());
+		currentProgram->loadMat3("normalMatrix", GL_FALSE, andrick::MathHelper::createNormalMat(pBarrel->getTransform()->getTransformationMat(), mpCamera->getViewMatrix()));
+
+		pBarrel->prepModelTransform(alpha, *currentProgram);
+		
+		pBarrel->getTextureWrapper()->bind();
+		pBarrel->render(alpha);
+		pBarrel->getTextureWrapper()->unbind();
+
+		currentProgram = ShaderAssetPack::mspTestProgram;
+		currentProgram->use();
+
+		currentProgram->loadMat4("viewMatrix", GL_FALSE, mpCamera->getViewMatrix());
+		currentProgram->loadMat4("projectionMatrix", GL_FALSE, mpCamera->getProjectionMatrix());
+
+		pSuzanne->prepModelTransform(alpha, *currentProgram);
+
+		pSuzanne->getTextureWrapper()->bind();
+		pSuzanne->render(alpha);
+		pSuzanne->getTextureWrapper()->unbind();
+
+		currentProgram = ShaderAssetPack::mspLightSourceProgram;
+		currentProgram->use();
+
+		currentProgram->loadMat4("viewMatrix", GL_FALSE, mpCamera->getViewMatrix());
+		currentProgram->loadMat4("projectionMatrix", GL_FALSE, mpCamera->getProjectionMatrix());
+
+		pLight->prepModelTransform(alpha, *currentProgram);
+		pLight->render(alpha);
 
 		glDisable(GL_DEPTH_TEST);
 		glActiveTexture(0);

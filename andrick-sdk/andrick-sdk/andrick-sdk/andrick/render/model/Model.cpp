@@ -12,7 +12,7 @@ namespace andrick
 		mpMesh(pMesh),
 		mpTextureWrapper(nullptr)
 	{
-
+		//TODO: Added a default asset pack for andrick engine and make add a default texture for models
 	}
 
 	Model::~Model()
@@ -53,8 +53,9 @@ namespace andrick
 			pParentTransformation = glm::mat4(1.0f);
 		}
 
-		glm::mat4 modelSpace = pParentTransformation * mpTransform->getTransformationMat();
-		currentShader.loadMat4("transformMatrix", GL_FALSE, glm::value_ptr(modelSpace));
+		//TODO: Fix. This doesn't work right now.
+		glm::mat4 modelSpace = mpTransform->getTransformationMat() * pParentTransformation;
+		currentShader.loadMat4("transformMatrix", GL_FALSE, modelSpace);
 	}
 
 	void Model::render(const GLdouble& alpha)

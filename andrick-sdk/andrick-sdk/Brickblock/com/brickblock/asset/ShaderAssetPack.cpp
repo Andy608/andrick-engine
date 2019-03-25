@@ -18,6 +18,10 @@ namespace bb
 	andrick::Shader* ShaderAssetPack::mspMandlebrotFractalFS = nullptr;
 	andrick::ShaderProgram* ShaderAssetPack::mspMandlebrotFractalProgram = nullptr;
 
+	andrick::Shader* ShaderAssetPack::mspPhongShadingVS = nullptr;
+	andrick::Shader* ShaderAssetPack::mspPhongShadingFS = nullptr;
+	andrick::ShaderProgram* ShaderAssetPack::mspPhongShadingProgram = nullptr;
+
 	const andrick::DirectoryLocation ShaderAssetPack::msSHADER_DIR = andrick::DirectoryLocation("assets", "shaders", andrick::PathLocation::EnumPathType::RELATIVE_PATH);
 	const andrick::DirectoryLocation ShaderAssetPack::msVS_DIR = andrick::DirectoryLocation(msSHADER_DIR, "vs");
 	const andrick::DirectoryLocation ShaderAssetPack::msGS_DIR = andrick::DirectoryLocation(msSHADER_DIR, "gs");
@@ -59,6 +63,12 @@ namespace bb
 		mspMandlebrotFractalProgram->addShader(*mspMandlebrotFractalVS);
 		mspMandlebrotFractalProgram->addShader(*mspMandlebrotFractalFS);
 
+		mspPhongShadingVS = new andrick::Shader("phong_shading_vertex_shader", andrick::Shader::EnumShaderType::VERTEX, andrick::FileLocation(msVS_DIR, "phong_shading_vs", andrick::FileLocation::EnumExtensionType::GLSL_EXT));
+		mspPhongShadingFS = new andrick::Shader("phong_shading_fragment_shader", andrick::Shader::EnumShaderType::FRAGMENT, andrick::FileLocation(msFS_DIR, "phong_shading_fs", andrick::FileLocation::EnumExtensionType::GLSL_EXT));
+		mspPhongShadingProgram = new andrick::ShaderProgram("phong_shading_shaderprogram");
+		mspPhongShadingProgram->addShader(*mspPhongShadingVS);
+		mspPhongShadingProgram->addShader(*mspPhongShadingFS);
+
 		registerAsset(mspTestVS);
 		registerAsset(mspTestFS);
 		registerAsset(mspTestProgram);
@@ -74,6 +84,10 @@ namespace bb
 		registerAsset(mspMandlebrotFractalVS);
 		registerAsset(mspMandlebrotFractalFS);
 		registerAsset(mspMandlebrotFractalProgram);
+
+		registerAsset(mspPhongShadingVS);
+		registerAsset(mspPhongShadingFS);
+		registerAsset(mspPhongShadingProgram);
 
 		return AssetPack::load();
 	}

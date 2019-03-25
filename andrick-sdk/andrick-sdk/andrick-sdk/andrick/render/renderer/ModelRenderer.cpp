@@ -25,8 +25,8 @@ namespace andrick
 
 		mpShaderProgram->use();
 
-		mpShaderProgram->loadMat4("viewMatrix", GL_FALSE, mpCamera->getViewMatrixPtr());
-		mpShaderProgram->loadMat4("projectionMatrix", GL_FALSE, mpCamera->getProjectionMatrixPtr());
+		mpShaderProgram->loadMat4("viewMatrix", GL_FALSE, mpCamera->getViewMatrix());
+		mpShaderProgram->loadMat4("projectionMatrix", GL_FALSE, mpCamera->getProjectionMatrix());
 
 		auto iter = models.begin();
 		for (; iter != models.end(); ++iter)

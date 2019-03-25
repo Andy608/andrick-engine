@@ -25,8 +25,8 @@ namespace andrick
 
 		mpShaderProgram->use();
 
-		mpShaderProgram->loadMat4("viewMatrix", GL_FALSE, mpCamera->getViewMatrixPtr());
-		mpShaderProgram->loadMat4("projectionMatrix", GL_FALSE, mpCamera->getProjectionMatrixPtr());
+		mpShaderProgram->loadMat4("viewMatrix", GL_FALSE, mpCamera->getViewMatrix());
+		mpShaderProgram->loadMat4("projectionMatrix", GL_FALSE, mpCamera->getProjectionMatrix());
 
 		auto iter = meshes.begin();
 		for (; iter != meshes.end(); ++iter)
@@ -36,7 +36,7 @@ namespace andrick
 			if (currentObj)
 			{
 				//Uses the identity matrix. If you want to move meshes around, you need a model object that holds the transform data.
-				mpShaderProgram->loadMat4("transformMatrix", GL_FALSE, glm::value_ptr(glm::mat4x4(1.0f)));
+				mpShaderProgram->loadMat4("transformMatrix", GL_FALSE, glm::mat4x4(1.0f));
 				currentObj->render();
 			}
 		}
