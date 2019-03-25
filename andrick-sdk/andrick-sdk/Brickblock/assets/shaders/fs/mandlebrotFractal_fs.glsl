@@ -19,7 +19,7 @@ void Mandlebrot()
     vec2 z, c;
 	int count = 0;
 	float scale = 1.0;// / pow(2, time);
-	const int ITER = 200;
+	const int ITER = 55;
 	float er2 = 4.0;
 	vec2 center = vec2(0.15, 0.65);
 	

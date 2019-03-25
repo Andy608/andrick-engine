@@ -44,91 +44,127 @@
 //	FragColor = out_color;
 //}
 
+////////////////////////////////////////
 
-//Our varying data block that contains the light and texture data
-in VB_BLOCK
-{
-	vec4 vPassTexcoord;
-	float vPassAttenuation;
+////Our varying data block that contains the light and texture data
+//in VB_BLOCK
+//{
+//	vec4 vPassTexcoord;
+//	float vPassAttenuation;
+//
+//	vec3 vPassNormal;
+//
+//	vec4 vPassEyeSpacePosition;
+//	vec4 vPassViewSpacePosition;
+//
+//	vec4 vPassLightPos;
+//
+//} vbBlock;
+//
+//out vec4 rtFragColor;
+////out vec4 rtNormal;
+////out vec4 rtTexCoord;
+//
+////Calculate the diffuse coefficient for per vertex one light
+//float calcDiffuseCo(vec4 lightPosition);
+//
+////Calculate the specular coefficient for per vertex one light
+//float calcSpecularCo(vec4 lightPosition);
+//
+////calculates the diffuse and specular effects
+//vec4 calcDiffuse(float diffuseCo);
+//vec4 calcSpecular(float specularCo);
+//
+//void main()
+//{
+//	//samples the diffuse and specular colors from the textures
+//
+//	//variable to hold final phong model
+//	vec4 phong = vec4(0);
+//
+//
+//	//calculates the light direction from the object to the light
+//	vec4 lightDirection = normalize(vbBlock.vPassLightPos - vbBlock.vPassEyeSpacePosition);
+//
+//	float diffuseCo = calcDiffuseCo(lightDirection);
+//	float specularCo = calcSpecularCo(lightDirection);
+//
+//	//stores the final diffuse color
+//	vec4 phongDiffuse = calcDiffuse(diffuseCo);
+//
+//	//stores the final specular color
+//	vec4 phongSpecular = calcSpecular(specularCo);
+//
+//	//adds the diffuse and specular color, and applies the attenuation
+//	phong += (phongDiffuse + phongSpecular);
+//	
+//	
+//	rtFragColor = vec4(phong.xyz, 1.0);
+//	//rtNormal = vbBlock.vPassNormal * 0.5 + 0.5;
+//	//rtTexCoord = vbBlock.vPassTexcoord;
+//
+//	rtFragColor = vec4(phongDiffuse.xyz, 1.0);
+//}
+//
+//vec4 calcDiffuse(float diffuseCo)
+//{
+//	//calculates the diffuse from the coefficient, texture color, and light color
+//	vec4 diffuse = vec4(diffuseCo * vec3(1.0,1.0,1.0), 1.0);
+//	return diffuse;
+//}
+//
+//vec4 calcSpecular(float specularCo)
+//{
+//	//calculates the specular from the coefficient, texture color, and light color
+//	vec4 specular = vec4(specularCo * vec3(1.0,1.0,1.0), 1.0);
+//	return specular;
+//}
+//
+//float calcDiffuseCo(vec4 lightDirection)
+//{
+//	return max(dot(lightDirection, vec4(vbBlock.vPassNormal, 1.0)), 0.0);
+//}
+//
+//float calcSpecularCo(vec4 lightDirection)
+//{
+//	vec4 reflectVec = normalize(2 * (dot(vec4(vbBlock.vPassNormal, 1.0), lightDirection)) * vec4(vbBlock.vPassNormal, 1.0) - lightDirection);//vec4(reflect(normalize(-lightDirection.xyz),  normalize(vbBlock.vPassNormal)), 1.0);
+//	
+//	float specularMax = max(0.0, dot(vbBlock.vPassViewSpacePosition, reflectVec));
+//
+//	return pow(specularMax, 8);
+//}
 
-	vec3 vPassNormal;
+//Lighting help from https://learnopengl.com/Lighting/Basic-Lighting/
 
-	vec4 vPassEyeSpacePosition;
-	vec4 vPassViewSpacePosition;
+out vec4 FragColor;
 
-	vec4 vPassLightPos;
+in vec3 Normal;  
+in vec3 FragPos;
 
-} vbBlock;
-
-out vec4 rtFragColor;
-//out vec4 rtNormal;
-//out vec4 rtTexCoord;
-
-//Calculate the diffuse coefficient for per vertex one light
-float calcDiffuseCo(vec4 lightPosition);
-
-//Calculate the specular coefficient for per vertex one light
-float calcSpecularCo(vec4 lightPosition);
-
-//calculates the diffuse and specular effects
-vec4 calcDiffuse(float diffuseCo);
-vec4 calcSpecular(float specularCo);
+uniform vec3 lightPos;
+uniform vec3 viewPos;
+uniform vec3 lightColor;
+vec3 objectColor = vec3(1.0, 0.5, 0.31);
 
 void main()
 {
-	//samples the diffuse and specular colors from the textures
-
-	//variable to hold final phong model
-	vec4 phong = vec4(0);
-
-
-	//calculates the light direction from the object to the light
-	vec4 lightDirection = normalize(vbBlock.vPassLightPos - vbBlock.vPassEyeSpacePosition);
-
-	float diffuseCo = calcDiffuseCo(lightDirection);
-	float specularCo = calcSpecularCo(lightDirection);
-
-	//stores the final diffuse color
-	vec4 phongDiffuse = calcDiffuse(diffuseCo);
-
-	//stores the final specular color
-	vec4 phongSpecular = calcSpecular(specularCo);
-
-	//adds the diffuse and specular color, and applies the attenuation
-	phong += (phongDiffuse + phongSpecular);
-	
-	
-	rtFragColor = vec4(phong.xyz, 1.0);
-	//rtNormal = vbBlock.vPassNormal * 0.5 + 0.5;
-	//rtTexCoord = vbBlock.vPassTexcoord;
-
-	rtFragColor = vec4(phongDiffuse.xyz, 1.0);
-}
-
-vec4 calcDiffuse(float diffuseCo)
-{
-	//calculates the diffuse from the coefficient, texture color, and light color
-	vec4 diffuse = vec4(diffuseCo * vec3(1.0,1.0,1.0), 1.0);
-	return diffuse;
-}
-
-vec4 calcSpecular(float specularCo)
-{
-	//calculates the specular from the coefficient, texture color, and light color
-	vec4 specular = vec4(specularCo * vec3(1.0,1.0,1.0), 1.0);
-	return specular;
-}
-
-float calcDiffuseCo(vec4 lightDirection)
-{
-	return max(dot(lightDirection, vec4(vbBlock.vPassNormal, 1.0)), 0.0);
-}
-
-float calcSpecularCo(vec4 lightDirection)
-{
-	vec4 reflectVec = normalize(2 * (dot(vec4(vbBlock.vPassNormal, 1.0), lightDirection)) * vec4(vbBlock.vPassNormal, 1.0) - lightDirection);//vec4(reflect(normalize(-lightDirection.xyz),  normalize(vbBlock.vPassNormal)), 1.0);
-	
-	float specularMax = max(0.0, dot(vbBlock.vPassViewSpacePosition, reflectVec));
-
-	return pow(specularMax, 8);
-}
+    // ambient
+    float ambientStrength = 0.1;
+    vec3 ambient = ambientStrength * lightColor;
+  	
+    // diffuse 
+    vec3 norm = normalize(Normal);
+    vec3 lightDir = normalize(lightPos - FragPos);
+    float diff = max(dot(norm, lightDir), 0.0);
+    vec3 diffuse = diff * lightColor;
+    
+    // specular
+    float specularStrength = 0.5;
+    vec3 viewDir = normalize(viewPos - FragPos);
+    vec3 reflectDir = reflect(-lightDir, norm);  
+    float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
+    vec3 specular = specularStrength * spec * lightColor;  
+        
+    vec3 result = (ambient + diffuse + specular) * objectColor;
+    FragColor = vec4(result, 1.0);
+} 
