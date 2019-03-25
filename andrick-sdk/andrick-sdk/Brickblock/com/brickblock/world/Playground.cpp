@@ -77,7 +77,7 @@ namespace bb
 		glActiveTexture(GL_TEXTURE0);
 
 		//Picking shader program
-		andrick::ShaderProgram* currentProgram = ShaderAssetPack::mspTestProgram;
+		andrick::ShaderProgram* currentProgram = ShaderAssetPack::mspFractalProgram;
 		currentProgram->use();
 
 		//Loading general stuff to shader program
@@ -91,6 +91,13 @@ namespace bb
 		pFloor->getTextureWrapper()->bind();
 		pFloor->render(alpha);
 		pFloor->getTextureWrapper()->unbind();
+
+		currentProgram = ShaderAssetPack::mspTestProgram;
+		currentProgram->use();
+
+		//Loading general stuff to shader program
+		currentProgram->loadMat4("viewMatrix", GL_FALSE, mpCamera->getViewMatrixPtr());
+		currentProgram->loadMat4("projectionMatrix", GL_FALSE, mpCamera->getProjectionMatrixPtr());
 
 		pBarrel->prepModelTransform(alpha, *currentProgram);
 		

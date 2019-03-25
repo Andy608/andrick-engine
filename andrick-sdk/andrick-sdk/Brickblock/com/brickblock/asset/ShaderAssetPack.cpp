@@ -10,6 +10,10 @@ namespace bb
 	andrick::Shader* ShaderAssetPack::mspLightSourceFS = nullptr;
 	andrick::ShaderProgram* ShaderAssetPack::mspLightSourceProgram = nullptr;
 
+	andrick::Shader* ShaderAssetPack::mspFractalVS = nullptr;
+	andrick::Shader* ShaderAssetPack::mspFractalFS = nullptr;
+	andrick::ShaderProgram* ShaderAssetPack::mspFractalProgram = nullptr;
+
 	const andrick::DirectoryLocation ShaderAssetPack::msSHADER_DIR = andrick::DirectoryLocation("assets", "shaders", andrick::PathLocation::EnumPathType::RELATIVE_PATH);
 	const andrick::DirectoryLocation ShaderAssetPack::msVS_DIR = andrick::DirectoryLocation(msSHADER_DIR, "vs");
 	const andrick::DirectoryLocation ShaderAssetPack::msGS_DIR = andrick::DirectoryLocation(msSHADER_DIR, "gs");
@@ -39,6 +43,12 @@ namespace bb
 		mspLightSourceProgram->addShader(*mspLightSourceVS);
 		mspLightSourceProgram->addShader(*mspLightSourceFS);
 
+		mspFractalVS = new andrick::Shader("fractal_vertex_shader", andrick::Shader::EnumShaderType::VERTEX, andrick::FileLocation(msVS_DIR, "fractal_vs", andrick::FileLocation::EnumExtensionType::GLSL_EXT));
+		mspFractalFS = new andrick::Shader("fractal_fragment_shader", andrick::Shader::EnumShaderType::FRAGMENT, andrick::FileLocation(msFS_DIR, "fractal_fs", andrick::FileLocation::EnumExtensionType::GLSL_EXT));
+		mspFractalProgram = new andrick::ShaderProgram("fractal_shaderprogram");
+		mspFractalProgram->addShader(*mspFractalVS);
+		mspFractalProgram->addShader(*mspFractalFS);
+
 		registerAsset(mspTestVS);
 		registerAsset(mspTestFS);
 		registerAsset(mspTestProgram);
@@ -46,6 +56,10 @@ namespace bb
 		registerAsset(mspLightSourceVS);
 		registerAsset(mspLightSourceFS);
 		registerAsset(mspLightSourceProgram);
+
+		registerAsset(mspFractalVS);
+		registerAsset(mspFractalFS);
+		registerAsset(mspFractalProgram);
 
 		return AssetPack::load();
 	}
