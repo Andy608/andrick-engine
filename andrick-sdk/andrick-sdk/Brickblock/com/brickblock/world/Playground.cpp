@@ -21,6 +21,8 @@ namespace bb
 	andrick::Model* pLight;
 	andrick::Model* pSuzanne;
 
+	andrick::Model* pLol;
+
 	Playground::Playground() :
 		mpCamera(new FreeRoamCamera(glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3())),
 		mpModelRenderer(new andrick::ModelRenderer())
@@ -48,10 +50,18 @@ namespace bb
 			andrick::TextureWrapper::EnumWrapStyle::REPEAT, andrick::TextureWrapper::EnumWrapStyle::REPEAT, 
 			andrick::TextureWrapper::EnumMinFilter::NEAREST_MIPMAP_NEAREST, andrick::TextureWrapper::EnumMagFilter::NEAREST);
 
+		pLol = new andrick::Model(MeshAssetPack::mspSuzanneMesh);
+		pLol->setTexture(*MeshAssetPack::mspDefaultTexture,
+			andrick::TextureWrapper::EnumWrapStyle::REPEAT, andrick::TextureWrapper::EnumWrapStyle::REPEAT,
+			andrick::TextureWrapper::EnumMinFilter::NEAREST_MIPMAP_NEAREST, andrick::TextureWrapper::EnumMagFilter::NEAREST);
+
+		pLol->getTransform()->setPosition(0.0f, 4.0f, 0.0f);
+
 		models.push_back(pFloor);
 		models.push_back(pBarrel);
 		models.push_back(pLight);
 		models.push_back(pSuzanne);
+		models.push_back(pLol);
 
 		//mpModelRenderer->setCamera(mpCamera);
 		//mpModelRenderer->setShaderProgram(ShaderAssetPack::mspTestProgram);
@@ -99,7 +109,9 @@ namespace bb
 		pSuzanne->getTransform()->setPosition(-3.0f, (x * 0.5) + 3.0f, 0.0f);
 		pSuzanne->getTransform()->addRotation(10.0f * (GLfloat)deltaTime, 0.0f, 0.0f);
 
-		pFloor->getTransform()->addRotation(0.0f, 0.0f, -5.0f * (GLfloat)deltaTime);
+		//pFloor->getTransform()->addRotation(0.0f, 0.0f, -5.0f * (GLfloat)deltaTime);
+
+		pLol->getTransform()->addRotation(180.0f * deltaTime, 90.0f* deltaTime, 90.0f* deltaTime);
 	}
 
 	void Playground::render(const GLdouble& alpha)
@@ -179,6 +191,17 @@ namespace bb
 
 		pLight->prepModelTransform(alpha, *currentProgram);
 		pLight->render(alpha);
+
+		currentProgram = ShaderAssetPack::mspTestProgram;
+		currentProgram->use();
+
+		currentProgram->loadMat4("viewMatrix", GL_FALSE, mpCamera->getViewMatrix());
+		currentProgram->loadMat4("projectionMatrix", GL_FALSE, mpCamera->getProjectionMatrix());
+
+		pLol->prepModelTransform(alpha, *currentProgram);
+		pLol->getTextureWrapper()->bind();
+		pLol->render(alpha);
+		pLol->getTextureWrapper()->unbind();
 
 		glDisable(GL_DEPTH_TEST);
 		glActiveTexture(0);

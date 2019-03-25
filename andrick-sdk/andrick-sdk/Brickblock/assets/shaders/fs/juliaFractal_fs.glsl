@@ -28,8 +28,8 @@ void Julia()
 
 	vec2 z = (out_textureCoords * 2.0) * scale - scale;
 
-	//vec2 seedOffset = cos(seed + scale * time) * 0.5 - sin(seed + scale * time) * 0.25;
-	vec2 seedOffset = cos(seed + scale * time) - sin(seed + scale * time) * 0.15;
+	//vec2 seedOffset = seed;
+	vec2 seedOffset = 0.6 * cos(seed + 0.1 * time) - sin(seed + 0.2 * time) * 0.15;
 
 	for (int i = 0; i < ITER; i++)
 	{
