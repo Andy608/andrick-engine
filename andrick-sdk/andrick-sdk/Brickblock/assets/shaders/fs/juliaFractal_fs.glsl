@@ -43,10 +43,10 @@ void Julia()
 
 	if (count == ITER-1)
 	{
-		FragColor = vec4(1.0, 0.0, 0.0, 1.0);
+		FragColor = vec4(0.0, 0.0, 0.0, 1.0);
 	}
 	else
 	{
-		FragColor = texture(colRamp, vec2(1.0 - count * scale)); //vec4(1.0 - count * scale);
+		FragColor = texture(colRamp, vec2(count * 0.01, 0)); //vec4(1.0 - count * scale);
 	}
 }
