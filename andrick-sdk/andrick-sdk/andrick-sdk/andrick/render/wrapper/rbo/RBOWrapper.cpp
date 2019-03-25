@@ -22,7 +22,7 @@ namespace andrick
 		glBindRenderbuffer(GL_RENDERBUFFER, 0);
 	}
 
-	void RBOWrapper::setStorage(const glm::vec2& size = AndrickWindow::getFocusedWindow()->getSize(), EnumRBOStorageType storageType = EnumRBOStorageType::DEPTH32_STENCIL8)
+	void RBOWrapper::setStorage(const glm::vec2& size, EnumRBOStorageType storageType)
 	{
 		glRenderbufferStorage(GL_RENDERBUFFER, DEPTH32_STENCIL8, static_cast<GLint>(size.x), static_cast<GLint>(size.y));
 	}

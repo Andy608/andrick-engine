@@ -2,6 +2,7 @@
 #define ANDRICK_FBO_WRAPPER_H_
 
 #include "../GLObjectWrapper.h"
+#include "../rbo/RBOWrapper.h"
 
 namespace andrick
 {
@@ -21,9 +22,10 @@ namespace andrick
 		virtual void bind();
 		virtual void unbind();
 
-		void attachRBO();
+		void attachRBO(RBOWrapper::EnumRBOAttachmentType attachmentType, const RBOWrapper& rboWrapper);
 
 	private:
+		static const std::string msCLASS_NAME;
 		virtual void createID();
 	};
 }

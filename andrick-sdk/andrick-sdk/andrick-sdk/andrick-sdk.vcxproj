@@ -165,7 +165,9 @@
     <ClInclude Include="andrick\render\model\Model.h" />
     <ClInclude Include="andrick\render\renderer\Renderer.h" />
     <ClInclude Include="andrick\render\wrapper\ebo\EBOWrapper.h" />
+    <ClInclude Include="andrick\render\wrapper\fbo\FBOWrapper.h" />
     <ClInclude Include="andrick\render\wrapper\GLObjectWrapper.h" />
+    <ClInclude Include="andrick\render\wrapper\rbo\RBOWrapper.h" />
     <ClInclude Include="andrick\render\wrapper\texture\TextureWrapper.h" />
     <ClInclude Include="andrick\render\wrapper\vao\VAOWrapper.h" />
     <ClInclude Include="andrick\render\wrapper\vbo\VBOWrapper.h" />
@@ -212,6 +214,8 @@
     <ClCompile Include="andrick\render\renderer\ModelRenderer.cpp" />
     <ClCompile Include="andrick\render\model\Model.cpp" />
     <ClCompile Include="andrick\render\wrapper\ebo\EBOWrapper.cpp" />
+    <ClCompile Include="andrick\render\wrapper\fbo\FBOWrapper.cpp" />
+    <ClCompile Include="andrick\render\wrapper\rbo\RBOWrapper.cpp" />
     <ClCompile Include="andrick\render\wrapper\texture\TextureWrapper.cpp" />
     <ClCompile Include="andrick\render\wrapper\vao\VAOWrapper.cpp" />
     <ClCompile Include="andrick\render\wrapper\vbo\VBOWrapper.cpp" />
