@@ -18,22 +18,23 @@ void main()
 
 void Julia()
 {
+	//seed for fractal, determining bulbs, position, etc.
 	vec2 seed = vec2(-0.624, 0.435);
 	int count = 0;
-	float scale = 0.1;
-	const int ITER = 100;
+	//scale of fractal
+	float scale = 1.2;
+	const int ITER = 200;
 	float er2 = 4.0;
 
-	vec2 z = (out_textureCoords - 0.5);
-	z *= 2.5;// / (float(uTime) * 0.02);
+	vec2 z = (out_textureCoords * 2.0) * scale - scale;
 
-	float value = 1.0;
-	float zoom = 2.0;
+	//vec2 seedOffset = cos(seed + scale * time) * 0.5 - sin(seed + scale * time) * 0.25;
+	vec2 seedOffset = cos(seed + scale * time) - sin(seed + scale * time) * 0.15;
 
 	for (int i = 0; i < ITER; i++)
 	{
-		float x = (z.x * z.x - z.y * z.y) + seed.x;
-		float y = (z.y * z.x + z.x * z.y) + seed.y;
+		float x = (z.x * z.x - z.y * z.y) + seedOffset.x;
+		float y = (z.y * z.x + z.x * z.y) + seedOffset.y;
 
 		count = i;
 		if ((x * x + y * y) > er2) break;
@@ -47,6 +48,6 @@ void Julia()
 	}
 	else
 	{
-		FragColor = texture(colRamp, vec2(count * 0.01, 0)); //vec4(1.0 - count * scale);
+		FragColor = texture(colRamp, vec2(count * 0.01, 0));
 	}
 }
