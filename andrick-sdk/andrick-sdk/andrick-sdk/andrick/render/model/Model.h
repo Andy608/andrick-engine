@@ -29,6 +29,7 @@ namespace andrick
 
 		inline const TextureWrapper* getTextureWrapper() const { return mpTextureWrapper; }
 		inline Transform* getTransform() const { return mpTransform; };
+		inline void setParent(Transform* pParentTransform) { mpParentTransform = pParentTransform; }
 
 		//Update the previous transform values to equal the current transform values
 		//so the next frame can use the updated values for lerping.

@@ -58,6 +58,12 @@ namespace andrick
 		//return createTranslationMat(position) * createRotationMat(rotationInDeg) * createScaleMat(scale);
 	}
 
+	glm::mat4 MathHelper::createNormalMat(const glm::mat4& transformationMat, const glm::mat4& viewMat)
+	{
+		glm::mat3 transformMat = (glm::mat3(viewMat * transformationMat));
+		return glm::transpose(glm::inverse(transformMat));
+	}
+
 	std::string MathHelper::to_string(const glm::mat4& mat)
 	{
 		std::string s = "\n[\n";

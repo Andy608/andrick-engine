@@ -17,10 +17,12 @@ namespace bb
 		static andrick::Mesh* mspTestMesh;
 		static andrick::Mesh* mspBarrelMesh;
 		static andrick::Mesh* mspQuadMesh;
+		static andrick::Mesh* mspSuzanneMesh;
 
 		//This will be in a TextureAssetPack
 		static andrick::Texture* mspBarrelTexture;
 		static andrick::Texture* mspLoveTexture;
+		static andrick::Texture* mspDefaultTexture;
 
 	protected:
 		virtual GLboolean load() override;

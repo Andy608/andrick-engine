@@ -68,9 +68,19 @@ namespace andrick
 		glUniform1f(getUniformID(uniformName), data);
 	}
 
-	void ShaderProgram::loadMat4(const std::string& uniformName, GLboolean transposeMatrix, const GLfloat* matrixPtr) const
+	void ShaderProgram::loadVec3(const std::string& uniformName, const glm::vec3& vec3) const
 	{
-		glUniformMatrix4fv(getUniformID(uniformName), 1, transposeMatrix, matrixPtr);
+		glUniform3f(getUniformID(uniformName), vec3.x, vec3.y, vec3.z);
+	}
+
+	void ShaderProgram::loadMat3(const std::string& uniformName, GLboolean transposeMatrix, const glm::mat3& matrix) const
+	{
+		glUniformMatrix3fv(getUniformID(uniformName), 1, transposeMatrix, glm::value_ptr(matrix));
+	}
+
+	void ShaderProgram::loadMat4(const std::string& uniformName, GLboolean transposeMatrix, const glm::mat4& matrix) const
+	{
+		glUniformMatrix4fv(getUniformID(uniformName), 1, transposeMatrix, glm::value_ptr(matrix));
 	}
 
 	void ShaderProgram::compile()
