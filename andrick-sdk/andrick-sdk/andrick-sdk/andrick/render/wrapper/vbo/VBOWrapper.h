@@ -23,8 +23,8 @@ namespace andrick
 		VBOWrapper(const EnumBufferType& bufferType, std::vector<GLfloat> pBuffer, GLuint elementsPerVertex);
 		~VBOWrapper();
 
-		virtual void bind() const;
-		virtual void unbind() const;
+		virtual void bind();
+		virtual void unbind();
 
 		const std::vector<GLfloat>& getBufferData() const { return mpBufferData; };
 		GLuint getBufferSize() const { return static_cast<GLuint>(mpBufferData.size()); }

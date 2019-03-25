@@ -37,6 +37,8 @@ namespace bb
 		pBarrel->setTexture(*MeshAssetPack::mspBarrelTexture);
 
 		pColRamp = new andrick::TextureWrapper(*MeshAssetPack::mspColorRampTexture);
+		pColRamp->generateGLTexture();
+
 		pLight = new andrick::Model(MeshAssetPack::mspTestMesh);
 		pLight->getTransform()->setPosition(0.0f, 3.0f, 0.0f);
 
@@ -91,7 +93,8 @@ namespace bb
 		GLfloat x = (3.0f * (cos(andrick::MathHelper::toRadians(time))));
 		GLfloat z = (3.0f * (sin(andrick::MathHelper::toRadians(time))));
 
-		//pLight->getTransform()->setPosition(x, 60.0f * (GLfloat)deltaTime, z);
+		pLight->getTransform()->setPosition(x, 60.0f * (GLfloat)deltaTime, z);
+		pLight->getTransform()->addRotation(0.0f, 60.0f * (GLfloat)deltaTime, 0.0f);
 	}
 
 	void Playground::render(const GLdouble& alpha)
@@ -101,8 +104,6 @@ namespace bb
 
 		glPolygonMode(andrick::ModelRenderer::EnumCullType::FRONT_ONLY, andrick::ModelRenderer::EnumDrawType::FILL);
 		glEnable(GL_DEPTH_TEST);
-		glActiveTexture(GL_TEXTURE0);
-		//glActiveTexture(GL_TEXTURE1);
 
 		//Picking shader program
 		andrick::ShaderProgram* currentProgram = ShaderAssetPack::mspJuliaFractalProgram;
@@ -117,13 +118,17 @@ namespace bb
 		pFloor->prepModelTransform(alpha, *currentProgram);
 
 		//Render model
-		//pColRamp->bind();
-		pFloor->getTextureWrapper()->bind();
+
+		pFloor->getTextureWrapper()->bind(0);
+		currentProgram->loadInt("texture0", pFloor->getTextureWrapper()->getTextureUnit());
+		
+		pColRamp->bind(1);
+		currentProgram->loadInt("colRamp", pColRamp->getTextureUnit());
+
 		pFloor->render(alpha);
+		
+		pColRamp->unbind();
 		pFloor->getTextureWrapper()->unbind();
-		//pColRamp->unbind();
-
-
 
 		currentProgram = ShaderAssetPack::mspPhongShadingProgram;
 		currentProgram->use();
@@ -138,6 +143,8 @@ namespace bb
 		pBarrel->prepModelTransform(alpha, *currentProgram);
 		
 		pBarrel->getTextureWrapper()->bind();
+		currentProgram->loadInt("texture0", pBarrel->getTextureWrapper()->getTextureUnit());
+
 		pBarrel->render(alpha);
 		pBarrel->getTextureWrapper()->unbind();
 
@@ -150,6 +157,8 @@ namespace bb
 		pSuzanne->prepModelTransform(alpha, *currentProgram);
 
 		pSuzanne->getTextureWrapper()->bind();
+		currentProgram->loadInt("texture0", pSuzanne->getTextureWrapper()->getTextureUnit());
+
 		pSuzanne->render(alpha);
 		pSuzanne->getTextureWrapper()->unbind();
 

@@ -16,7 +16,7 @@ namespace andrick
 		mpBufferData.clear();
 	}
 
-	void VBOWrapper::bind() const
+	void VBOWrapper::bind()
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, mID);
 
@@ -26,7 +26,7 @@ namespace andrick
 		}
 	}
 
-	void VBOWrapper::unbind() const
+	void VBOWrapper::unbind()
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}

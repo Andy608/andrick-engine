@@ -12,8 +12,8 @@ namespace andrick
 		VAOWrapper();
 		~VAOWrapper();
 
-		virtual void bind() const;
-		virtual void unbind() const;
+		virtual void bind();
+		virtual void unbind();
 
 		void bindVBOToVAO(GLuint bufferIndex, VBOWrapper* vboWrapper);
 

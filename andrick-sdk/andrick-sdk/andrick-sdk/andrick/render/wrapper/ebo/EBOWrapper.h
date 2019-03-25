@@ -13,8 +13,8 @@ namespace andrick
 		EBOWrapper(std::vector<GLint> pIndices);
 		~EBOWrapper();
 
-		virtual void bind() const;
-		virtual void unbind() const;
+		virtual void bind();
+		virtual void unbind();
 
 		inline GLint getIndiceCount() { return static_cast<GLint>(mpIndiceData.size()); };
 

@@ -39,8 +39,9 @@ namespace andrick
 
 		~TextureWrapper();
 
-		virtual void bind() const;
-		virtual void unbind() const;
+		virtual void bind();
+		virtual void bind(const GLubyte& textureUnit);
+		virtual void unbind();
 
 		void updateProperties(Texture& texture,
 			const EnumWrapStyle& wrapStyleS = EnumWrapStyle::REPEAT,
@@ -59,6 +60,7 @@ namespace andrick
 		void generateGLTexture();
 
 		const Texture& getCurrentTexture() const;
+		const GLuint& getTextureUnit() const { return mTextureUnit; };
 
 		inline const EnumWrapStyle& getWrapStyleS() const { return mWrapStyleS; };
 		inline const EnumWrapStyle& getWrapStyleT() const { return mWrapStyleT; };
@@ -68,6 +70,8 @@ namespace andrick
 
 	private:
 		Texture& mTexture;
+
+		GLuint mTextureUnit;
 
 		EnumWrapStyle mWrapStyleS;
 		EnumWrapStyle mWrapStyleT;

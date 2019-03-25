@@ -27,7 +27,7 @@ namespace andrick
 		//Call this to render model
 		virtual void render(const GLdouble& alpha);
 
-		inline const TextureWrapper* getTextureWrapper() const { return mpTextureWrapper; }
+		inline TextureWrapper* getTextureWrapper() const { return mpTextureWrapper; }
 		inline Transform* getTransform() const { return mpTransform; };
 		inline void setParent(Transform* pParentTransform) { mpParentTransform = pParentTransform; }
 

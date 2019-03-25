@@ -14,8 +14,8 @@ namespace andrick
 		inline GLObjectWrapper() {};
 		inline virtual ~GLObjectWrapper() {};
 
-		virtual void bind() const = 0;
-		virtual void unbind() const = 0;
+		virtual void bind() = 0;
+		virtual void unbind() = 0;
 
 		inline const GLuint& getID() const { return mID; };
 

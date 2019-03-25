@@ -5,7 +5,8 @@ namespace andrick
 	TextureWrapper::TextureWrapper(Texture &texture, 
 		const EnumWrapStyle& wrapStyleS, const EnumWrapStyle& wrapStyleT,
 		const EnumMinFilter& minify, const EnumMagFilter& magnify) :
-		mTexture(texture)
+		mTexture(texture),
+		mTextureUnit(0)
 	{
 		setWrapStyleS(wrapStyleS);
 		setWrapStyleT(wrapStyleT);
@@ -19,13 +20,26 @@ namespace andrick
 		glDeleteTextures(1, &mID);
 	}
 
-	void TextureWrapper::bind() const
+	void TextureWrapper::bind()
 	{
+		mTextureUnit = 0;
+		glActiveTexture(GL_TEXTURE0 + mTextureUnit);
 		glBindTexture(GL_TEXTURE_2D, mID);
+		//glActiveTexture(0);
 	}
 
-	void TextureWrapper::unbind() const
+	void TextureWrapper::bind(const GLubyte& textureUnit)
 	{
+		mTextureUnit = textureUnit;
+
+		glActiveTexture(GL_TEXTURE0 + mTextureUnit);
+		glBindTexture(GL_TEXTURE_2D, mID);
+		//glActiveTexture(0);
+	}
+
+	void TextureWrapper::unbind()
+	{
+		glActiveTexture(GL_TEXTURE0 + mTextureUnit);
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 
@@ -67,7 +81,7 @@ namespace andrick
 
 	void TextureWrapper::generateGLTexture()
 	{
-		bind();
+		bind(mTextureUnit);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, static_cast<GLint>(mWrapStyleS));
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, static_cast<GLint>(mWrapStyleT));
 

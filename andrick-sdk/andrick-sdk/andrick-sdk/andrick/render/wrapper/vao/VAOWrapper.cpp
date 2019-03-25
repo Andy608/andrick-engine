@@ -14,12 +14,12 @@ namespace andrick
 		glDeleteVertexArrays(1, &mID);
 	}
 
-	void VAOWrapper::bind() const
+	void VAOWrapper::bind()
 	{
 		glBindVertexArray(mID);
 	}
 
-	void VAOWrapper::unbind() const
+	void VAOWrapper::unbind()
 	{
 		glBindVertexArray(0);
 	}

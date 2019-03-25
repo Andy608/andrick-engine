@@ -2,8 +2,8 @@
 
 in vec2 out_textureCoords;
 
-uniform sampler2D textureSampler;
-uniform sampler2D textureSampler2;
+uniform sampler2D texture0;
+uniform sampler2D colRamp;
 
 uniform float time;
 
@@ -47,6 +47,6 @@ void Julia()
 	}
 	else
 	{
-		FragColor = texture(textureSampler, vec2(count/100)); //vec4(1.0 - count * scale);
+		FragColor = texture(colRamp, vec2(1.0 - count * scale)); //vec4(1.0 - count * scale);
 	}
 }
