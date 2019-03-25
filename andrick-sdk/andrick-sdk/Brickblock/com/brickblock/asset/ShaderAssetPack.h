@@ -26,6 +26,9 @@ namespace bb
 	private:
 		//In the future have dictionary class that holds all the directory locations
 		static const andrick::DirectoryLocation msSHADER_DIR;
+		static const andrick::DirectoryLocation msVS_DIR;
+		static const andrick::DirectoryLocation msGS_DIR;
+		static const andrick::DirectoryLocation msFS_DIR;
 
 		ShaderAssetPack();
 		inline virtual ~ShaderAssetPack() {};

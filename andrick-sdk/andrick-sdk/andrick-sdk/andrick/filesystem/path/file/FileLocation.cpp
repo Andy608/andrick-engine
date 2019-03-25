@@ -3,7 +3,7 @@
 using namespace andrick;
 
 const GLuint FileLocation::EXT_TYPES_LENGTH = 5;
-std::string FileLocation::EXT_TYPES[] = { ".txt", ".png", ".obj", ".vs", ".fs" };
+std::string FileLocation::EXT_TYPES[] = { ".txt", ".png", ".obj", ".glsl" };
 
 std::string FileLocation::getExt(EnumExtensionType ext)
 {

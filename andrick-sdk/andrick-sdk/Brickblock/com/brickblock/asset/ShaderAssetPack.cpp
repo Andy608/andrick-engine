@@ -11,6 +11,9 @@ namespace bb
 	andrick::ShaderProgram* ShaderAssetPack::mspLightSourceProgram = nullptr;
 
 	const andrick::DirectoryLocation ShaderAssetPack::msSHADER_DIR = andrick::DirectoryLocation("assets", "shaders", andrick::PathLocation::EnumPathType::RELATIVE_PATH);
+	const andrick::DirectoryLocation ShaderAssetPack::msVS_DIR = andrick::DirectoryLocation(msSHADER_DIR, "vs");
+	const andrick::DirectoryLocation ShaderAssetPack::msGS_DIR = andrick::DirectoryLocation(msSHADER_DIR, "gs");
+	const andrick::DirectoryLocation ShaderAssetPack::msFS_DIR = andrick::DirectoryLocation(msSHADER_DIR, "fs");
 
 	ShaderAssetPack::ShaderAssetPack() : AssetPack("shader_asset_pack")
 	{
@@ -24,14 +27,14 @@ namespace bb
 			return mIsLoaded;
 		}
 
-		mspTestVS = new andrick::Shader("test_vertex_shader", andrick::Shader::EnumShaderType::VERTEX, andrick::FileLocation(msSHADER_DIR, "test_vs", andrick::FileLocation::EnumExtensionType::VS_EXT));
-		mspTestFS = new andrick::Shader("test_fragment_shader", andrick::Shader::EnumShaderType::FRAGMENT, andrick::FileLocation(msSHADER_DIR, "test_fs", andrick::FileLocation::EnumExtensionType::FS_EXT));
+		mspTestVS = new andrick::Shader("test_vertex_shader", andrick::Shader::EnumShaderType::VERTEX, andrick::FileLocation(msVS_DIR, "test_vs", andrick::FileLocation::EnumExtensionType::GLSL_EXT));
+		mspTestFS = new andrick::Shader("test_fragment_shader", andrick::Shader::EnumShaderType::FRAGMENT, andrick::FileLocation(msFS_DIR, "test_fs", andrick::FileLocation::EnumExtensionType::GLSL_EXT));
 		mspTestProgram = new andrick::ShaderProgram("test_shaderprogram");
 		mspTestProgram->addShader(*mspTestVS);
 		mspTestProgram->addShader(*mspTestFS);
 
-		mspLightSourceVS = new andrick::Shader("light_source_vertex_shader", andrick::Shader::EnumShaderType::VERTEX, andrick::FileLocation(msSHADER_DIR, "light_source", andrick::FileLocation::EnumExtensionType::VS_EXT));
-		mspLightSourceFS = new andrick::Shader("light_source_fragment_shader", andrick::Shader::EnumShaderType::FRAGMENT, andrick::FileLocation(msSHADER_DIR, "light_source", andrick::FileLocation::EnumExtensionType::FS_EXT));
+		mspLightSourceVS = new andrick::Shader("light_source_vertex_shader", andrick::Shader::EnumShaderType::VERTEX, andrick::FileLocation(msVS_DIR, "light_source_vs", andrick::FileLocation::EnumExtensionType::GLSL_EXT));
+		mspLightSourceFS = new andrick::Shader("light_source_fragment_shader", andrick::Shader::EnumShaderType::FRAGMENT, andrick::FileLocation(msFS_DIR, "light_source_fs", andrick::FileLocation::EnumExtensionType::GLSL_EXT));
 		mspLightSourceProgram = new andrick::ShaderProgram("light_source_shaderprogram");
 		mspLightSourceProgram->addShader(*mspLightSourceVS);
 		mspLightSourceProgram->addShader(*mspLightSourceFS);

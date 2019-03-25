@@ -14,6 +14,7 @@ namespace bb
 	//TEMP
 	static std::vector<andrick::Model*> models;
 	andrick::Model* pFloor;
+	andrick::Model* pBarrel;
 
 	Playground::Playground() :
 		mpCamera(new FreeRoamCamera(glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3())),
@@ -24,13 +25,17 @@ namespace bb
 
 		pFloor = new andrick::Model(MeshAssetPack::mspQuadMesh);
 		pFloor->setTexture(*MeshAssetPack::mspLoveTexture);
+		pFloor->getTransform()->setRotation(-90.0f, 0.0f, 0.0f);
+		pFloor->getTransform()->setScale(5.0f, 5.0f, 5.0f);
 
-		pFloor->getTransform()->setRotation(90.0f, 0.0f, 0.0f);
+		pBarrel = new andrick::Model(MeshAssetPack::mspBarrelMesh);
+		pBarrel->setTexture(*MeshAssetPack::mspBarrelTexture);
 
 		models.push_back(pFloor);
+		models.push_back(pBarrel);
 
-		mpModelRenderer->setCamera(mpCamera);
-		mpModelRenderer->setShaderProgram(ShaderAssetPack::mspTestProgram);
+		//mpModelRenderer->setCamera(mpCamera);
+		//mpModelRenderer->setShaderProgram(ShaderAssetPack::mspTestProgram);
 	}
 
 	Playground::~Playground()
@@ -58,7 +63,8 @@ namespace bb
 			models.at(i)->update(deltaTime);
 		}
 
-		pFloor->getTransform()->addRotation(0.0f, 180.0f * (GLfloat)deltaTime, 0.0f);
+		//pFloor->getTransform()->addRotation(0.0f, 180.0f * (GLfloat)deltaTime, 0.0f);
+		//pBarrel->getTransform()->addRotation(0.0f, 60.0f * (GLfloat)deltaTime, 0.0f);
 	}
 
 	void Playground::render(const GLdouble& alpha)
@@ -85,6 +91,12 @@ namespace bb
 		pFloor->getTextureWrapper()->bind();
 		pFloor->render(alpha);
 		pFloor->getTextureWrapper()->unbind();
+
+		pBarrel->prepModelTransform(alpha, *currentProgram);
+		
+		pBarrel->getTextureWrapper()->bind();
+		pBarrel->render(alpha);
+		pBarrel->getTextureWrapper()->unbind();
 
 		glDisable(GL_DEPTH_TEST);
 		glActiveTexture(0);
