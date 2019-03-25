@@ -21,6 +21,7 @@ namespace bb
 		//This will be in a TextureAssetPack
 		static andrick::Texture* mspBarrelTexture;
 		static andrick::Texture* mspLoveTexture;
+		static andrick::Texture* mspColorRampTexture;
 
 	protected:
 		virtual GLboolean load() override;

@@ -6,6 +6,7 @@
 //#include "../render/model/ModelTest.h"
 #include <andrick/render/model/Model.h>
 #include "../asset/MeshAssetPack.h"
+#include <andrick/util/Timer.h>
 
 namespace bb
 {
@@ -15,6 +16,7 @@ namespace bb
 	static std::vector<andrick::Model*> models;
 	andrick::Model* pFloor;
 	andrick::Model* pBarrel;
+	andrick::TextureWrapper* pColRamp;
 
 	Playground::Playground() :
 		mpCamera(new FreeRoamCamera(glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3())),
@@ -31,6 +33,8 @@ namespace bb
 		pBarrel = new andrick::Model(MeshAssetPack::mspBarrelMesh);
 		pBarrel->setTexture(*MeshAssetPack::mspBarrelTexture);
 
+		pColRamp = new andrick::TextureWrapper(*MeshAssetPack::mspColorRampTexture);
+
 		models.push_back(pFloor);
 		models.push_back(pBarrel);
 
@@ -45,6 +49,9 @@ namespace bb
 
 		delete mpModelRenderer;
 		mpModelRenderer = nullptr;
+
+		delete pColRamp;
+		pColRamp = nullptr;
 
 		GLuint i;
 		for (i = 0; i < models.size(); ++i)
@@ -75,35 +82,39 @@ namespace bb
 		glPolygonMode(andrick::ModelRenderer::EnumCullType::FRONT_ONLY, andrick::ModelRenderer::EnumDrawType::FILL);
 		glEnable(GL_DEPTH_TEST);
 		glActiveTexture(GL_TEXTURE0);
+		glActiveTexture(GL_TEXTURE1);
 
 		//Picking shader program
-		andrick::ShaderProgram* currentProgram = ShaderAssetPack::mspFractalProgram;
+		andrick::ShaderProgram* currentProgram = ShaderAssetPack::mspJuliaFractalProgram;
 		currentProgram->use();
 
 		//Loading general stuff to shader program
 		currentProgram->loadMat4("viewMatrix", GL_FALSE, mpCamera->getViewMatrixPtr());
 		currentProgram->loadMat4("projectionMatrix", GL_FALSE, mpCamera->getProjectionMatrixPtr());
+		currentProgram->loadFloat("time", static_cast<GLfloat>(andrick::Timer::getCurrentTime()));
 
 		//Loading model stuff to shader program
 		pFloor->prepModelTransform(alpha, *currentProgram);
 
 		//Render model
+		pColRamp->bind();
 		pFloor->getTextureWrapper()->bind();
 		pFloor->render(alpha);
 		pFloor->getTextureWrapper()->unbind();
+		pColRamp->unbind();
 
-		currentProgram = ShaderAssetPack::mspTestProgram;
-		currentProgram->use();
-
-		//Loading general stuff to shader program
-		currentProgram->loadMat4("viewMatrix", GL_FALSE, mpCamera->getViewMatrixPtr());
-		currentProgram->loadMat4("projectionMatrix", GL_FALSE, mpCamera->getProjectionMatrixPtr());
-
-		pBarrel->prepModelTransform(alpha, *currentProgram);
-		
-		pBarrel->getTextureWrapper()->bind();
-		pBarrel->render(alpha);
-		pBarrel->getTextureWrapper()->unbind();
+		//currentProgram = ShaderAssetPack::mspTestProgram;
+		//currentProgram->use();
+		//
+		////Loading general stuff to shader program
+		//currentProgram->loadMat4("viewMatrix", GL_FALSE, mpCamera->getViewMatrixPtr());
+		//currentProgram->loadMat4("projectionMatrix", GL_FALSE, mpCamera->getProjectionMatrixPtr());
+		//
+		//pBarrel->prepModelTransform(alpha, *currentProgram);
+		//
+		//pBarrel->getTextureWrapper()->bind();
+		//pBarrel->render(alpha);
+		//pBarrel->getTextureWrapper()->unbind();
 
 		glDisable(GL_DEPTH_TEST);
 		glActiveTexture(0);

@@ -20,9 +20,13 @@ namespace bb
 		static andrick::Shader* mspLightSourceFS;
 		static andrick::ShaderProgram* mspLightSourceProgram;
 
-		static andrick::Shader* mspFractalVS;
-		static andrick::Shader* mspFractalFS;
-		static andrick::ShaderProgram* mspFractalProgram;
+		static andrick::Shader* mspJuliaFractalVS;
+		static andrick::Shader* mspJuliaFractalFS;
+		static andrick::ShaderProgram* mspJuliaFractalProgram;
+
+		static andrick::Shader* mspMandlebrotFractalVS;
+		static andrick::Shader* mspMandlebrotFractalFS;
+		static andrick::ShaderProgram* mspMandlebrotFractalProgram;
 
 	protected:
 		virtual GLboolean load() override;

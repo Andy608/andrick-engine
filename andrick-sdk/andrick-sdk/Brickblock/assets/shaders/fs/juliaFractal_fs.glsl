@@ -3,10 +3,20 @@
 in vec2 out_textureCoords;
 
 uniform sampler2D textureSampler;
+uniform sampler2D textureSampler2;
+
+uniform float time;
 
 out vec4 FragColor;
 
+void Julia();
+
 void main()
+{
+	Julia();
+}
+
+void Julia()
 {
 	vec2 seed = vec2(-0.624, 0.435);
 	int count = 0;
@@ -19,11 +29,6 @@ void main()
 
 	float value = 1.0;
 	float zoom = 2.0;
-	
-	//vec2 WIN_SIZE = vec2(1.0);
-	//vec2 mv = WIN_SIZE / vec2(2.0);
-	//vec2 z = mv + (4 * zoom / WIN_SIZE - 2) / zoom;
-
 
 	for (int i = 0; i < ITER; i++)
 	{
@@ -42,8 +47,6 @@ void main()
 	}
 	else
 	{
-		FragColor = vec4(1.0 - count * scale);
+		FragColor = texture(textureSampler, vec2(count/100)); //vec4(1.0 - count * scale);
 	}
-
-    //FragColor = vec4(0, 1, 0, 1);//texture(textureSampler, out_textureCoords);
 }
