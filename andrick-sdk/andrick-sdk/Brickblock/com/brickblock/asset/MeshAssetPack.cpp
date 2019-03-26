@@ -7,11 +7,10 @@ namespace bb
 	andrick::Mesh* MeshAssetPack::mspQuadMesh = nullptr;
 	andrick::Mesh* MeshAssetPack::mspSuzanneMesh = nullptr;
 
-	andrick::Texture* MeshAssetPack::mspBarrelTexture = nullptr;
-	andrick::Texture* MeshAssetPack::mspLoveTexture = nullptr;
-	andrick::Texture* MeshAssetPack::mspColorRampTexture = nullptr;
-
-	andrick::Texture* MeshAssetPack::mspDefaultTexture = nullptr;
+	andrick::Image* MeshAssetPack::mspBarrelTexture = nullptr;
+	andrick::Image* MeshAssetPack::mspLoveTexture = nullptr;
+	andrick::Image* MeshAssetPack::mspColorRampTexture = nullptr;
+	andrick::Image* MeshAssetPack::mspDefaultTexture = nullptr;
 
 	const andrick::DirectoryLocation MeshAssetPack::msMESH_DIR = andrick::DirectoryLocation("assets", "meshes", andrick::PathLocation::EnumPathType::RELATIVE_PATH);
 
@@ -32,10 +31,10 @@ namespace bb
 		mspQuadMesh = new andrick::Mesh("quad_mesh", andrick::FileLocation(msMESH_DIR, "test_plane", andrick::FileLocation::EnumExtensionType::OBJ_EXT));
 		mspSuzanneMesh = new andrick::Mesh("suzanne_mesh", andrick::FileLocation(msMESH_DIR, "suzanne", andrick::FileLocation::EnumExtensionType::OBJ_EXT));
 
-		mspBarrelTexture = new andrick::Texture("barrel_texture", andrick::FileLocation("assets/textures", "model_barrel", andrick::FileLocation::EnumPathType::RELATIVE_PATH, andrick::FileLocation::EnumExtensionType::PNG_EXT));
-		mspLoveTexture = new andrick::Texture("love_texture", andrick::FileLocation("assets/textures", "test_img", andrick::FileLocation::EnumPathType::RELATIVE_PATH, andrick::FileLocation::EnumExtensionType::PNG_EXT));
-		mspColorRampTexture = new andrick::Texture("color_ramp_texture", andrick::FileLocation("assets/textures", "colRamp", andrick::FileLocation::EnumPathType::RELATIVE_PATH, andrick::FileLocation::EnumExtensionType::PNG_EXT));
-		mspDefaultTexture = new andrick::Texture("default_texture", andrick::FileLocation("assets/textures", "default", andrick::FileLocation::EnumPathType::RELATIVE_PATH, andrick::FileLocation::EnumExtensionType::PNG_EXT));
+		mspBarrelTexture = new andrick::Image("barrel_texture", andrick::FileLocation("assets/textures", "model_barrel", andrick::FileLocation::EnumPathType::RELATIVE_PATH, andrick::FileLocation::EnumExtensionType::PNG_EXT));
+		mspLoveTexture = new andrick::Image("love_texture", andrick::FileLocation("assets/textures", "test_img", andrick::FileLocation::EnumPathType::RELATIVE_PATH, andrick::FileLocation::EnumExtensionType::PNG_EXT));
+		mspColorRampTexture = new andrick::Image("color_ramp_texture", andrick::FileLocation("assets/textures", "colRamp", andrick::FileLocation::EnumPathType::RELATIVE_PATH, andrick::FileLocation::EnumExtensionType::PNG_EXT));
+		mspDefaultTexture = new andrick::Image("default_texture", andrick::FileLocation("assets/textures", "default", andrick::FileLocation::EnumPathType::RELATIVE_PATH, andrick::FileLocation::EnumExtensionType::PNG_EXT));
 
 		registerAsset(mspTestMesh);
 		registerAsset(mspBarrelMesh);

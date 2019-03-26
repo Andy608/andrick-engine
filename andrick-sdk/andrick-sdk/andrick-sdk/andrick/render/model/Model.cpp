@@ -63,23 +63,23 @@ namespace andrick
 		mpMesh->render();
 	}
 
-	void Model::setTexture(Texture& texture,
+	void Model::setImage(Image& image,
 		const TextureWrapper::EnumWrapStyle& wrapStyleS, const TextureWrapper::EnumWrapStyle& wrapStyleT,
 		const TextureWrapper::EnumMinFilter& minFilter, const TextureWrapper::EnumMagFilter& magFilter)
 	{
-		if (!texture.isLoaded())
+		if (!image.isLoaded())
 		{
-			LoggerMaster::getUniversalLogger().logError(msCLASS_NAME, "The texture: " + texture.getID() + " is not loaded! Either you forgot to load it, or there was an error while loading the texture.");
+			LoggerMaster::getUniversalLogger().logError(msCLASS_NAME, "The image: " + image.getID() + " is not loaded! Either you forgot to load it, or there was an error while loading the image.");
 			return;
 		}
 
 		if (!mpTextureWrapper)
 		{
-			mpTextureWrapper = new TextureWrapper(texture, wrapStyleS, wrapStyleT, minFilter, magFilter);
+			mpTextureWrapper = new TextureWrapper(image, wrapStyleS, wrapStyleT, minFilter, magFilter);
 		}
 		else
 		{
-			mpTextureWrapper->updateProperties(texture, wrapStyleS, wrapStyleT, minFilter, magFilter);
+			mpTextureWrapper->setProperties(image.getWidth(), image.getHeight(), image.getData(), EnumInternalFormatType::RGBA, EnumDataFormat::RGBA_FORMAT, EnumDataType::UNSIGNED_BYTE, wrapStyleS, wrapStyleT, minFilter, magFilter);
 		}
 
 		mpTextureWrapper->generateGLTexture();

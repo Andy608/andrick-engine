@@ -22,9 +22,9 @@ namespace andrick
 		glBindRenderbuffer(GL_RENDERBUFFER, 0);
 	}
 
-	void RBOWrapper::setStorage(const glm::vec2& size, EnumRBOStorageType storageType)
+	void RBOWrapper::setStorage(const glm::ivec2& size, const EnumInternalFormatType& storageType)
 	{
-		glRenderbufferStorage(GL_RENDERBUFFER, DEPTH32_STENCIL8, static_cast<GLint>(size.x), static_cast<GLint>(size.y));
+		glRenderbufferStorage(GL_RENDERBUFFER, storageType, size.x, size.y);
 	}
 
 	void RBOWrapper::createID()

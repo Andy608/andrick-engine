@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -137,7 +137,7 @@
     <ClInclude Include="andrick\asset\pack\AssetPack.h" />
     <ClInclude Include="andrick\asset\shader\Shader.h" />
     <ClInclude Include="andrick\asset\shader\ShaderProgram.h" />
-    <ClInclude Include="andrick\asset\texture\Texture.h" />
+    <ClInclude Include="andrick\asset\image\Image.h" />
     <ClInclude Include="andrick\core\AndrickCore.h" />
     <ClInclude Include="andrick\event\AndrickEvent.h" />
     <ClInclude Include="andrick\event\AndrickEventListener.h" />
@@ -168,6 +168,7 @@
     <ClInclude Include="andrick\render\wrapper\fbo\FBOWrapper.h" />
     <ClInclude Include="andrick\render\wrapper\GLObjectWrapper.h" />
     <ClInclude Include="andrick\render\wrapper\rbo\RBOWrapper.h" />
+    <ClInclude Include="andrick\render\wrapper\texture\Texture.h" />
     <ClInclude Include="andrick\render\wrapper\texture\TextureWrapper.h" />
     <ClInclude Include="andrick\render\wrapper\vao\VAOWrapper.h" />
     <ClInclude Include="andrick\render\wrapper\vbo\VBOWrapper.h" />
@@ -192,7 +193,7 @@
     <ClCompile Include="andrick\asset\pack\AssetPack.cpp" />
     <ClCompile Include="andrick\asset\shader\Shader.cpp" />
     <ClCompile Include="andrick\asset\shader\ShaderProgram.cpp" />
-    <ClCompile Include="andrick\asset\texture\Texture.cpp" />
+    <ClCompile Include="andrick\asset\image\Image.cpp" />
     <ClCompile Include="andrick\core\AndrickCore.cpp" />
     <ClCompile Include="andrick\event\AndrickEventListener.cpp" />
     <ClCompile Include="andrick\event\AndrickEventQueue.cpp" />
@@ -216,6 +217,7 @@
     <ClCompile Include="andrick\render\wrapper\ebo\EBOWrapper.cpp" />
     <ClCompile Include="andrick\render\wrapper\fbo\FBOWrapper.cpp" />
     <ClCompile Include="andrick\render\wrapper\rbo\RBOWrapper.cpp" />
+    <ClCompile Include="andrick\render\wrapper\texture\Texture.cpp" />
     <ClCompile Include="andrick\render\wrapper\texture\TextureWrapper.cpp" />
     <ClCompile Include="andrick\render\wrapper\vao\VAOWrapper.cpp" />
     <ClCompile Include="andrick\render\wrapper\vbo\VBOWrapper.cpp" />

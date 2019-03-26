@@ -2,14 +2,16 @@
 #define ANDRICK_TEXTURE_WRAPPER_H_
 
 #include "../GLObjectWrapper.h"
-#include "../../../asset/texture/Texture.h"
+#include <glm/vec2.hpp>
+
+#include "../../../asset/image/Image.h"
 
 namespace andrick
 {
 	class TextureWrapper : public GLObjectWrapper
 	{
 	public:
-		enum class EnumWrapStyle : GLint
+		enum EnumWrapStyle : GLint
 		{
 			REPEAT = GL_REPEAT,
 			MIRRORED_REPEAT = GL_MIRRORED_REPEAT,
@@ -17,7 +19,7 @@ namespace andrick
 			CLAMP_TO_BORDER = GL_CLAMP_TO_BORDER
 		};
 
-		enum class EnumMinFilter : GLint
+		enum EnumMinFilter : GLint
 		{
 			NEAREST_MIPMAP_NEAREST = GL_NEAREST_MIPMAP_NEAREST,
 			LINEAR_MIPMAP_NEAREST = GL_LINEAR_MIPMAP_NEAREST,
@@ -25,14 +27,44 @@ namespace andrick
 			LINEAR_MIPMAP_LINEAR = GL_LINEAR_MIPMAP_LINEAR
 		};
 
-		enum class EnumMagFilter : GLint
+		enum EnumMagFilter : GLint
 		{
 			NEAREST = GL_NEAREST,
 			LINEAR = GL_LINEAR
 		};
 
-		TextureWrapper(Texture& texture, 
+		//Create a texture using the data from the image asset.
+		TextureWrapper(Image& image,
+			const EnumWrapStyle& wrapStyleS = EnumWrapStyle::REPEAT,
+			const EnumWrapStyle& wrapStyleT = EnumWrapStyle::REPEAT,
+			const EnumMinFilter& minify = EnumMinFilter::LINEAR_MIPMAP_LINEAR,
+			const EnumMagFilter& magnify = EnumMagFilter::LINEAR);
+
+		//Create a texture using the data from the image asset.
+		TextureWrapper(const GLuint& width, const GLuint& height, GLubyte* pPixelData, 
+			const EnumInternalFormatType& colorComponents = EnumInternalFormatType::RGBA,
+			const EnumDataFormat& dataFormat = EnumDataFormat::RGBA_FORMAT,
+			const EnumDataType& dataType = EnumDataType::UNSIGNED_BYTE,
+			const EnumWrapStyle& wrapStyleS = EnumWrapStyle::REPEAT,
+			const EnumWrapStyle& wrapStyleT = EnumWrapStyle::REPEAT,
+			const EnumMinFilter& minify = EnumMinFilter::LINEAR_MIPMAP_LINEAR,
+			const EnumMagFilter& magnify = EnumMagFilter::LINEAR);
+
+		//Create a texture using the data from the image asset.
+		TextureWrapper(const glm::ivec2& size, GLubyte* pPixelData,
+			const EnumInternalFormatType& colorComponents = EnumInternalFormatType::RGBA,
+			const EnumDataFormat& dataFormat = EnumDataFormat::RGBA_FORMAT,
+			const EnumDataType& dataType = EnumDataType::UNSIGNED_BYTE,
 			const EnumWrapStyle& wrapStyleS = EnumWrapStyle::REPEAT, 
+			const EnumWrapStyle& wrapStyleT = EnumWrapStyle::REPEAT,
+			const EnumMinFilter& minify = EnumMinFilter::LINEAR_MIPMAP_LINEAR,
+			const EnumMagFilter& magnify = EnumMagFilter::LINEAR);
+
+		void setProperties(const GLuint& width, const GLuint& height, GLubyte* pPixelData,
+			const EnumInternalFormatType& colorComponents = EnumInternalFormatType::RGBA,
+			const EnumDataFormat& dataFormat = EnumDataFormat::RGBA_FORMAT,
+			const EnumDataType& dataType = EnumDataType::UNSIGNED_BYTE,
+			const EnumWrapStyle& wrapStyleS = EnumWrapStyle::REPEAT,
 			const EnumWrapStyle& wrapStyleT = EnumWrapStyle::REPEAT,
 			const EnumMinFilter& minify = EnumMinFilter::LINEAR_MIPMAP_LINEAR,
 			const EnumMagFilter& magnify = EnumMagFilter::LINEAR);
@@ -43,14 +75,6 @@ namespace andrick
 		virtual void bind(const GLubyte& textureUnit);
 		virtual void unbind();
 
-		void updateProperties(Texture& texture,
-			const EnumWrapStyle& wrapStyleS = EnumWrapStyle::REPEAT,
-			const EnumWrapStyle& wrapStyleT = EnumWrapStyle::REPEAT,
-			const EnumMinFilter& minify = EnumMinFilter::LINEAR_MIPMAP_LINEAR,
-			const EnumMagFilter& magnify = EnumMagFilter::LINEAR);
-
-		void setTexture(Texture& texture);
-
 		void setWrapStyleS(const EnumWrapStyle& wrapStyleS);
 		void setWrapStyleT(const EnumWrapStyle& wrapStyleT);
 
@@ -58,9 +82,12 @@ namespace andrick
 		void setMagnifyFilter(const EnumMagFilter& magnifyFilter);
 
 		void generateGLTexture();
+		void generateGLTexture(const GLint& textureUnit);
 
-		const Texture& getCurrentTexture() const;
 		const GLuint& getTextureUnit() const { return mTextureUnit; };
+
+		inline const GLuint getWidth() const { return mTextureWidth; };
+		inline const GLuint getHeight() const { return mTextureHeight; };
 
 		inline const EnumWrapStyle& getWrapStyleS() const { return mWrapStyleS; };
 		inline const EnumWrapStyle& getWrapStyleT() const { return mWrapStyleT; };
@@ -68,10 +95,24 @@ namespace andrick
 		inline const EnumMinFilter& getMinFilter() const { return mMinifyFilter; };
 		inline const EnumMagFilter& getMagFilter() const { return mMagnifyFilter; };
 
-	private:
-		Texture& mTexture;
+		inline const EnumInternalFormatType& getComponentType() const { return mColorComponents; };
+		inline const EnumDataFormat& getDataFormat() const { return mDataFormat; };
+		inline const EnumDataType& getDataType() const { return mDataType; };
 
+	private:
+		GLuint mTextureWidth;
+		GLuint mTextureHeight;
 		GLuint mTextureUnit;
+		GLubyte* mpPixelData;
+
+		//Specifies the number of color components in the texture.
+		EnumInternalFormatType mColorComponents;
+
+		//Specifies the format of the pixel data.
+		EnumDataFormat mDataFormat;
+		
+		//Specifies the data type of the pixel data.
+		EnumDataType mDataType;
 
 		EnumWrapStyle mWrapStyleS;
 		EnumWrapStyle mWrapStyleT;

@@ -7,6 +7,7 @@
 #include "../../asset/mesh/Mesh.h"
 #include "../../util/math/Transform.h"
 #include "../wrapper/texture/TextureWrapper.h"
+#include "../../asset/image/Image.h"
 #include "../../asset/shader/ShaderProgram.h"
 
 #include <set>
@@ -35,7 +36,7 @@ namespace andrick
 		//so the next frame can use the updated values for lerping.
 		virtual void updateTransform();
 
-		void setTexture(Texture& texture,
+		void setImage(Image& image,
 			const TextureWrapper::EnumWrapStyle& wrapStyleS = TextureWrapper::EnumWrapStyle::CLAMP_TO_BORDER, 
 			const TextureWrapper::EnumWrapStyle& wrapStyleT = TextureWrapper::EnumWrapStyle::CLAMP_TO_BORDER,
 			const TextureWrapper::EnumMinFilter& minFilter = TextureWrapper::EnumMinFilter::LINEAR_MIPMAP_LINEAR, 

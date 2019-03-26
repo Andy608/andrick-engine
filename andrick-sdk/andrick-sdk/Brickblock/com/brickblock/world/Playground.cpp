@@ -31,12 +31,12 @@ namespace bb
 		andrick::AndrickWindow::getFocusedWindow()->getViewport().setCamera(mpCamera);
 
 		pFloor = new andrick::Model(MeshAssetPack::mspQuadMesh);
-		pFloor->setTexture(*MeshAssetPack::mspLoveTexture);
+		pFloor->setImage(*MeshAssetPack::mspLoveTexture);
 		pFloor->getTransform()->setRotation(-90.0f, 0.0f, 0.0f);
 		pFloor->getTransform()->setScale(5.0f, 5.0f, 5.0f);
 
 		pBarrel = new andrick::Model(MeshAssetPack::mspBarrelMesh);
-		pBarrel->setTexture(*MeshAssetPack::mspBarrelTexture);
+		pBarrel->setImage(*MeshAssetPack::mspBarrelTexture);
 		pBarrel->getTransform()->setPosition(2.0f, 2.0f, 0.0f);
 
 		pColRamp = new andrick::TextureWrapper(*MeshAssetPack::mspColorRampTexture);
@@ -46,12 +46,12 @@ namespace bb
 		pLight->getTransform()->setPosition(-2.0f, 2.0f, -3.0f);
 
 		pSuzanne = new andrick::Model(MeshAssetPack::mspSuzanneMesh);
-		pSuzanne->setTexture(*MeshAssetPack::mspDefaultTexture, 
+		pSuzanne->setImage(*MeshAssetPack::mspDefaultTexture,
 			andrick::TextureWrapper::EnumWrapStyle::REPEAT, andrick::TextureWrapper::EnumWrapStyle::REPEAT, 
 			andrick::TextureWrapper::EnumMinFilter::NEAREST_MIPMAP_NEAREST, andrick::TextureWrapper::EnumMagFilter::NEAREST);
 
 		pLol = new andrick::Model(MeshAssetPack::mspSuzanneMesh);
-		pLol->setTexture(*MeshAssetPack::mspDefaultTexture,
+		pLol->setImage(*MeshAssetPack::mspDefaultTexture,
 			andrick::TextureWrapper::EnumWrapStyle::REPEAT, andrick::TextureWrapper::EnumWrapStyle::REPEAT,
 			andrick::TextureWrapper::EnumMinFilter::NEAREST_MIPMAP_NEAREST, andrick::TextureWrapper::EnumMagFilter::NEAREST);
 
@@ -106,12 +106,12 @@ namespace bb
 		pLight->getTransform()->setPosition(x - 3.0f, 60.0f * (GLfloat)deltaTime, z);
 		pLight->getTransform()->addRotation(0.0f, 180.0f * (GLfloat)deltaTime, 0.0f);
 
-		pSuzanne->getTransform()->setPosition(-3.0f, (x * 0.5) + 3.0f, 0.0f);
+		pSuzanne->getTransform()->setPosition(-3.0f, (x * 0.5f) + 3.0f, 0.0f);
 		pSuzanne->getTransform()->addRotation(10.0f * (GLfloat)deltaTime, 0.0f, 0.0f);
 
 		//pFloor->getTransform()->addRotation(0.0f, 0.0f, -5.0f * (GLfloat)deltaTime);
 
-		pLol->getTransform()->addRotation(180.0f * deltaTime, 90.0f* deltaTime, 90.0f* deltaTime);
+		pLol->getTransform()->addRotation(180.0f * (GLfloat)deltaTime, 90.0f * (GLfloat)deltaTime, 90.0f * (GLfloat)deltaTime);
 	}
 
 	void Playground::render(const GLdouble& alpha)

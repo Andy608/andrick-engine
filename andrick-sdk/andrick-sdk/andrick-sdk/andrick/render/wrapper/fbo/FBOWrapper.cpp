@@ -25,7 +25,13 @@ namespace andrick
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
 
-	void FBOWrapper::attachRBO(RBOWrapper::EnumRBOAttachmentType attachmentType, const RBOWrapper& rboWrapper)
+	void FBOWrapper::attachTexture(TextureWrapper& texture, const EnumBindType& bindType, const EnumAttachmentType& attachmentType)
+	{
+		texture.generateGLTexture();
+		glFramebufferTexture2D(attachmentType, attachmentType, GL_TEXTURE_2D, texture.getID(), 0/*Mipmap level but for now we don't need or support fbo mipmapping*/);
+	}
+
+	void FBOWrapper::attachRBO(const RBOWrapper& rboWrapper, const EnumAttachmentType& attachmentType)
 	{
 		glFramebufferRenderbuffer(GL_FRAMEBUFFER, attachmentType, GL_RENDERBUFFER, rboWrapper.getID());
 

@@ -4,8 +4,8 @@
 #include <andrick/asset/pack/AssetPack.h>
 #include <andrick/asset/mesh/Mesh.h>
 
-//For now adding texture here
-#include <andrick/asset/texture/Texture.h>
+//For now adding image here
+#include <andrick/asset/image/Image.h>
 
 namespace bb
 {
@@ -20,10 +20,10 @@ namespace bb
 		static andrick::Mesh* mspSuzanneMesh;
 
 		//This will be in a TextureAssetPack
-		static andrick::Texture* mspBarrelTexture;
-		static andrick::Texture* mspLoveTexture;
-		static andrick::Texture* mspColorRampTexture;
-		static andrick::Texture* mspDefaultTexture;
+		static andrick::Image* mspBarrelTexture;
+		static andrick::Image* mspLoveTexture;
+		static andrick::Image* mspColorRampTexture;
+		static andrick::Image* mspDefaultTexture;
 
 	protected:
 		virtual GLboolean load() override;
