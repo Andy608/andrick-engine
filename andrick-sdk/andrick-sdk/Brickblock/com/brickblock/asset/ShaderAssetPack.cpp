@@ -22,6 +22,10 @@ namespace bb
 	andrick::Shader* ShaderAssetPack::mspPhongShadingFS = nullptr;
 	andrick::ShaderProgram* ShaderAssetPack::mspPhongShadingProgram = nullptr;
 
+	andrick::Shader* ShaderAssetPack::mspTextureVS = nullptr;
+	andrick::Shader* ShaderAssetPack::mspTextureFS = nullptr;
+	andrick::ShaderProgram* ShaderAssetPack::mspTextureProgram = nullptr;
+
 	const andrick::DirectoryLocation ShaderAssetPack::msSHADER_DIR = andrick::DirectoryLocation("assets", "shaders", andrick::PathLocation::EnumPathType::RELATIVE_PATH);
 	const andrick::DirectoryLocation ShaderAssetPack::msVS_DIR = andrick::DirectoryLocation(msSHADER_DIR, "vs");
 	const andrick::DirectoryLocation ShaderAssetPack::msGS_DIR = andrick::DirectoryLocation(msSHADER_DIR, "gs");
@@ -69,6 +73,12 @@ namespace bb
 		mspPhongShadingProgram->addShader(*mspPhongShadingVS);
 		mspPhongShadingProgram->addShader(*mspPhongShadingFS);
 
+		mspTextureVS = new andrick::Shader("texture_vertex_shader", andrick::Shader::EnumShaderType::VERTEX, andrick::FileLocation(msVS_DIR, "texture_vs", andrick::FileLocation::EnumExtensionType::GLSL_EXT));
+		mspTextureFS = new andrick::Shader("texture_fragment_shader", andrick::Shader::EnumShaderType::FRAGMENT, andrick::FileLocation(msFS_DIR, "texture_fs", andrick::FileLocation::EnumExtensionType::GLSL_EXT));
+		mspTextureProgram = new andrick::ShaderProgram("texture_shaderprogram");
+		mspTextureProgram->addShader(*mspTextureVS);
+		mspTextureProgram->addShader(*mspTextureFS);
+
 		registerAsset(mspTestVS);
 		registerAsset(mspTestFS);
 		registerAsset(mspTestProgram);
@@ -88,6 +98,10 @@ namespace bb
 		registerAsset(mspPhongShadingVS);
 		registerAsset(mspPhongShadingFS);
 		registerAsset(mspPhongShadingProgram);
+
+		registerAsset(mspTextureVS);
+		registerAsset(mspTextureFS);
+		registerAsset(mspTextureProgram);
 
 		return AssetPack::load();
 	}

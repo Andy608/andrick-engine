@@ -76,21 +76,28 @@ namespace andrick
 	void TextureWrapper::bind()
 	{
 		mTextureUnit = 0;
-		glActiveTexture(GL_TEXTURE0 + mTextureUnit);
-		glBindTexture(GL_TEXTURE_2D, mID);
+		bind(mTextureUnit);
 	}
 
 	void TextureWrapper::bind(const GLubyte& textureUnit)
 	{
 		mTextureUnit = textureUnit;
 
-		glActiveTexture(GL_TEXTURE0 + mTextureUnit);
+		//if (mpPixelData)
+		//{
+			glActiveTexture(GL_TEXTURE0 + mTextureUnit);
+		//}
+
 		glBindTexture(GL_TEXTURE_2D, mID);
 	}
 
 	void TextureWrapper::unbind()
 	{
-		glActiveTexture(GL_TEXTURE0 + mTextureUnit);
+		//if (mpPixelData)
+		//{
+			glActiveTexture(GL_TEXTURE0 + mTextureUnit);
+		//}
+
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 

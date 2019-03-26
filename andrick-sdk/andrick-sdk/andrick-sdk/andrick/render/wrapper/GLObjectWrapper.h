@@ -66,6 +66,7 @@ namespace andrick
 
 	enum EnumDataType : GLint
 	{
+		FLOAT = GL_FLOAT,
 		UNSIGNED_BYTE = GL_UNSIGNED_BYTE,
 		UNSIGNED_INT_24_8 = GL_UNSIGNED_INT_24_8
 	};

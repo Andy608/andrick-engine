@@ -9,7 +9,7 @@ namespace andrick
 
 	RBOWrapper::~RBOWrapper()
 	{
-
+		glDeleteBuffers(1, &mID);
 	}
 
 	void RBOWrapper::bind()
@@ -24,11 +24,13 @@ namespace andrick
 
 	void RBOWrapper::setStorage(const glm::ivec2& size, const EnumInternalFormatType& storageType)
 	{
+		bind();
 		glRenderbufferStorage(GL_RENDERBUFFER, storageType, size.x, size.y);
+		unbind();
 	}
 
 	void RBOWrapper::createID()
 	{
-		glad_glGenRenderbuffers(1, &mID);
+		glGenRenderbuffers(1, &mID);
 	}
 }

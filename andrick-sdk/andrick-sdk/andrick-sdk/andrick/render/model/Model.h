@@ -40,7 +40,7 @@ namespace andrick
 			const TextureWrapper::EnumWrapStyle& wrapStyleS = TextureWrapper::EnumWrapStyle::CLAMP_TO_BORDER, 
 			const TextureWrapper::EnumWrapStyle& wrapStyleT = TextureWrapper::EnumWrapStyle::CLAMP_TO_BORDER,
 			const TextureWrapper::EnumMinFilter& minFilter = TextureWrapper::EnumMinFilter::LINEAR_MIPMAP_LINEAR, 
-			const TextureWrapper::EnumMagFilter& magFilter = TextureWrapper::EnumMagFilter::LINEAR);
+			const TextureWrapper::EnumMagFilter& magFilter = TextureWrapper::EnumMagFilter::LINEAR_MAG);
 
 	protected:
 		////In the future make this a true component where you can add them. I dont wanna have to make a new object for each new model.

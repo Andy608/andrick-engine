@@ -141,7 +141,10 @@ namespace andrick
 				if (!unorderedTexCoords.empty())
 				{
 					sortedTexCoords.push_back(unorderedTexCoords.at(currentVertex.mTextureIndex * 2));
-					sortedTexCoords.push_back(1.0f - unorderedTexCoords.at(currentVertex.mTextureIndex * 2 + 1));
+					
+					//TODO: When using FBOs the image flips upside down, it has to do with the FSQs texture coords, and might be the model, but I think it has to do with this 1.0 - flip here.
+					//sortedTexCoords.push_back(1.0f - unorderedTexCoords.at(currentVertex.mTextureIndex * 2 + 1));
+					sortedTexCoords.push_back(unorderedTexCoords.at(currentVertex.mTextureIndex * 2 + 1));
 				}
 
 				if (!unorderedNormals.empty())

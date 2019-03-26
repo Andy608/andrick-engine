@@ -32,6 +32,10 @@ namespace bb
 		static andrick::Shader* mspPhongShadingFS;
 		static andrick::ShaderProgram* mspPhongShadingProgram;
 
+		static andrick::Shader* mspTextureVS;
+		static andrick::Shader* mspTextureFS;
+		static andrick::ShaderProgram* mspTextureProgram;
+
 	protected:
 		virtual GLboolean load() override;
 
