@@ -3,7 +3,6 @@
 
 #include "../../asset/Asset.h"
 #include "../../filesystem/path/file/FileLocation.h"
-#include "../../render/wrapper/texture/Texture.h"
 
 namespace andrick
 {

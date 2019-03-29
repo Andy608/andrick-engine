@@ -68,7 +68,7 @@ namespace andrick
 		setMagnifyFilter(magnify);
 	}
 
-	TextureWrapper::~TextureWrapper()
+	void TextureWrapper::cleanup()
 	{
 		glDeleteTextures(1, &mID);
 	}
@@ -124,6 +124,12 @@ namespace andrick
 	void TextureWrapper::generateGLTexture()
 	{
 		generateGLTexture(mTextureUnit);
+	}
+
+	void TextureWrapper::resizeBuffer(const GLuint& width, const GLuint& height)
+	{
+		setProperties(width, height, mpPixelData, mColorComponents, mDataFormat, mDataType, mWrapStyleS, mWrapStyleT, mMinifyFilter, mMagnifyFilter);
+		generateGLTexture();
 	}
 
 	void TextureWrapper::generateGLTexture(const GLint& textureUnit)

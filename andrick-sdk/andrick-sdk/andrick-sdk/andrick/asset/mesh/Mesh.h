@@ -4,8 +4,8 @@
 #include "../Asset.h"
 #include "../../filesystem/path/file/FileLocation.h"
 #include "../../render/wrapper/vao/VAOWrapper.h"
-#include "../../render/wrapper/vbo/VBOWrapper.h"
-#include "../../render/wrapper/ebo/EBOWrapper.h"
+#include "../../render/wrapper/buffer/vbo/VBOWrapper.h"
+#include "../../render/wrapper/buffer/ebo/EBOWrapper.h"
 #include "../../render/IRenderable.h"
 #include <vector>
 

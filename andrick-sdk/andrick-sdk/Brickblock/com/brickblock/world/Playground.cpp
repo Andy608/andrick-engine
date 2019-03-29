@@ -6,8 +6,9 @@
 #include "../render/camera/FreeRoamCamera.h"
 #include "../asset/ShaderAssetPack.h"
 #include "../asset/MeshAssetPack.h"
-#include <andrick/render/wrapper/fbo/FBOWrapper.h>
-#include <andrick/render/wrapper/rbo/RBOWrapper.h>
+#include <andrick/render/wrapper/buffer/fbo/FBOWrapper.h>
+#include <andrick/render/wrapper/buffer/rbo/RBOWrapper.h>
+#include <andrick/render/wrapper/buffer/BufferResizeRegistry.h>
 #include <andrick/util/Timer.h>
 
 namespace bb
@@ -79,6 +80,8 @@ namespace bb
 			andrick::TextureWrapper::EnumWrapStyle::CLAMP_TO_EDGE, andrick::TextureWrapper::EnumWrapStyle::CLAMP_TO_EDGE,
 			andrick::TextureWrapper::EnumMinFilter::LINEAR_MIN, andrick::TextureWrapper::EnumMagFilter::LINEAR_MAG);
 
+		//pFBOSceneRenderTexture->resizeWithScreen();
+
 		pSceneFBO->bind();
 
 		//Attach the color component to the fbo
@@ -89,9 +92,10 @@ namespace bb
 		
 		//Attach the depth and stencil components to the fbo
 		pSceneFBO->attachRBO(*pDepthStencilRBO, andrick::EnumAttachmentType::DEPTH_STENCIL_ATTACHMENT);
-		
 
 		pSceneFBO->unbind();
+
+		andrick::BufferResizeRegistry::addFBO(pSceneFBO);
 
 		///mpModelRenderer->setCamera(mpCamera);
 		///mpModelRenderer->setShaderProgram(ShaderAssetPack::mspTestProgram);

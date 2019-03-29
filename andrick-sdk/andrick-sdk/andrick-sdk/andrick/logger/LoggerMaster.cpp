@@ -8,14 +8,14 @@
 using namespace andrick;
 
 const std::string LoggerMaster::msCLASS_NAME = "LoggerMaster";
-GLboolean LoggerMaster::mIsInitialized = false;
-LoggerMaster* LoggerMaster::smpLoggerMaster = nullptr;
+GLboolean LoggerMaster::msIsInitialized = false;
+LoggerMaster* LoggerMaster::mspLoggerMaster = nullptr;
 
 GLboolean LoggerMaster::init()
 {
-	if (!mIsInitialized)
+	if (!msIsInitialized)
 	{
-		smpLoggerMaster = new LoggerMaster();
+		mspLoggerMaster = new LoggerMaster();
 
 		auto stdOutSink = spdlog::sinks::stdout_sink_mt::instance();
 #if defined (_WIN32)
@@ -23,53 +23,53 @@ GLboolean LoggerMaster::init()
 #else
 		auto coloredStdOutSink = std::make_shared<spdlog::sinks::ansicolor_stdout_sink_mt>();
 #endif
-		smpLoggerMaster->mUniversalLogger.addSink(coloredStdOutSink);
+		mspLoggerMaster->mUniversalLogger.addSink(coloredStdOutSink);
 
 		//Create the main log directory
-		if (!FileSystem::getFS()->isDirectoryCreated(smpLoggerMaster->mMainLogDirectory))
+		if (!FileSystem::getFS()->isDirectoryCreated(mspLoggerMaster->mMainLogDirectory))
 		{
-			FileSystem::getFS()->createDirectory(smpLoggerMaster->mMainLogDirectory);
+			FileSystem::getFS()->createDirectory(mspLoggerMaster->mMainLogDirectory);
 		}
 
 		//Create the general log dump directory
-		if (smpLoggerMaster->registerFileOutput(smpLoggerMaster->mGeneralLogDumpFile))
+		if (mspLoggerMaster->registerFileOutput(mspLoggerMaster->mGeneralLogDumpFile))
 		{
-			auto fileSink = smpLoggerMaster->getFileOutputSink(smpLoggerMaster->mGeneralLogDumpFile);
-			smpLoggerMaster->mUniversalLogger.addSink(fileSink);
+			auto fileSink = mspLoggerMaster->getFileOutputSink(mspLoggerMaster->mGeneralLogDumpFile);
+			mspLoggerMaster->mUniversalLogger.addSink(fileSink);
 		}
 
 		//Create the log dump directories for each log level
-		for (auto fileIter : smpLoggerMaster->mLogDumpByLevelFileMap)
+		for (auto fileIter : mspLoggerMaster->mLogDumpByLevelFileMap)
 		{
 			//Register file output with the file location, the level, and if it is only 1 level
-			if (smpLoggerMaster->registerFileOutput(fileIter.second, fileIter.first, GL_TRUE))
+			if (mspLoggerMaster->registerFileOutput(fileIter.second, fileIter.first, GL_TRUE))
 			{
-				auto fileSink = smpLoggerMaster->getFileOutputSink(fileIter.second);
-				smpLoggerMaster->mUniversalLogger.addSink(fileSink);
+				auto fileSink = mspLoggerMaster->getFileOutputSink(fileIter.second);
+				mspLoggerMaster->mUniversalLogger.addSink(fileSink);
 			}
 		}
 
-		smpLoggerMaster->mUniversalLogger.registerLogger();
+		mspLoggerMaster->mUniversalLogger.registerLogger();
 
-		mIsInitialized = true;
+		msIsInitialized = true;
 	}
 
-	return mIsInitialized;
+	return msIsInitialized;
 }
 
 void LoggerMaster::cleanup()
 {
-	if (mIsInitialized)
+	if (msIsInitialized)
 	{
-		delete smpLoggerMaster;
-		smpLoggerMaster = nullptr;
-		mIsInitialized = false;
+		delete mspLoggerMaster;
+		mspLoggerMaster = nullptr;
+		msIsInitialized = false;
 	}
 }
 
 void LoggerMaster::addConsoleSink(std::string loggerID, std::string outputFormat)
 {
-	Logger* desiredLogger = smpLoggerMaster->registerAndReturnLogger(loggerID, outputFormat);
+	Logger* desiredLogger = mspLoggerMaster->registerAndReturnLogger(loggerID, outputFormat);
 
 	//Add console sink
 	auto stdOutSink = spdlog::sinks::stdout_sink_mt::instance();
@@ -85,29 +85,29 @@ void LoggerMaster::addConsoleSink(std::string loggerID, std::string outputFormat
 
 void LoggerMaster::addBasicFileSink(std::string loggerID, const FileLocation& outputLocation, std::string outputFormat)
 {
-	Logger* desiredLogger = smpLoggerMaster->registerAndReturnLogger(loggerID, outputFormat);
+	Logger* desiredLogger = mspLoggerMaster->registerAndReturnLogger(loggerID, outputFormat);
 
 	try
 	{
 		//Add basic file sink
-		auto fileSink = smpLoggerMaster->getFileOutputSink(outputLocation);
+		auto fileSink = mspLoggerMaster->getFileOutputSink(outputLocation);
 		desiredLogger->addSink(fileSink);
 	}
 	catch (const std::exception& e)
 	{
-		smpLoggerMaster->mUniversalLogger.logError("LoggerMaster", std::string("Could not add basic file sink. Reasons: ") + e.what());
+		mspLoggerMaster->mUniversalLogger.logError("LoggerMaster", std::string("Could not add basic file sink. Reasons: ") + e.what());
 	}
 }
 
 Logger* LoggerMaster::getLogger(std::string loggerID)
 {
-	if (!smpLoggerMaster->isLoggerInList(loggerID))
+	if (!mspLoggerMaster->isLoggerInList(loggerID))
 	{
 		addConsoleSink(loggerID);
-		smpLoggerMaster->registerLogger(loggerID);
+		mspLoggerMaster->registerLogger(loggerID);
 	}
 
-	return smpLoggerMaster->mLoggerMap.find(loggerID)->second;
+	return mspLoggerMaster->mLoggerMap.find(loggerID)->second;
 }
 
 LoggerMaster::LoggerMaster() :
@@ -143,7 +143,7 @@ LoggerMaster::~LoggerMaster()
 
 const Logger& LoggerMaster::getUniversalLogger()
 {
-	if (!mIsInitialized)
+	if (!msIsInitialized)
 	{
 		std::string error = std::string(msCLASS_NAME + " is not initialized! Did you forget to init Andrick?");
 		std::cout << error << std::endl;
@@ -151,7 +151,7 @@ const Logger& LoggerMaster::getUniversalLogger()
 	}
 	else
 	{
-		return smpLoggerMaster->mUniversalLogger;
+		return mspLoggerMaster->mUniversalLogger;
 	}
 }
 
@@ -191,9 +191,9 @@ Logger* LoggerMaster::registerAndReturnLogger(std::string loggerID, std::string 
 GLboolean LoggerMaster::registerLogger(std::string loggerID)
 {
 	GLboolean success;
-	auto loggerIter = smpLoggerMaster->mLoggerMap.find(loggerID);
+	auto loggerIter = mspLoggerMaster->mLoggerMap.find(loggerID);
 
-	if (loggerIter != smpLoggerMaster->mLoggerMap.end())
+	if (loggerIter != mspLoggerMaster->mLoggerMap.end())
 	{
 		Logger* desiredLogger = loggerIter->second;
 		addBasicFileSink(loggerID, mGeneralLogDumpFile);
@@ -245,7 +245,7 @@ GLboolean LoggerMaster::registerFileOutput(const FileLocation& fileOutputLocatio
 			mFileSinkMap.insert(std::make_pair(fileOutputLocation.getPath(), sharedFileSink));
 		}
 	}
-	else if (smpLoggerMaster->isInitialized())
+	else if (mspLoggerMaster->isInitialized())
 	{
 		mUniversalLogger.logWarn(msCLASS_NAME, "Unable to register output file location: \"" + fileOutputLocation.getPath() + "\". This path does not exist.");
 	}

@@ -17,7 +17,7 @@ namespace andrick
 		friend class AndrickCore;
 
 	public:
-		static inline GLboolean isInitialized() { return mIsInitialized; };
+		static inline GLboolean isInitialized() { return msIsInitialized; };
 
 		GLboolean registerLogger(std::string loggerID);
 		GLboolean registerFileOutput(const FileLocation& fileOutputLocation, Logger::EnumLoggerLevel level = Logger::EnumLoggerLevel::LOG_TRACE, GLboolean isSingleLevel = GL_FALSE);
@@ -34,8 +34,8 @@ namespace andrick
 		static GLboolean init();
 		static void cleanup();
 
-		static GLboolean mIsInitialized;
-		static LoggerMaster* smpLoggerMaster;
+		static GLboolean msIsInitialized;
+		static LoggerMaster* mspLoggerMaster;
 
 		Logger mUniversalLogger;
 		std::map<std::string, Logger*> mLoggerMap;

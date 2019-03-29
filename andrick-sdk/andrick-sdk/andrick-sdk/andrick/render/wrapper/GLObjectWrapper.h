@@ -14,6 +14,8 @@ namespace andrick
 		inline GLObjectWrapper() {};
 		inline virtual ~GLObjectWrapper() {};
 
+		virtual void cleanup() = 0;
+
 		virtual void bind() = 0;
 		virtual void unbind() = 0;
 

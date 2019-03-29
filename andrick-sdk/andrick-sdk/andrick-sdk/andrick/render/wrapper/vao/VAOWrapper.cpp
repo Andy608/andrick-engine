@@ -1,5 +1,5 @@
 #include "VAOWrapper.h"
-#include "../vbo/VBOWrapper.h"
+#include "../buffer/vbo/VBOWrapper.h"
 
 namespace andrick
 {
@@ -9,7 +9,7 @@ namespace andrick
 		createID();
 	}
 
-	VAOWrapper::~VAOWrapper()
+	void VAOWrapper::cleanup()
 	{
 		glDeleteVertexArrays(1, &mID);
 	}

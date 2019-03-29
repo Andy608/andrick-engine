@@ -6,6 +6,7 @@
 #include "../setting/SettingsProcessor.h"
 #include "../input/InputProcessor.h"
 #include "../asset/AssetManager.h"
+#include "../render/wrapper/buffer/BufferResizeRegistry.h"
 //#include "../render/RenderManager.h"
 
 #define STB_IMAGE_IMPLEMENTATION
@@ -73,6 +74,12 @@ GLboolean AndrickCore::initAndrick()
 			LoggerMaster::getUniversalLogger().logCritical(msCLASS_NAME, "Failed to init " + AssetManager::msCLASS_NAME);
 		}
 
+		if (!success || !BufferResizeRegistry::init())
+		{
+			success = GL_FALSE;
+			LoggerMaster::getUniversalLogger().logCritical(msCLASS_NAME, "Failed to init " + BufferResizeRegistry::msCLASS_NAME);
+		}
+
 		/*if (!success || !RenderManager::init())
 		{
 			success = GL_FALSE;
@@ -92,6 +99,9 @@ GLboolean AndrickCore::cleanupAndrick()
 {
 	////Cleanup MeshRenderer
 	//RenderManager::cleanup();
+
+	//Cleanup TextureResizeRegistry
+	BufferResizeRegistry::cleanup();
 
 	//Cleanup AssetManager
 	AssetManager::cleanup();

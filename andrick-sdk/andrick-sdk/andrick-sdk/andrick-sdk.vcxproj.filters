@@ -123,22 +123,7 @@
     <ClInclude Include="andrick\asset\shader\ShaderProgram.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="andrick\render\wrapper\GLObjectWrapper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="andrick\render\wrapper\texture\TextureWrapper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="andrick\render\wrapper\vbo\VBOWrapper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="andrick\render\wrapper\vao\VAOWrapper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="andrick\asset\mesh\Mesh.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="andrick\render\wrapper\ebo\EBOWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="andrick\filesystem\path\file\io\string\StringFileReader.h">
@@ -168,16 +153,31 @@
     <ClInclude Include="andrick\render\model\Model.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="andrick\render\wrapper\rbo\RBOWrapper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="andrick\render\wrapper\fbo\FBOWrapper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="andrick\render\wrapper\texture\Texture.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="andrick\asset\image\Image.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="andrick\render\wrapper\texture\TextureWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="andrick\render\wrapper\vao\VAOWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="andrick\render\wrapper\GLObjectWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="andrick\render\wrapper\buffer\ebo\EBOWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="andrick\render\wrapper\buffer\fbo\FBOWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="andrick\render\wrapper\buffer\rbo\RBOWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="andrick\render\wrapper\buffer\vbo\VBOWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="andrick\render\wrapper\buffer\BufferResizeRegistry.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -269,19 +269,7 @@
     <ClCompile Include="andrick\asset\shader\ShaderProgram.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="andrick\render\wrapper\texture\TextureWrapper.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="andrick\render\wrapper\vbo\VBOWrapper.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="andrick\render\wrapper\vao\VAOWrapper.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="andrick\asset\mesh\Mesh.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="andrick\render\wrapper\ebo\EBOWrapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="andrick\filesystem\path\file\io\string\StringFileReader.cpp">
@@ -305,16 +293,28 @@
     <ClCompile Include="andrick\render\model\Model.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="andrick\render\wrapper\rbo\RBOWrapper.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="andrick\render\wrapper\fbo\FBOWrapper.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="andrick\render\wrapper\texture\Texture.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="andrick\asset\image\Image.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="andrick\render\wrapper\texture\TextureWrapper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="andrick\render\wrapper\vao\VAOWrapper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="andrick\render\wrapper\buffer\ebo\EBOWrapper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="andrick\render\wrapper\buffer\fbo\FBOWrapper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="andrick\render\wrapper\buffer\rbo\RBOWrapper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="andrick\render\wrapper\buffer\vbo\VBOWrapper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="andrick\render\wrapper\buffer\BufferResizeRegistry.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

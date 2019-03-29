@@ -70,7 +70,9 @@ namespace andrick
 			const EnumMinFilter& minify = EnumMinFilter::LINEAR_MIPMAP_LINEAR,
 			const EnumMagFilter& magnify = EnumMagFilter::LINEAR_MAG);
 
-		~TextureWrapper();
+		inline virtual ~TextureWrapper() { cleanup(); };
+
+		virtual void cleanup();
 
 		virtual void bind();
 		virtual void bind(const GLubyte& textureUnit);
@@ -84,6 +86,8 @@ namespace andrick
 
 		void generateGLTexture();
 		void generateGLTexture(const GLint& textureUnit);
+
+		void resizeBuffer(const GLuint& width, const GLuint& height);
 
 		const GLuint& getTextureUnit() const { return mTextureUnit; };
 

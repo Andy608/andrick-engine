@@ -10,7 +10,9 @@ namespace andrick
 	{
 	public:
 		VAOWrapper();
-		~VAOWrapper();
+		inline virtual ~VAOWrapper() { cleanup(); };
+
+		virtual void cleanup();
 
 		virtual void bind();
 		virtual void unbind();

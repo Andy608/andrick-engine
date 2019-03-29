@@ -1,5 +1,6 @@
 #include "AndrickViewport.h"
 #include "../event/AndrickEventQueue.h"
+#include "../render/wrapper/buffer/BufferResizeRegistry.h"
 
 namespace andrick
 {
@@ -54,6 +55,8 @@ namespace andrick
 			//For now resize with window.
 			//In the future the viewport should resize differently according to how the window wants it to.
 			glViewport(mStartPosition.x, mStartPosition.y, castedEvent.newWidth, castedEvent.newHeight);
+
+			BufferResizeRegistry::resizeBuffers(castedEvent.newWidth, castedEvent.newHeight);
 
 			if (mpCamera)
 			{
