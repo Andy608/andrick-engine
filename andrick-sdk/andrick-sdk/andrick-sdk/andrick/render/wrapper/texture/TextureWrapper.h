@@ -39,10 +39,13 @@ namespace andrick
 			const EnumWrapStyle& wrapStyleS = EnumWrapStyle::REPEAT,
 			const EnumWrapStyle& wrapStyleT = EnumWrapStyle::REPEAT,
 			const EnumMinFilter& minify = EnumMinFilter::LINEAR_MIPMAP_LINEAR,
-			const EnumMagFilter& magnify = EnumMagFilter::LINEAR_MAG);
+			const EnumMagFilter& magnify = EnumMagFilter::LINEAR_MAG,
+			const GLboolean& generateMipmap = GL_TRUE);
 
 		//Create a texture using the data from the image asset.
 		TextureWrapper(const GLuint& width, const GLuint& height, GLubyte* pPixelData = nullptr, 
+			const EnumTextureType& textureType = EnumTextureType::TEXTURE_2D,
+			const GLboolean& generateMipmap = GL_TRUE,
 			const EnumInternalFormatType& colorComponents = EnumInternalFormatType::RGBA,
 			const EnumDataFormat& dataFormat = EnumDataFormat::RGBA_FORMAT,
 			const EnumDataType& dataType = EnumDataType::UNSIGNED_BYTE,
@@ -53,6 +56,8 @@ namespace andrick
 
 		//Create a texture using the data from the image asset.
 		TextureWrapper(const glm::ivec2& size, GLubyte* pPixelData = nullptr,
+			const EnumTextureType& textureType = EnumTextureType::TEXTURE_2D,
+			const GLboolean& generateMipmap = GL_TRUE,
 			const EnumInternalFormatType& colorComponents = EnumInternalFormatType::RGBA,
 			const EnumDataFormat& dataFormat = EnumDataFormat::RGBA_FORMAT,
 			const EnumDataType& dataType = EnumDataType::UNSIGNED_BYTE,
@@ -62,6 +67,8 @@ namespace andrick
 			const EnumMagFilter& magnify = EnumMagFilter::LINEAR_MAG);
 
 		void setProperties(const GLuint& width, const GLuint& height, GLubyte* pPixelData,
+			const EnumTextureType& textureType = EnumTextureType::TEXTURE_2D,
+			const GLboolean& generateMipmap = GL_TRUE,
 			const EnumInternalFormatType& colorComponents = EnumInternalFormatType::RGBA,
 			const EnumDataFormat& dataFormat = EnumDataFormat::RGBA_FORMAT,
 			const EnumDataType& dataType = EnumDataType::UNSIGNED_BYTE,
@@ -69,6 +76,8 @@ namespace andrick
 			const EnumWrapStyle& wrapStyleT = EnumWrapStyle::REPEAT,
 			const EnumMinFilter& minify = EnumMinFilter::LINEAR_MIPMAP_LINEAR,
 			const EnumMagFilter& magnify = EnumMagFilter::LINEAR_MAG);
+
+		void setSampleSize(const GLuint& sampleSize) { mSampleSize = sampleSize; };
 
 		inline virtual ~TextureWrapper() { cleanup(); };
 
@@ -104,11 +113,21 @@ namespace andrick
 		inline const EnumDataFormat& getDataFormat() const { return mDataFormat; };
 		inline const EnumDataType& getDataType() const { return mDataType; };
 
+		inline const GLuint& getSampleSize() const { return mSampleSize; };
+
 	private:
 		GLuint mTextureWidth;
 		GLuint mTextureHeight;
 		GLuint mTextureUnit;
 		GLubyte* mpPixelData;
+
+		GLboolean mGenerateMipmap;
+
+		//Specifies the texture type that should be used for rendering.
+		EnumTextureType mTextureType;
+
+		//The amount of samples for multisampling.
+		GLuint mSampleSize;
 
 		//Specifies the number of color components in the texture.
 		EnumInternalFormatType mColorComponents;

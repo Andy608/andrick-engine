@@ -18,7 +18,17 @@ namespace andrick
 		virtual void unbind();
 
 		void setStorage(const glm::ivec2& size, const EnumInternalFormatType& storageType = EnumInternalFormatType::DEPTH24_STENCIL8);
-		void setStorage(const GLint& width, const GLint& height, const EnumInternalFormatType& storageType = EnumInternalFormatType::DEPTH24_STENCIL8);
+		void setStorage(const GLint& width, const GLint& height, 
+			const EnumInternalFormatType& storageType = EnumInternalFormatType::DEPTH24_STENCIL8);
+
+		void setStorageMultisample(const glm::ivec2& size,
+			const EnumInternalFormatType& storageType = EnumInternalFormatType::DEPTH24_STENCIL8,
+			const GLuint& samples = GLObjectWrapper::msDEFAULT_SAMPLE_SIZE);
+
+		void setStorageMultisample(const GLint& width, const GLint& height,
+			const EnumInternalFormatType& storageType = EnumInternalFormatType::DEPTH24_STENCIL8,
+			const GLuint& samples = GLObjectWrapper::msDEFAULT_SAMPLE_SIZE);
+		
 		void resizeBuffer(const GLint& width, const GLint& height);
 
 		const EnumInternalFormatType getStorageType() const { return mInternalFormatType; }

@@ -11,6 +11,8 @@ namespace andrick
 	class GLObjectWrapper : public TrackableObject, NonCopyable//Might not be able to do noncopyable, but we'll see.
 	{
 	public:
+		static const GLuint msDEFAULT_SAMPLE_SIZE = 1;
+
 		inline GLObjectWrapper() {};
 		inline virtual ~GLObjectWrapper() {};
 
@@ -44,6 +46,12 @@ namespace andrick
 		COLOR_ATTACHMENT8 = GL_COLOR_ATTACHMENT8,
 		COLOR_ATTACHMENT9 = GL_COLOR_ATTACHMENT9,
 		COLOR_ATTACHMENT10 = GL_COLOR_ATTACHMENT10
+	};
+
+	enum EnumTextureType : GLint
+	{
+		TEXTURE_2D = GL_TEXTURE_2D,
+		TEXTURE_2D_MULTISAMPLE = GL_TEXTURE_2D_MULTISAMPLE
 	};
 
 	enum EnumInternalFormatType : GLint

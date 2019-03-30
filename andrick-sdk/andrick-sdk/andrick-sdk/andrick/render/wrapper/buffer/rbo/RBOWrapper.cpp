@@ -35,6 +35,21 @@ namespace andrick
 		unbind();
 	}
 	
+	void RBOWrapper::setStorageMultisample(const glm::ivec2& size,
+		const EnumInternalFormatType& storageType, const GLuint& samples)
+	{
+		setStorageMultisample(size.x, size.y, storageType, samples);
+	}
+
+	void RBOWrapper::setStorageMultisample(const GLint& width, const GLint& height,
+		const EnumInternalFormatType& storageType, const GLuint& samples)
+	{
+		bind();
+		mInternalFormatType = storageType;
+		glRenderbufferStorageMultisample(GL_RENDERBUFFER, samples, storageType, width, height);
+		unbind();
+	}
+
 	void RBOWrapper::resizeBuffer(const GLint& width, const GLint& height)
 	{
 		setStorage(width, height, mInternalFormatType);

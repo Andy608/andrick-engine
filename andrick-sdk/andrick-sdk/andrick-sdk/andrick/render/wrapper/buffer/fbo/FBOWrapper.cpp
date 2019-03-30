@@ -5,7 +5,8 @@ namespace andrick
 {
 	const std::string FBOWrapper::msCLASS_NAME = "FBOWrapper";
 
-	FBOWrapper::FBOWrapper()
+	FBOWrapper::FBOWrapper() :
+		mCurrentBindType(EnumBindType::FRAMEBUFFER)
 	{
 		createID();
 	}
@@ -17,19 +18,28 @@ namespace andrick
 
 	void FBOWrapper::bind()
 	{
-		glBindFramebuffer(GL_FRAMEBUFFER, mID);
+		bind(EnumBindType::FRAMEBUFFER);
+	}
+
+	void FBOWrapper::bind(EnumBindType bindType)
+	{
+		mCurrentBindType = bindType;
+		glBindFramebuffer(bindType, mID);
 	}
 
 	void FBOWrapper::unbind()
 	{
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		glBindFramebuffer(mCurrentBindType, 0);
 	}
 
-	void FBOWrapper::attachTexture(TextureWrapper& texture, const EnumBindType& bindType, const EnumAttachmentType& attachmentType)
+	void FBOWrapper::attachTexture(TextureWrapper& texture, 
+		const EnumBindType& bindType, 
+		const EnumAttachmentType& attachmentType,
+		const EnumTextureType& textureType)
 	{
-		mAttachedTextures.push_back(BoundTextureData(&texture, bindType, attachmentType));
+		mAttachedTextures.push_back(BoundTextureData(&texture, bindType, attachmentType, textureType));
 		texture.generateGLTexture();
-		glFramebufferTexture2D(bindType, attachmentType, GL_TEXTURE_2D, texture.getID(), 0/*Mipmap level but for now we don't need or support fbo mipmapping*/);
+		glFramebufferTexture2D(bindType, attachmentType, textureType, texture.getID(), 0/*Mipmap level but for now we don't need or support fbo mipmapping*/);
 	}
 
 	void FBOWrapper::attachRBO(RBOWrapper& rboWrapper, const EnumAttachmentType& attachmentType)
@@ -54,7 +64,7 @@ namespace andrick
 			texData = *texIter;
 			texData.texture->resizeBuffer(width, height);
 			texData.texture->generateGLTexture();
-			glFramebufferTexture2D(texData.bindType, texData.attachmentType, GL_TEXTURE_2D, texData.texture->getID(), 0/*Mipmap level but for now we don't need or support fbo mipmapping*/);
+			glFramebufferTexture2D(texData.bindType, texData.attachmentType, texData.textureType, texData.texture->getID(), 0/*Mipmap level but for now we don't need or support fbo mipmapping*/);
 		}
 
 		BoundRBOData rboData;
@@ -72,6 +82,16 @@ namespace andrick
 		}
 
 		unbind();
+	}
+
+	void FBOWrapper::renderFBOToFBO(const FBOWrapper* readFBO, const FBOWrapper* writeFBO,
+		const glm::ivec2& readSize, const glm::ivec2& writeSize,
+		const GLuint& readStartX, const GLuint& readStartY,
+		const GLuint& writeStartX, const GLuint& writeStartY)
+	{
+		glBindFramebuffer(GL_READ_FRAMEBUFFER, readFBO->getID());
+		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, writeFBO->getID());
+		glBlitFramebuffer(0, 0, readSize.x, readSize.y, 0, 0, writeSize.x, writeSize.y, GL_COLOR_BUFFER_BIT, GL_NEAREST);
 	}
 
 	void FBOWrapper::createID()

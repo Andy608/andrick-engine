@@ -75,11 +75,11 @@ namespace andrick
 
 		if (!mpTextureWrapper)
 		{
-			mpTextureWrapper = new TextureWrapper(image, wrapStyleS, wrapStyleT, minFilter, magFilter);
+			mpTextureWrapper = new TextureWrapper(image, wrapStyleS, wrapStyleT, minFilter, magFilter, GL_TRUE);
 		}
 		else
 		{
-			mpTextureWrapper->setProperties(image.getWidth(), image.getHeight(), image.getData(), EnumInternalFormatType::RGBA, EnumDataFormat::RGBA_FORMAT, EnumDataType::UNSIGNED_BYTE, wrapStyleS, wrapStyleT, minFilter, magFilter);
+			mpTextureWrapper->setProperties(image.getWidth(), image.getHeight(), image.getData(), EnumTextureType::TEXTURE_2D, GL_TRUE, EnumInternalFormatType::RGBA, EnumDataFormat::RGBA_FORMAT, EnumDataType::UNSIGNED_BYTE, wrapStyleS, wrapStyleT, minFilter, magFilter);
 		}
 
 		mpTextureWrapper->generateGLTexture();

@@ -30,6 +30,10 @@ namespace bb
 	andrick::TextureWrapper* pFBOSceneRenderTexture;
 	andrick::Model* pFSQ;
 
+	andrick::FBOWrapper* pSceneFBOMultisample;
+	andrick::RBOWrapper* pDepthStencilRBOMultisample;
+	andrick::TextureWrapper* pFBOSceneRenderTextureMultisample;
+
 	Playground::Playground() :
 		mpCamera(new FreeRoamCamera(glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3())),
 		mpModelRenderer(new andrick::ModelRenderer())
@@ -73,14 +77,36 @@ namespace bb
 		models.push_back(pLol);
 		models.push_back(pFSQ);
 
+		//Setup multisample fbo
+		pSceneFBOMultisample = new andrick::FBOWrapper();
+		pDepthStencilRBOMultisample = new andrick::RBOWrapper();
+		pFBOSceneRenderTextureMultisample = new andrick::TextureWrapper(andrick::AndrickWindow::getFocusedWindow()->getSize(), nullptr,
+			andrick::EnumTextureType::TEXTURE_2D_MULTISAMPLE, GL_FALSE, andrick::EnumInternalFormatType::RGB, andrick::EnumDataFormat::RGB_FORMAT,
+			andrick::EnumDataType::UNSIGNED_BYTE, andrick::TextureWrapper::EnumWrapStyle::CLAMP_TO_EDGE, andrick::TextureWrapper::EnumWrapStyle::CLAMP_TO_EDGE,
+			andrick::TextureWrapper::EnumMinFilter::LINEAR_MIN, andrick::TextureWrapper::EnumMagFilter::LINEAR_MAG);
+
+		pFBOSceneRenderTextureMultisample->setSampleSize(16);
+
+		//Setup screen rendering fbo
 		pSceneFBO = new andrick::FBOWrapper();
 		pDepthStencilRBO = new andrick::RBOWrapper();
 		pFBOSceneRenderTexture = new andrick::TextureWrapper(andrick::AndrickWindow::getFocusedWindow()->getSize(), nullptr,
+			andrick::EnumTextureType::TEXTURE_2D, GL_FALSE,
 			andrick::EnumInternalFormatType::RGB, andrick::EnumDataFormat::RGB_FORMAT, andrick::EnumDataType::UNSIGNED_BYTE,
 			andrick::TextureWrapper::EnumWrapStyle::CLAMP_TO_EDGE, andrick::TextureWrapper::EnumWrapStyle::CLAMP_TO_EDGE,
 			andrick::TextureWrapper::EnumMinFilter::LINEAR_MIN, andrick::TextureWrapper::EnumMagFilter::LINEAR_MAG);
 
-		//pFBOSceneRenderTexture->resizeWithScreen();
+		pSceneFBOMultisample->bind();
+
+		pSceneFBOMultisample->attachTexture(*pFBOSceneRenderTextureMultisample, andrick::FBOWrapper::EnumBindType::FRAMEBUFFER, 
+			andrick::EnumAttachmentType::COLOR_ATTACHMENT0, andrick::EnumTextureType::TEXTURE_2D_MULTISAMPLE);
+
+		pDepthStencilRBOMultisample->setStorageMultisample(andrick::AndrickWindow::getFocusedWindow()->getSize(),
+			andrick::EnumInternalFormatType::DEPTH24_STENCIL8, pFBOSceneRenderTextureMultisample->getSampleSize());
+
+		pSceneFBOMultisample->attachRBO(*pDepthStencilRBOMultisample, andrick::EnumAttachmentType::DEPTH_STENCIL_ATTACHMENT);
+
+		pSceneFBOMultisample->unbind();
 
 		pSceneFBO->bind();
 
@@ -96,6 +122,7 @@ namespace bb
 		pSceneFBO->unbind();
 
 		andrick::BufferResizeRegistry::addFBO(pSceneFBO);
+		//pFBOSceneRenderTexture->resizeWithScreen();
 
 		///mpModelRenderer->setCamera(mpCamera);
 		///mpModelRenderer->setShaderProgram(ShaderAssetPack::mspTestProgram);
@@ -128,6 +155,15 @@ namespace bb
 		
 		delete pFBOSceneRenderTexture;
 		pFBOSceneRenderTexture = nullptr;
+
+		delete pSceneFBOMultisample;
+		pSceneFBOMultisample = nullptr;
+
+		delete pDepthStencilRBOMultisample;
+		pDepthStencilRBOMultisample = nullptr;
+
+		delete pFBOSceneRenderTextureMultisample;
+		pFBOSceneRenderTextureMultisample = nullptr;
 	}
 
 	void Playground::update(const GLdouble& deltaTime)
@@ -163,7 +199,7 @@ namespace bb
 		///mpModelRenderer->render(alpha, models);
 
 		//Render to fbo
-		pSceneFBO->bind();
+		pSceneFBOMultisample->bind();
 		glEnable(GL_DEPTH_TEST);
 		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -249,7 +285,11 @@ namespace bb
 		pLol->render(alpha);
 		pLol->getTextureWrapper()->unbind();
 
-		pSceneFBO->unbind();
+		//pSceneFBOMultisample->bind(andrick::FBOWrapper::EnumBindType::READ_FRAMEBUFFER);
+		//pSceneFBO->bind(andrick::FBOWrapper::EnumBindType::DRAW_FRAMEBUFFER);
+		andrick::FBOWrapper::renderFBOToFBO(pSceneFBOMultisample, pSceneFBO, andrick::AndrickWindow::getFocusedWindow()->getSize(), andrick::AndrickWindow::getFocusedWindow()->getSize());
+
+		pSceneFBOMultisample->unbind();
 		glDisable(GL_DEPTH_TEST);
 		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
