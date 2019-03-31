@@ -69,7 +69,8 @@ namespace andrick
 
 	void CubeMap::generateGLCubeMap(const GLint& textureUnit)
 	{
-
+		mTextureUnit = textureUnit;
+		generateGLCubeMap();
 	}
 
 	void CubeMap::createID()
