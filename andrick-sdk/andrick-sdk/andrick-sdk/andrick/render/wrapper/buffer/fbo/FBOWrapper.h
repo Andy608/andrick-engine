@@ -40,7 +40,8 @@ namespace andrick
 			const EnumTextureType& textureType = EnumTextureType::TEXTURE_2D);
 
 		void attachRBO(RBOWrapper& rboWrapper, 
-			const EnumAttachmentType& attachmentType = EnumAttachmentType::DEPTH_STENCIL_ATTACHMENT);
+			const EnumAttachmentType& attachmentType = EnumAttachmentType::DEPTH_STENCIL_ATTACHMENT,
+			const EnumTextureType& textureType = EnumTextureType::TEXTURE_2D);
 
 	private:
 		static const std::string msCLASS_NAME;
@@ -60,11 +61,12 @@ namespace andrick
 		struct BoundRBOData
 		{
 			BoundRBOData() {};
-			BoundRBOData(RBOWrapper* r, const EnumAttachmentType& attach) :
-				rbo(r), attachmentType(attach) {};
+			BoundRBOData(RBOWrapper* r, const EnumAttachmentType& attach, const EnumTextureType texture) :
+				rbo(r), attachmentType(attach), textureType(texture) {};
 
 			RBOWrapper* rbo = nullptr;
 			EnumAttachmentType attachmentType;
+			EnumTextureType textureType;
 		};
 
 		EnumBindType mCurrentBindType;

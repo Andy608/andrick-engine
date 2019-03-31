@@ -29,13 +29,15 @@ namespace andrick
 			const EnumInternalFormatType& storageType = EnumInternalFormatType::DEPTH24_STENCIL8,
 			const GLuint& samples = GLObjectWrapper::msDEFAULT_SAMPLE_SIZE);
 		
-		void resizeBuffer(const GLint& width, const GLint& height);
+		void resizeBuffer(const GLint& width, const GLint& height, 
+			const EnumTextureType& textureType = EnumTextureType::TEXTURE_2D);
 
 		const EnumInternalFormatType getStorageType() const { return mInternalFormatType; }
 
 	private:
 		virtual void createID();
 
+		GLint mSampleSize;
 		EnumInternalFormatType mInternalFormatType;
 	};
 }

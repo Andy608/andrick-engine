@@ -169,6 +169,7 @@
     <ClInclude Include="andrick\render\wrapper\buffer\fbo\FBOWrapper.h" />
     <ClInclude Include="andrick\render\wrapper\GLObjectWrapper.h" />
     <ClInclude Include="andrick\render\wrapper\buffer\rbo\RBOWrapper.h" />
+    <ClInclude Include="andrick\render\wrapper\texture\CubeMap.h" />
     <ClInclude Include="andrick\render\wrapper\texture\TextureWrapper.h" />
     <ClInclude Include="andrick\render\wrapper\vao\VAOWrapper.h" />
     <ClInclude Include="andrick\render\wrapper\buffer\vbo\VBOWrapper.h" />
@@ -218,6 +219,7 @@
     <ClCompile Include="andrick\render\wrapper\buffer\fbo\FBOWrapper.cpp" />
     <ClCompile Include="andrick\render\wrapper\buffer\rbo\RBOWrapper.cpp" />
     <ClCompile Include="andrick\render\wrapper\buffer\BufferResizeRegistry.cpp" />
+    <ClCompile Include="andrick\render\wrapper\texture\CubeMap.cpp" />
     <ClCompile Include="andrick\render\wrapper\texture\TextureWrapper.cpp" />
     <ClCompile Include="andrick\render\wrapper\vao\VAOWrapper.cpp" />
     <ClCompile Include="andrick\render\wrapper\buffer\vbo\VBOWrapper.cpp" />

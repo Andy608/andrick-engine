@@ -42,9 +42,9 @@ namespace andrick
 		glFramebufferTexture2D(bindType, attachmentType, textureType, texture.getID(), 0/*Mipmap level but for now we don't need or support fbo mipmapping*/);
 	}
 
-	void FBOWrapper::attachRBO(RBOWrapper& rboWrapper, const EnumAttachmentType& attachmentType)
+	void FBOWrapper::attachRBO(RBOWrapper& rboWrapper, const EnumAttachmentType& attachmentType, const EnumTextureType& textureType)
 	{
-		mAttachedRBOs.push_back(BoundRBOData(&rboWrapper, attachmentType));
+		mAttachedRBOs.push_back(BoundRBOData(&rboWrapper, attachmentType, textureType));
 		glFramebufferRenderbuffer(GL_FRAMEBUFFER, attachmentType, GL_RENDERBUFFER, rboWrapper.getID());
 
 		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
@@ -55,7 +55,7 @@ namespace andrick
 
 	void FBOWrapper::resizeBuffers(const GLint& width, const GLint& height)
 	{
-		bind();
+		bind(mCurrentBindType);
 
 		BoundTextureData texData;
 		auto texIter = mAttachedTextures.begin();
@@ -72,7 +72,7 @@ namespace andrick
 		for (; rboIter != mAttachedRBOs.end(); ++rboIter)
 		{
 			rboData = *rboIter;
-			rboData.rbo->resizeBuffer(width, height);
+			rboData.rbo->resizeBuffer(width, height, rboData.textureType);
 			glFramebufferRenderbuffer(GL_FRAMEBUFFER, rboData.attachmentType, GL_RENDERBUFFER, rboData.rbo->getID());
 
 			if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)

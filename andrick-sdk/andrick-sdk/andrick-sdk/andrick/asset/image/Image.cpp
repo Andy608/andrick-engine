@@ -6,9 +6,10 @@ namespace andrick
 {
 	const std::string Image::msCLASS_NAME = "Image";
 
-	Image::Image(std::string assetID, FileLocation imageFileLocation) :
+	Image::Image(std::string assetID, FileLocation imageFileLocation, const EnumInternalFormatType& formatType) :
 		Asset(assetID),
-		mImageFileLocation(imageFileLocation)
+		mImageFileLocation(imageFileLocation),
+		mInternalFormat(formatType)
 	{
 
 	}
@@ -25,7 +26,8 @@ namespace andrick
 	{
 		if (!mIsLoaded)
 		{
-			mpPixelData = stbi_load(mImageFileLocation.getPath().c_str(), &mWidth, &mHeight, &mColorChannels, STBI_rgb_alpha);
+
+			mpPixelData = stbi_load(mImageFileLocation.getPath().c_str(), &mWidth, &mHeight, &mColorChannels, convertFormatToSTBIType(mInternalFormat));
 
 			if (mpPixelData != nullptr)
 			{
@@ -52,5 +54,22 @@ namespace andrick
 		}
 
 		return (mIsLoaded == GL_FALSE);
+	}
+
+	const GLint Image::convertFormatToSTBIType(const EnumInternalFormatType& formatType)
+	{
+		GLint value;
+
+		switch (formatType)
+		{
+		case EnumInternalFormatType::RGB:
+			value = STBI_rgb;
+			break;
+		default:
+			value = STBI_rgb_alpha;
+			break;
+		}
+
+		return value;
 	}
 }

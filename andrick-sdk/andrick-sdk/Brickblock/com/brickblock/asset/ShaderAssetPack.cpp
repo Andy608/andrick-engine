@@ -26,6 +26,14 @@ namespace bb
 	andrick::Shader* ShaderAssetPack::mspTextureFS = nullptr;
 	andrick::ShaderProgram* ShaderAssetPack::mspTextureProgram = nullptr;
 
+	andrick::Shader* ShaderAssetPack::mspCubeMapVS = nullptr;
+	andrick::Shader* ShaderAssetPack::mspCubeMapFS = nullptr;
+	andrick::ShaderProgram* ShaderAssetPack::mspCubeMapProgram = nullptr;
+
+	andrick::Shader* ShaderAssetPack::mspSkyboxVS = nullptr;
+	andrick::Shader* ShaderAssetPack::mspSkyboxFS = nullptr;
+	andrick::ShaderProgram* ShaderAssetPack::mspSkyboxProgram = nullptr;
+
 	const andrick::DirectoryLocation ShaderAssetPack::msSHADER_DIR = andrick::DirectoryLocation("assets", "shaders", andrick::PathLocation::EnumPathType::RELATIVE_PATH);
 	const andrick::DirectoryLocation ShaderAssetPack::msVS_DIR = andrick::DirectoryLocation(msSHADER_DIR, "vs");
 	const andrick::DirectoryLocation ShaderAssetPack::msGS_DIR = andrick::DirectoryLocation(msSHADER_DIR, "gs");
@@ -79,6 +87,18 @@ namespace bb
 		mspTextureProgram->addShader(*mspTextureVS);
 		mspTextureProgram->addShader(*mspTextureFS);
 
+		mspCubeMapVS = new andrick::Shader("cube_map_vertex_shader", andrick::Shader::EnumShaderType::VERTEX, andrick::FileLocation(msVS_DIR, "cubemap_vs", andrick::FileLocation::EnumExtensionType::GLSL_EXT));
+		mspCubeMapFS = new andrick::Shader("cube_map_fragment_shader", andrick::Shader::EnumShaderType::FRAGMENT, andrick::FileLocation(msFS_DIR, "cubemap_fs", andrick::FileLocation::EnumExtensionType::GLSL_EXT));
+		mspCubeMapProgram = new andrick::ShaderProgram("cube_map_shaderprogram");
+		mspCubeMapProgram->addShader(*mspCubeMapVS);
+		mspCubeMapProgram->addShader(*mspCubeMapFS);
+
+		mspSkyboxVS = new andrick::Shader("skybox_vertex_shader", andrick::Shader::EnumShaderType::VERTEX, andrick::FileLocation(msVS_DIR, "skybox_vs", andrick::FileLocation::EnumExtensionType::GLSL_EXT));
+		mspSkyboxFS = new andrick::Shader("skybox_fragment_shader", andrick::Shader::EnumShaderType::FRAGMENT, andrick::FileLocation(msFS_DIR, "skybox_fs", andrick::FileLocation::EnumExtensionType::GLSL_EXT));
+		mspSkyboxProgram = new andrick::ShaderProgram("skybox_shaderprogram");
+		mspSkyboxProgram->addShader(*mspSkyboxVS);
+		mspSkyboxProgram->addShader(*mspSkyboxFS);
+
 		registerAsset(mspTestVS);
 		registerAsset(mspTestFS);
 		registerAsset(mspTestProgram);
@@ -102,6 +122,14 @@ namespace bb
 		registerAsset(mspTextureVS);
 		registerAsset(mspTextureFS);
 		registerAsset(mspTextureProgram);
+
+		registerAsset(mspCubeMapVS);
+		registerAsset(mspCubeMapFS);
+		registerAsset(mspCubeMapProgram);
+
+		registerAsset(mspSkyboxVS);
+		registerAsset(mspSkyboxFS);
+		registerAsset(mspSkyboxProgram);
 
 		return AssetPack::load();
 	}

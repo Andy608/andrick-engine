@@ -16,7 +16,8 @@ namespace andrick
 			TXT_EXT,
 			PNG_EXT,
 			OBJ_EXT,
-			GLSL_EXT
+			GLSL_EXT,
+			TGA_EXT
 		};
 
 		FileLocation(const DirectoryLocation& parentDirectory, std::string name, const EnumExtensionType& extensionType = FileLocation::EnumExtensionType::TXT_EXT);

@@ -542,6 +542,8 @@ void AndrickWindow::windowSizeCallback(GLFWwindow* windowHandle, GLint windowWid
 
 	if (windowFrame)
 	{
+		windowFrame->mWindowSize.x = windowWidth;
+		windowFrame->mWindowSize.y = windowHeight;
 		dynamic_cast<const WindowSizeCallback*>(windowFrame->mWindowCallbacks.find(WindowCallback::EnumCallback::WINDOW_SIZE_CALLBACK)->second)->mCALLBACK_FUNC(windowWidth, windowHeight);
 	}
 }

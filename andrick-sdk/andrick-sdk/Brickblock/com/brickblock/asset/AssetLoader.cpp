@@ -6,6 +6,7 @@
 
 #include "ShaderAssetPack.h"
 #include "MeshAssetPack.h"
+#include "ImageAssetPack.h"
 
 #include <set>
 
@@ -19,7 +20,6 @@ namespace bb
 		if (!mspInstance)
 		{
 			mspInstance = new AssetLoader();
-
 		}
 
 		return (mspInstance != nullptr);
@@ -49,6 +49,7 @@ namespace bb
 		{
 			andrick::AssetManager::registerAssetPack(new ShaderAssetPack());
 			andrick::AssetManager::registerAssetPack(new MeshAssetPack());
+			andrick::AssetManager::registerAssetPack(new ImageAssetPack());
 			//andrick::AssetManager::registerAssetPack(new BlockModelList());
 		}
 	}

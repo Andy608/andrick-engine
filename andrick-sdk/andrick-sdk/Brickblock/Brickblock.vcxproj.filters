@@ -48,6 +48,9 @@
     <ClCompile Include="com\brickblock\asset\MeshAssetPack.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="com\brickblock\asset\ImageAssetPack.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="com\brickblock\display\MainDisplay.h">
@@ -78,6 +81,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="com\brickblock\asset\MeshAssetPack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="com\brickblock\asset\ImageAssetPack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -4,9 +4,6 @@
 #include <andrick/asset/pack/AssetPack.h>
 #include <andrick/asset/mesh/Mesh.h>
 
-//For now adding image here
-#include <andrick/asset/image/Image.h>
-
 namespace bb
 {
 	class MeshAssetPack : public andrick::AssetPack
@@ -19,11 +16,8 @@ namespace bb
 		static andrick::Mesh* mspQuadMesh;
 		static andrick::Mesh* mspSuzanneMesh;
 
-		//This will be in a TextureAssetPack
-		static andrick::Image* mspBarrelTexture;
-		static andrick::Image* mspLoveTexture;
-		static andrick::Image* mspColorRampTexture;
-		static andrick::Image* mspDefaultTexture;
+		//Only used for cubemaps right now so this mesh doesn't have normals or texcoords cuz I'm lazy.
+		static andrick::Mesh* mspCubeMesh;
 
 	protected:
 		virtual GLboolean load() override;

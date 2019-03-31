@@ -2,7 +2,8 @@
 
 namespace andrick
 {
-	RBOWrapper::RBOWrapper()
+	RBOWrapper::RBOWrapper() :
+		mSampleSize(GLObjectWrapper::msDEFAULT_SAMPLE_SIZE)
 	{
 		createID();
 	}
@@ -44,15 +45,24 @@ namespace andrick
 	void RBOWrapper::setStorageMultisample(const GLint& width, const GLint& height,
 		const EnumInternalFormatType& storageType, const GLuint& samples)
 	{
+		mSampleSize = samples;
+
 		bind();
 		mInternalFormatType = storageType;
-		glRenderbufferStorageMultisample(GL_RENDERBUFFER, samples, storageType, width, height);
+		glRenderbufferStorageMultisample(GL_RENDERBUFFER, mSampleSize, storageType, width, height);
 		unbind();
 	}
 
-	void RBOWrapper::resizeBuffer(const GLint& width, const GLint& height)
+	void RBOWrapper::resizeBuffer(const GLint& width, const GLint& height, const EnumTextureType& textureType)
 	{
-		setStorage(width, height, mInternalFormatType);
+		if (textureType == EnumTextureType::TEXTURE_2D_MULTISAMPLE)
+		{
+			setStorageMultisample(width, height, mInternalFormatType, mSampleSize);
+		}
+		else
+		{
+			setStorage(width, height, mInternalFormatType);
+		}
 	}
 
 	void RBOWrapper::createID()

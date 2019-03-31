@@ -129,6 +129,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="com\brickblock\asset\AssetLoader.cpp" />
+    <ClCompile Include="com\brickblock\asset\ImageAssetPack.cpp" />
     <ClCompile Include="com\brickblock\asset\MeshAssetPack.cpp" />
     <ClCompile Include="com\brickblock\asset\ShaderAssetPack.cpp" />
     <ClCompile Include="com\brickblock\core\Brickblock.cpp" />
@@ -142,6 +143,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="com\brickblock\asset\AssetLoader.h" />
+    <ClInclude Include="com\brickblock\asset\ImageAssetPack.h" />
     <ClInclude Include="com\brickblock\asset\MeshAssetPack.h" />
     <ClInclude Include="com\brickblock\asset\ShaderAssetPack.h" />
     <ClInclude Include="com\brickblock\core\Brickblock.h" />

@@ -75,7 +75,8 @@ namespace andrick
 			const EnumWrapStyle& wrapStyleS = EnumWrapStyle::REPEAT,
 			const EnumWrapStyle& wrapStyleT = EnumWrapStyle::REPEAT,
 			const EnumMinFilter& minify = EnumMinFilter::LINEAR_MIPMAP_LINEAR,
-			const EnumMagFilter& magnify = EnumMagFilter::LINEAR_MAG);
+			const EnumMagFilter& magnify = EnumMagFilter::LINEAR_MAG,
+			const GLint& sampleSize = GLObjectWrapper::msDEFAULT_SAMPLE_SIZE);
 
 		void setSampleSize(const GLuint& sampleSize) { mSampleSize = sampleSize; };
 
@@ -114,6 +115,8 @@ namespace andrick
 		inline const EnumDataType& getDataType() const { return mDataType; };
 
 		inline const GLuint& getSampleSize() const { return mSampleSize; };
+
+		inline const GLubyte* getPixelData() const { return mpPixelData; };
 
 	private:
 		GLuint mTextureWidth;

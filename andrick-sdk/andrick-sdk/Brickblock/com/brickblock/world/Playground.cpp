@@ -1,14 +1,17 @@
 #include "Playground.h"
-#include <andrick/window/AndrickWindow.h>
-#include <andrick/util/math/MathHelper.h>
-#include <andrick/render/model/Model.h>
 
 #include "../render/camera/FreeRoamCamera.h"
 #include "../asset/ShaderAssetPack.h"
+#include "../asset/ImageAssetPack.h"
 #include "../asset/MeshAssetPack.h"
+
+#include <andrick/window/AndrickWindow.h>
+#include <andrick/util/math/MathHelper.h>
+#include <andrick/render/model/Model.h>
 #include <andrick/render/wrapper/buffer/fbo/FBOWrapper.h>
 #include <andrick/render/wrapper/buffer/rbo/RBOWrapper.h>
 #include <andrick/render/wrapper/buffer/BufferResizeRegistry.h>
+#include <andrick/render/wrapper/texture/CubeMap.h>
 #include <andrick/util/Timer.h>
 
 namespace bb
@@ -34,6 +37,8 @@ namespace bb
 	andrick::RBOWrapper* pDepthStencilRBOMultisample;
 	andrick::TextureWrapper* pFBOSceneRenderTextureMultisample;
 
+	andrick::CubeMap* pCubeMap;
+
 	Playground::Playground() :
 		mpCamera(new FreeRoamCamera(glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3())),
 		mpModelRenderer(new andrick::ModelRenderer())
@@ -42,27 +47,27 @@ namespace bb
 		andrick::AndrickWindow::getFocusedWindow()->getViewport().setCamera(mpCamera);
 
 		pFloor = new andrick::Model(MeshAssetPack::mspQuadMesh);
-		pFloor->setImage(*MeshAssetPack::mspLoveTexture);
+		pFloor->setImage(*ImageAssetPack::mspLoveImage);
 		pFloor->getTransform()->setRotation(-90.0f, 0.0f, 0.0f);
 		pFloor->getTransform()->setScale(5.0f, 5.0f, 5.0f);
 
 		pBarrel = new andrick::Model(MeshAssetPack::mspBarrelMesh);
-		pBarrel->setImage(*MeshAssetPack::mspBarrelTexture);
+		pBarrel->setImage(*ImageAssetPack::mspBarrelImage);
 		pBarrel->getTransform()->setPosition(2.0f, 2.0f, 0.0f);
 
-		pColRamp = new andrick::TextureWrapper(*MeshAssetPack::mspColorRampTexture);
+		pColRamp = new andrick::TextureWrapper(*ImageAssetPack::mspColorRampImage);
 		pColRamp->generateGLTexture();
 
 		pLight = new andrick::Model(MeshAssetPack::mspTestMesh);
 		pLight->getTransform()->setPosition(-2.0f, 2.0f, -3.0f);
 
 		pSuzanne = new andrick::Model(MeshAssetPack::mspSuzanneMesh);
-		pSuzanne->setImage(*MeshAssetPack::mspDefaultTexture,
+		pSuzanne->setImage(*ImageAssetPack::mspDefaultImage,
 			andrick::TextureWrapper::EnumWrapStyle::REPEAT, andrick::TextureWrapper::EnumWrapStyle::REPEAT, 
 			andrick::TextureWrapper::EnumMinFilter::NEAREST_MIPMAP_NEAREST, andrick::TextureWrapper::EnumMagFilter::NEAREST);
 
 		pLol = new andrick::Model(MeshAssetPack::mspSuzanneMesh);
-		pLol->setImage(*MeshAssetPack::mspDefaultTexture,
+		pLol->setImage(*ImageAssetPack::mspDefaultImage,
 			andrick::TextureWrapper::EnumWrapStyle::REPEAT, andrick::TextureWrapper::EnumWrapStyle::REPEAT,
 			andrick::TextureWrapper::EnumMinFilter::NEAREST_MIPMAP_NEAREST, andrick::TextureWrapper::EnumMagFilter::NEAREST);
 
@@ -81,11 +86,12 @@ namespace bb
 		pSceneFBOMultisample = new andrick::FBOWrapper();
 		pDepthStencilRBOMultisample = new andrick::RBOWrapper();
 		pFBOSceneRenderTextureMultisample = new andrick::TextureWrapper(andrick::AndrickWindow::getFocusedWindow()->getSize(), nullptr,
-			andrick::EnumTextureType::TEXTURE_2D_MULTISAMPLE, GL_FALSE, andrick::EnumInternalFormatType::RGB, andrick::EnumDataFormat::RGB_FORMAT,
-			andrick::EnumDataType::UNSIGNED_BYTE, andrick::TextureWrapper::EnumWrapStyle::CLAMP_TO_EDGE, andrick::TextureWrapper::EnumWrapStyle::CLAMP_TO_EDGE,
+			andrick::EnumTextureType::TEXTURE_2D_MULTISAMPLE, GL_FALSE, 
+			andrick::EnumInternalFormatType::RGB, andrick::EnumDataFormat::RGB_FORMAT, andrick::EnumDataType::UNSIGNED_BYTE, 
+			andrick::TextureWrapper::EnumWrapStyle::CLAMP_TO_EDGE, andrick::TextureWrapper::EnumWrapStyle::CLAMP_TO_EDGE,
 			andrick::TextureWrapper::EnumMinFilter::LINEAR_MIN, andrick::TextureWrapper::EnumMagFilter::LINEAR_MAG);
 
-		pFBOSceneRenderTextureMultisample->setSampleSize(16);
+		pFBOSceneRenderTextureMultisample->setSampleSize(8);
 
 		//Setup screen rendering fbo
 		pSceneFBO = new andrick::FBOWrapper();
@@ -104,7 +110,8 @@ namespace bb
 		pDepthStencilRBOMultisample->setStorageMultisample(andrick::AndrickWindow::getFocusedWindow()->getSize(),
 			andrick::EnumInternalFormatType::DEPTH24_STENCIL8, pFBOSceneRenderTextureMultisample->getSampleSize());
 
-		pSceneFBOMultisample->attachRBO(*pDepthStencilRBOMultisample, andrick::EnumAttachmentType::DEPTH_STENCIL_ATTACHMENT);
+		pSceneFBOMultisample->attachRBO(*pDepthStencilRBOMultisample, 
+			andrick::EnumAttachmentType::DEPTH_STENCIL_ATTACHMENT, andrick::EnumTextureType::TEXTURE_2D_MULTISAMPLE);
 
 		pSceneFBOMultisample->unbind();
 
@@ -121,8 +128,13 @@ namespace bb
 
 		pSceneFBO->unbind();
 
+		andrick::BufferResizeRegistry::addFBO(pSceneFBOMultisample);
 		andrick::BufferResizeRegistry::addFBO(pSceneFBO);
-		//pFBOSceneRenderTexture->resizeWithScreen();
+
+		pCubeMap = new andrick::CubeMap();
+
+		pCubeMap->addTextures(ImageAssetPack::mspCraterLakeCubeMapImages);
+		pCubeMap->generateGLCubeMap();
 
 		///mpModelRenderer->setCamera(mpCamera);
 		///mpModelRenderer->setShaderProgram(ShaderAssetPack::mspTestProgram);
@@ -164,6 +176,9 @@ namespace bb
 
 		delete pFBOSceneRenderTextureMultisample;
 		pFBOSceneRenderTextureMultisample = nullptr;
+
+		delete pCubeMap;
+		pCubeMap = nullptr;
 	}
 
 	void Playground::update(const GLdouble& deltaTime)
@@ -284,6 +299,21 @@ namespace bb
 		pLol->getTextureWrapper()->bind();
 		pLol->render(alpha);
 		pLol->getTextureWrapper()->unbind();
+
+		glDepthFunc(GL_LEQUAL);
+		currentProgram = ShaderAssetPack::mspSkyboxProgram;
+		currentProgram->use();
+
+		currentProgram->loadMat4("view", GL_FALSE, glm::mat4(glm::mat3(mpCamera->getViewMatrix())));
+		currentProgram->loadMat4("projection", GL_FALSE, mpCamera->getProjectionMatrix());
+
+		pCubeMap->bind();
+		currentProgram->loadInt("skybox", pCubeMap->getTextureUnit());
+
+		MeshAssetPack::mspCubeMesh->render();
+		pCubeMap->unbind();
+
+		glDepthFunc(GL_LESS);
 
 		//pSceneFBOMultisample->bind(andrick::FBOWrapper::EnumBindType::READ_FRAMEBUFFER);
 		//pSceneFBO->bind(andrick::FBOWrapper::EnumBindType::DRAW_FRAMEBUFFER);

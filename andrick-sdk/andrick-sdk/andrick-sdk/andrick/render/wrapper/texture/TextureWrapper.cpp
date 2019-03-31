@@ -9,7 +9,7 @@ namespace andrick
 		const EnumMinFilter& minify,
 		const EnumMagFilter& magnify,
 		const GLboolean& generateMipmap) :
-		TextureWrapper(image.getWidth(), image.getHeight(), image.getData(),
+		TextureWrapper(image.getWidth(), image.getHeight(), image.getPixelData(),
 			EnumTextureType::TEXTURE_2D, generateMipmap,
 			EnumInternalFormatType::RGBA,//TODO: Get the correct data from image
 			EnumDataFormat::RGBA_FORMAT,//TODO: Get the correct data from image
@@ -63,7 +63,8 @@ namespace andrick
 		const EnumDataFormat& dataFormat,
 		const EnumDataType& dataType,
 		const EnumWrapStyle& wrapStyleS, const EnumWrapStyle& wrapStyleT,
-		const EnumMinFilter& minify, const EnumMagFilter& magnify)
+		const EnumMinFilter& minify, const EnumMagFilter& magnify,
+		const GLint& sampleSize)
 	{
 		mTextureWidth = width;
 		mTextureHeight = height;
@@ -75,7 +76,7 @@ namespace andrick
 		mDataFormat = dataFormat;
 		mDataType = dataType;
 
-		setSampleSize(GLObjectWrapper::msDEFAULT_SAMPLE_SIZE);
+		setSampleSize(sampleSize);
 		setWrapStyleS(wrapStyleS);
 		setWrapStyleT(wrapStyleT);
 		setMinifyFilter(minify);
@@ -89,8 +90,7 @@ namespace andrick
 
 	void TextureWrapper::bind()
 	{
-		mTextureUnit = 0;
-		bind(mTextureUnit);
+		bind(0);
 	}
 
 	void TextureWrapper::bind(const GLubyte& textureUnit)
@@ -142,7 +142,7 @@ namespace andrick
 
 	void TextureWrapper::resizeBuffer(const GLuint& width, const GLuint& height)
 	{
-		setProperties(width, height, mpPixelData, mTextureType, mGenerateMipmap, mColorComponents, mDataFormat, mDataType, mWrapStyleS, mWrapStyleT, mMinifyFilter, mMagnifyFilter);
+		setProperties(width, height, mpPixelData, mTextureType, mGenerateMipmap, mColorComponents, mDataFormat, mDataType, mWrapStyleS, mWrapStyleT, mMinifyFilter, mMagnifyFilter, mSampleSize);
 		generateGLTexture();
 	}
 
