@@ -133,7 +133,7 @@ namespace bb
 
 		pCubeMap = new andrick::CubeMap();
 
-		pCubeMap->addTextures(ImageAssetPack::mspCraterLakeCubeMapImages);
+		pCubeMap->addTextures(ImageAssetPack::mspNebulaCubeMapImages);
 		pCubeMap->generateGLCubeMap();
 
 		///mpModelRenderer->setCamera(mpCamera);

@@ -33,7 +33,7 @@ namespace bb
 
 		initCubeMap(mspNebulaCubeMapImages, andrick::DirectoryLocation(msCUBE_MAP_DIR, "nebula"), "nebula", andrick::FileLocation::EnumExtensionType::TGA_EXT);
 		initCubeMap(mspCraterLakeCubeMapImages, andrick::DirectoryLocation(msCUBE_MAP_DIR, "craterlake"), "craterlake", andrick::FileLocation::EnumExtensionType::TGA_EXT);
-		initCubeMap(mspDebugCubeMapImages, andrick::DirectoryLocation(msCUBE_MAP_DIR, "debug"), "debug", andrick::FileLocation::EnumExtensionType::PNG_EXT);
+		initCubeMap(mspDebugCubeMapImages, andrick::DirectoryLocation(msCUBE_MAP_DIR, "cube_debug"), "debug", andrick::FileLocation::EnumExtensionType::PNG_EXT);
 
 		registerAsset(mspBarrelImage);
 		registerAsset(mspLoveImage);
