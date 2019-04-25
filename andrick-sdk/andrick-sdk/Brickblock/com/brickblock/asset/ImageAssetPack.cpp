@@ -7,6 +7,9 @@ namespace bb
 	andrick::Image* ImageAssetPack::mspColorRampImage = nullptr;
 	andrick::Image* ImageAssetPack::mspDefaultImage = nullptr;
 
+	andrick::Image* ImageAssetPack::mspStoneImage = nullptr;
+	andrick::Image* ImageAssetPack::mspStoneHeightMap = nullptr;
+
 	std::array<andrick::Image*, 6> ImageAssetPack::mspNebulaCubeMapImages = std::array<andrick::Image*, 6>();
 	std::array<andrick::Image*, 6> ImageAssetPack::mspCraterLakeCubeMapImages = std::array<andrick::Image*, 6>();
 	std::array<andrick::Image*, 6> ImageAssetPack::mspDebugCubeMapImages = std::array<andrick::Image*, 6>();
@@ -31,6 +34,9 @@ namespace bb
 		mspColorRampImage = new andrick::Image("color_ramp_image", andrick::FileLocation(msIMAGE_DIR, "colRamp", andrick::FileLocation::EnumExtensionType::PNG_EXT));
 		mspDefaultImage = new andrick::Image("default_image", andrick::FileLocation(msIMAGE_DIR, "default", andrick::FileLocation::EnumExtensionType::PNG_EXT));
 
+		mspStoneImage = new andrick::Image("stone_image", andrick::FileLocation(msIMAGE_DIR, "stone", andrick::FileLocation::EnumExtensionType::PNG_EXT));
+		mspStoneHeightMap = new andrick::Image("stone_height_map", andrick::FileLocation(msIMAGE_DIR, "stone_hm", andrick::FileLocation::EnumExtensionType::PNG_EXT));
+		
 		initCubeMap(mspNebulaCubeMapImages, andrick::DirectoryLocation(msCUBE_MAP_DIR, "nebula"), "nebula", andrick::FileLocation::EnumExtensionType::TGA_EXT);
 		initCubeMap(mspCraterLakeCubeMapImages, andrick::DirectoryLocation(msCUBE_MAP_DIR, "craterlake"), "craterlake", andrick::FileLocation::EnumExtensionType::TGA_EXT);
 		initCubeMap(mspDebugCubeMapImages, andrick::DirectoryLocation(msCUBE_MAP_DIR, "cube_debug"), "debug", andrick::FileLocation::EnumExtensionType::PNG_EXT);
@@ -39,6 +45,9 @@ namespace bb
 		registerAsset(mspLoveImage);
 		registerAsset(mspColorRampImage);
 		registerAsset(mspDefaultImage);
+		registerAsset(mspStoneImage);
+		registerAsset(mspStoneHeightMap);
+
 		registerCubeMap(mspNebulaCubeMapImages);
 		registerCubeMap(mspCraterLakeCubeMapImages);
 		registerCubeMap(mspDebugCubeMapImages);
@@ -53,7 +62,6 @@ namespace bb
 		/*auto iter = cubeMapImages.begin();
 		for (; iter != cubeMapImages.end(); ++iter)
 		{
-
 		}*/
 
 		std::string fileName;

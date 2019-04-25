@@ -39,6 +39,8 @@ namespace bb
 
 	andrick::CubeMap* pCubeMap;
 
+	glm::vec2 pomRange = glm::vec2(0.9925, 0.9975);
+
 	Playground::Playground() :
 		mpCamera(new FreeRoamCamera(glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3())),
 		mpModelRenderer(new andrick::ModelRenderer())
@@ -47,7 +49,7 @@ namespace bb
 		andrick::AndrickWindow::getFocusedWindow()->getViewport().setCamera(mpCamera);
 
 		pFloor = new andrick::Model(MeshAssetPack::mspQuadMesh);
-		pFloor->setImage(*ImageAssetPack::mspLoveImage);
+		pFloor->setImage(*ImageAssetPack::mspStoneImage);
 		pFloor->getTransform()->setRotation(-90.0f, 0.0f, 0.0f);
 		pFloor->getTransform()->setScale(5.0f, 5.0f, 5.0f);
 
@@ -221,7 +223,7 @@ namespace bb
 		glPolygonMode(andrick::ModelRenderer::EnumCullType::FRONT_ONLY, andrick::ModelRenderer::EnumDrawType::FILL);
 
 		//Picking shader program
-		andrick::ShaderProgram* currentProgram = ShaderAssetPack::mspJuliaFractalProgram;
+		andrick::ShaderProgram* currentProgram = ShaderAssetPack::mspPomProgram;
 		currentProgram->use();
 
 		//Loading general stuff to shader program

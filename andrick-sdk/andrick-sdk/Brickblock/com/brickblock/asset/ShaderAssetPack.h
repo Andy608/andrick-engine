@@ -44,6 +44,9 @@ namespace bb
 		static andrick::Shader* mspSkyboxFS;
 		static andrick::ShaderProgram* mspSkyboxProgram;
 
+		static andrick::Shader* mspPomFS;
+		static andrick::ShaderProgram* mspPomProgram;
+
 	protected:
 		virtual GLboolean load() override;
 
