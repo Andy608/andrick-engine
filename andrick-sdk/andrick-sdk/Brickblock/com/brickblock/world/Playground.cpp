@@ -238,13 +238,13 @@ namespace bb
 		pFloor->getTextureWrapper()->bind(0);
 		currentProgram->loadInt("texture0", pFloor->getTextureWrapper()->getTextureUnit());
 		
-		pColRamp->bind(1);
-		currentProgram->loadInt("colRamp", pColRamp->getTextureUnit());
+		//pColRamp->bind(1);
+		//currentProgram->loadInt("colRamp", pColRamp->getTextureUnit());
 
 		pFloor->render(alpha);
 		
-		pColRamp->unbind();
-		pFloor->getTextureWrapper()->unbind();
+		//pColRamp->unbind();
+		//pFloor->getTextureWrapper()->unbind();
 
 		currentProgram = ShaderAssetPack::mspPhongShadingProgram;
 		currentProgram->use();

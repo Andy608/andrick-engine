@@ -34,6 +34,7 @@ namespace bb
 	andrick::Shader* ShaderAssetPack::mspSkyboxFS = nullptr;
 	andrick::ShaderProgram* ShaderAssetPack::mspSkyboxProgram = nullptr;
 
+	andrick::Shader* ShaderAssetPack::mspPomVS = nullptr;
 	andrick::Shader* ShaderAssetPack::mspPomFS = nullptr;
 	andrick::ShaderProgram* ShaderAssetPack::mspPomProgram = nullptr;
 
@@ -103,9 +104,11 @@ namespace bb
 		mspSkyboxProgram->addShader(*mspSkyboxFS);
 
 
+		mspPomVS = new andrick::Shader("pom_vertex_shader", andrick::Shader::EnumShaderType::VERTEX, andrick::FileLocation(msVS_DIR, "pom_vs", andrick::FileLocation::EnumExtensionType::GLSL_EXT));
 		mspPomFS = new andrick::Shader("pom_fragment_shader", andrick::Shader::EnumShaderType::FRAGMENT, andrick::FileLocation(msFS_DIR, "pom_fs", andrick::FileLocation::EnumExtensionType::GLSL_EXT));
+
 		mspPomProgram = new andrick::ShaderProgram("pom_shaderprogram");
-		mspPomProgram->addShader(*mspTextureVS);
+		mspPomProgram->addShader(*mspPomVS);
 		mspPomProgram->addShader(*mspPomFS);
 
 		registerAsset(mspTestVS);
@@ -140,6 +143,7 @@ namespace bb
 		registerAsset(mspSkyboxFS);
 		registerAsset(mspSkyboxProgram);
 
+		registerAsset(mspPomVS);
 		registerAsset(mspPomFS);
 		registerAsset(mspPomProgram);
 
