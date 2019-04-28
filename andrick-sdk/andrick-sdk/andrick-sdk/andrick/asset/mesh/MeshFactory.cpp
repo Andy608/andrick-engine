@@ -196,7 +196,7 @@ namespace andrick
 				andrick::LoggerMaster::getUniversalLogger().logWarn(msCLASS_NAME, "Textures: " + std::to_string(textureData.size()));
 				andrick::LoggerMaster::getUniversalLogger().logWarn(msCLASS_NAME, "Normals: " + std::to_string(normalData.size()));
 
-				for (i = 0; i < indices.size() - 2; ++i)
+				for (i = 0; i < indices.size(); i += 3)
 				{
 					glm::vec3 p0 = positionData.at(indices.at(i));
 					glm::vec3 p1 = positionData.at(indices.at(i + 1));
