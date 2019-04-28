@@ -128,32 +128,102 @@ namespace andrick
 			std::vector<GLfloat> sortedPositions;
 			std::vector<GLfloat> sortedTexCoords;
 			std::vector<GLfloat> sortedNormals;
+			std::vector<GLfloat> sortedTangents;
+
+			//Sorry for wasting data, but I'm lazy and didn't feel like rewriting this whole factory to be more efficient.
+			std::vector<glm::vec3> positionData;
+			std::vector<glm::vec2> textureData;
+			std::vector<glm::vec3> normalData;
+
 
 			GLuint i = 0;
 			for (i = 0; i < vertices.size(); ++i)
 			{
 				Vertex currentVertex = vertices.at(i);
 
-				sortedPositions.push_back(unorderedPositions.at(currentVertex.mPositionIndex * 3));
-				sortedPositions.push_back(unorderedPositions.at(currentVertex.mPositionIndex * 3 + 1));
-				sortedPositions.push_back(unorderedPositions.at(currentVertex.mPositionIndex * 3 + 2));
+				glm::vec3 vertexPos = glm::vec3(
+					unorderedPositions.at(currentVertex.mPositionIndex * 3),
+					unorderedPositions.at(currentVertex.mPositionIndex * 3 + 1),
+					unorderedPositions.at(currentVertex.mPositionIndex * 3 + 2)
+				);
+
+				positionData.push_back(vertexPos);
+
+				sortedPositions.push_back(vertexPos.x);
+				sortedPositions.push_back(vertexPos.y);
+				sortedPositions.push_back(vertexPos.z);
 
 				if (!unorderedTexCoords.empty())
 				{
-					sortedTexCoords.push_back(unorderedTexCoords.at(currentVertex.mTextureIndex * 2));
-					
-					//TODO: When using FBOs the image flips upside down, it has to do with the FSQs texture coords, and might be the model, but I think it has to do with this 1.0 - flip here.
-					//sortedTexCoords.push_back(1.0f - unorderedTexCoords.at(currentVertex.mTextureIndex * 2 + 1));
-					sortedTexCoords.push_back(unorderedTexCoords.at(currentVertex.mTextureIndex * 2 + 1));
+					glm::vec2 vertexTexCoord = glm::vec2(
+						unorderedTexCoords.at(currentVertex.mTextureIndex * 2),
+
+						//TODO: When using FBOs the image flips upside down, it has to do with the FSQs texture coords, and might be the model, but I think it has to do with this 1.0 - flip here.
+						//sortedTexCoords.push_back(1.0f - unorderedTexCoords.at(currentVertex.mTextureIndex * 2 + 1));
+						unorderedTexCoords.at(currentVertex.mTextureIndex * 2 + 1)
+					);
+
+					textureData.push_back(vertexTexCoord);
+
+					sortedTexCoords.push_back(vertexTexCoord.x);
+					sortedTexCoords.push_back(vertexTexCoord.y);
 				}
 
 				if (!unorderedNormals.empty())
 				{
-					sortedNormals.push_back(unorderedNormals.at(currentVertex.mNormalIndex * 3));
-					sortedNormals.push_back(unorderedNormals.at(currentVertex.mNormalIndex * 3 + 1));
-					sortedNormals.push_back(unorderedNormals.at(currentVertex.mNormalIndex * 3 + 2));
+					glm::vec3 vertexNormal = glm::vec3(
+						unorderedNormals.at(currentVertex.mNormalIndex * 3),
+						unorderedNormals.at(currentVertex.mNormalIndex * 3 + 1),
+						unorderedNormals.at(currentVertex.mNormalIndex * 3 + 2)
+					);
+
+					normalData.push_back(vertexNormal);
+
+					sortedNormals.push_back(vertexNormal.x);
+					sortedNormals.push_back(vertexNormal.y);
+					sortedNormals.push_back(vertexNormal.z);
 				}
 			}
+
+			if (!positionData.empty() && !textureData.empty())
+			{
+				//Sorted, so every 3 vectors should be for a specific triangle
+
+				int i;
+				int j;
+				//The whole list of data
+				for (i = 0; i < positionData.size(); i += 3)
+				{
+					glm::vec3 p0 = positionData.at(i + 0);
+					glm::vec3 p1 = positionData.at(i + 1);
+					glm::vec3 p2 = positionData.at(i + 2);
+
+					glm::vec2 t0 = textureData.at(i + 0);
+					glm::vec2 t1 = textureData.at(i + 1);
+					glm::vec2 t2 = textureData.at(i + 2);
+
+					//ThinMatrix youtube video on Normal Mapping
+					//deltaPos1 = p1 - p0
+					//deltaPos2 = p2 - p0
+					//deltaUV1 = t1 - t0
+					//deltaUV2 = t2 - t0
+					//r = 1 / (deltaUV1.x * deltaUV2.y - deltaUV1.y * deltaUV2.x)
+					//tangent = (deltaPos1 * deltaUV2.y - deltaPos2 * deltaUV1.y) * r
+
+					glm::vec3 deltaPos1 = p1 - p0;
+					glm::vec3 deltaPos2 = p2 = p1;
+					glm::vec2 deltaUV1 = t2 - t0;
+					glm::vec2 deltaUV2 = t2 - t0;
+
+					float r = 1 / (deltaUV1.x * deltaUV2.y - deltaUV1.y * deltaUV2.x);
+					glm::vec3 tangent = (deltaPos1 * deltaUV2.y - deltaPos2 * deltaUV1.y) * r;
+
+					sortedTangents.push_back(tangent.x);
+					sortedTangents.push_back(tangent.y);
+					sortedTangents.push_back(tangent.z);
+				}
+			}
+
 
 			mesh.addBufferData(new VBOWrapper(VBOWrapper::EnumBufferType::POSITIONS, sortedPositions, 3));
 
@@ -162,6 +232,10 @@ namespace andrick
 
 			if (!sortedNormals.empty())
 				mesh.addBufferData(new VBOWrapper(VBOWrapper::EnumBufferType::NORMALS, sortedNormals, 3));
+
+			if (!sortedTangents.empty())
+				mesh.addBufferData(new VBOWrapper(VBOWrapper::EnumBufferType::TANGENTS, sortedTangents, 3));
+
 
 			mesh.mEBO = new EBOWrapper(indices);
 			mesh.mVAO = new VAOWrapper();

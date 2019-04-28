@@ -15,7 +15,8 @@ namespace andrick
 			POSITIONS,
 			COLORS,
 			TEX_COORDS,
-			NORMALS
+			NORMALS,
+			TANGENTS
 		};
 
 		const EnumBufferType mBUFFER_TYPE;
