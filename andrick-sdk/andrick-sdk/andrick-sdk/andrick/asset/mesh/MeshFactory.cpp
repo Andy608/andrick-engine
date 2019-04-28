@@ -215,8 +215,8 @@ namespace andrick
 					//tangent = (deltaPos1 * deltaUV2.y - deltaPos2 * deltaUV1.y) * r
 
 					glm::vec3 deltaPos1 = p1 - p0;
-					glm::vec3 deltaPos2 = p2 = p1;
-					glm::vec2 deltaUV1 = t2 - t0;
+					glm::vec3 deltaPos2 = p2 - p0;
+					glm::vec2 deltaUV1 = t1 - t0;
 					glm::vec2 deltaUV2 = t2 - t0;
 
 					float r = 1 / (deltaUV1.x * deltaUV2.y - deltaUV1.y * deltaUV2.x);
