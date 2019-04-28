@@ -187,15 +187,7 @@ namespace andrick
 
 			if (!positionData.empty() && !textureData.empty())
 			{
-				//Sorted, so every 3 vectors should be for a specific triangle
-
 				int i;
-				//The whole list of data
-				andrick::LoggerMaster::getUniversalLogger().logWarn(msCLASS_NAME, "Vertices: " + std::to_string(vertices.size()));
-				andrick::LoggerMaster::getUniversalLogger().logWarn(msCLASS_NAME, "Positions: " + std::to_string(positionData.size()));
-				andrick::LoggerMaster::getUniversalLogger().logWarn(msCLASS_NAME, "Textures: " + std::to_string(textureData.size()));
-				andrick::LoggerMaster::getUniversalLogger().logWarn(msCLASS_NAME, "Normals: " + std::to_string(normalData.size()));
-
 				for (i = 0; i < indices.size(); i += 3)
 				{
 					glm::vec3 p0 = positionData.at(indices.at(i));

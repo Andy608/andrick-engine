@@ -28,11 +28,11 @@ namespace bb
 		mspSuzanneMesh = new andrick::Mesh("suzanne_mesh", andrick::FileLocation(msMESH_DIR, "suzanne", andrick::FileLocation::EnumExtensionType::OBJ_EXT));
 		mspCubeMesh = new andrick::Mesh("cube_mesh", andrick::FileLocation(msMESH_DIR, "cube_mesh", andrick::FileLocation::EnumExtensionType::OBJ_EXT));
 
-		//registerAsset(mspTestMesh);
-		//registerAsset(mspBarrelMesh);
+		registerAsset(mspTestMesh);
+		registerAsset(mspBarrelMesh);
 		registerAsset(mspQuadMesh);
-		//registerAsset(mspSuzanneMesh);
-		//registerAsset(mspCubeMesh);
+		registerAsset(mspSuzanneMesh);
+		registerAsset(mspCubeMesh);
 
 		return AssetPack::load();
 	}
