@@ -190,17 +190,21 @@ namespace andrick
 				//Sorted, so every 3 vectors should be for a specific triangle
 
 				int i;
-				int j;
 				//The whole list of data
-				for (i = 0; i < positionData.size(); i += 3)
-				{
-					glm::vec3 p0 = positionData.at(i + 0);
-					glm::vec3 p1 = positionData.at(i + 1);
-					glm::vec3 p2 = positionData.at(i + 2);
+				andrick::LoggerMaster::getUniversalLogger().logWarn(msCLASS_NAME, "Vertices: " + std::to_string(vertices.size()));
+				andrick::LoggerMaster::getUniversalLogger().logWarn(msCLASS_NAME, "Positions: " + std::to_string(positionData.size()));
+				andrick::LoggerMaster::getUniversalLogger().logWarn(msCLASS_NAME, "Textures: " + std::to_string(textureData.size()));
+				andrick::LoggerMaster::getUniversalLogger().logWarn(msCLASS_NAME, "Normals: " + std::to_string(normalData.size()));
 
-					glm::vec2 t0 = textureData.at(i + 0);
-					glm::vec2 t1 = textureData.at(i + 1);
-					glm::vec2 t2 = textureData.at(i + 2);
+				for (i = 0; i < indices.size() - 2; ++i)
+				{
+					glm::vec3 p0 = positionData.at(indices.at(i));
+					glm::vec3 p1 = positionData.at(indices.at(i + 1));
+					glm::vec3 p2 = positionData.at(indices.at(i + 2));
+
+					glm::vec2 t0 = textureData.at(indices.at(i));
+					glm::vec2 t1 = textureData.at(indices.at(i + 1));
+					glm::vec2 t2 = textureData.at(indices.at(i + 2));
 
 					//ThinMatrix youtube video on Normal Mapping
 					//deltaPos1 = p1 - p0
