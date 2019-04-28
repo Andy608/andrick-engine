@@ -19,6 +19,7 @@ namespace bb
 
 		static andrick::Image* mspStoneImage;
 		static andrick::Image* mspStoneHeightMap;
+		static andrick::Image* mspStoneNormalMap;
 
 		static std::array<andrick::Image*, 6> mspNebulaCubeMapImages;
 		static std::array<andrick::Image*, 6> mspCraterLakeCubeMapImages;
