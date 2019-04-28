@@ -37,6 +37,9 @@ namespace bb
 	andrick::RBOWrapper* pDepthStencilRBOMultisample;
 	andrick::TextureWrapper* pFBOSceneRenderTextureMultisample;
 
+	andrick::TextureWrapper* pStoneHeightMap;
+	andrick::TextureWrapper* pStoneNormalMap;
+
 	andrick::CubeMap* pCubeMap;
 
 	glm::vec2 pomRange = glm::vec2(0.9925, 0.9975);
@@ -52,6 +55,8 @@ namespace bb
 		pFloor->setImage(*ImageAssetPack::mspStoneImage);
 		pFloor->getTransform()->setRotation(-90.0f, 0.0f, 0.0f);
 		pFloor->getTransform()->setScale(5.0f, 5.0f, 5.0f);
+		pStoneHeightMap = new andrick::TextureWrapper(*ImageAssetPack::mspStoneHeightMap);
+		pStoneNormalMap = new andrick::TextureWrapper(*ImageAssetPack::mspStoneNormalMap);
 
 		pBarrel = new andrick::Model(MeshAssetPack::mspBarrelMesh);
 		pBarrel->setImage(*ImageAssetPack::mspBarrelImage);
@@ -179,6 +184,13 @@ namespace bb
 		delete pFBOSceneRenderTextureMultisample;
 		pFBOSceneRenderTextureMultisample = nullptr;
 
+		delete pStoneHeightMap;
+		pStoneHeightMap = nullptr;
+
+		delete pStoneNormalMap;
+		pStoneNormalMap = nullptr;
+
+
 		delete pCubeMap;
 		pCubeMap = nullptr;
 	}
@@ -237,7 +249,9 @@ namespace bb
 		//Render models
 		pFloor->getTextureWrapper()->bind(0);
 		currentProgram->loadInt("texture0", pFloor->getTextureWrapper()->getTextureUnit());
-		
+		currentProgram->loadInt("texture1", pStoneHeightMap->getTextureUnit());
+		currentProgram->loadInt("texture2", pStoneNormalMap->getTextureUnit());
+
 		//pColRamp->bind(1);
 		//currentProgram->loadInt("colRamp", pColRamp->getTextureUnit());
 
@@ -246,7 +260,7 @@ namespace bb
 		//pColRamp->unbind();
 		//pFloor->getTextureWrapper()->unbind();
 
-		currentProgram = ShaderAssetPack::mspPhongShadingProgram;
+		currentProgram = ShaderAssetPack::mspPomProgram; //mspPhongShadingProgram;
 		currentProgram->use();
 
 		//Loading general stuff to shader program
@@ -263,7 +277,9 @@ namespace bb
 		pSuzanne->prepModelTransform(alpha, *currentProgram);
 		
 		pSuzanne->getTextureWrapper()->bind();
-		currentProgram->loadInt("texture0", pSuzanne->getTextureWrapper()->getTextureUnit());
+		//currentProgram->loadInt("texture0", pSuzanne->getTextureWrapper()->getTextureUnit());
+		currentProgram->loadInt("texture1", pStoneHeightMap->getTextureUnit());
+		currentProgram->loadInt("texture2", pStoneNormalMap->getTextureUnit());
 
 		pSuzanne->render(alpha);
 		pSuzanne->getTextureWrapper()->unbind();
@@ -297,10 +313,10 @@ namespace bb
 		currentProgram->loadMat4("viewMatrix", GL_FALSE, mpCamera->getViewMatrix());
 		currentProgram->loadMat4("projectionMatrix", GL_FALSE, mpCamera->getProjectionMatrix());
 
-		pLol->prepModelTransform(alpha, *currentProgram);
-		pLol->getTextureWrapper()->bind();
-		pLol->render(alpha);
-		pLol->getTextureWrapper()->unbind();
+		//pLol->prepModelTransform(alpha, *currentProgram);
+		//pLol->getTextureWrapper()->bind();
+		//pLol->render(alpha);
+		//pLol->getTextureWrapper()->unbind();
 
 		glDepthFunc(GL_LEQUAL);
 		currentProgram = ShaderAssetPack::mspSkyboxProgram;

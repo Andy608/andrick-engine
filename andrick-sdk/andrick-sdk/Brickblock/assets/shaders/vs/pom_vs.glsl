@@ -3,6 +3,7 @@
 layout (location = 0)	in vec4 aPosition;
 layout (location = 1)	in vec4 aTexcoord;
 layout (location = 2)	in vec3 aNormal;
+layout (location = 3)   in vec3 aTangent;
 
 //TODO: We need to create them and pass them in.
 //https://gamedev.stackexchange.com/questions/68612/how-to-compute-tangent-and-bitangent-vectors
@@ -16,20 +17,30 @@ uniform mat4 viewMatrix;
 uniform mat4 projectionMatrix;
 uniform mat4 transformMatrix;
 
-//out mat4 vPassTangentBasis;
-//out vec4 vPassTexcoord;
+out mat4 vPassTangentBasis;
+out vec2 TexCoords;
+out vec3 Tangent;
+out vec3 Normal;
 
 void main()
 {
-//	mat4 tangentBasis = mat4(
-//		aTangent,	0.0,
-//		aBitangent,	0.0,
-//		aNormal,	0.0,
-//		aPosition);
+	mat4 modelView = viewMatrix * transformMatrix;
+	vec3 normal = normalize(aNormal);
+	vec3 tangent = normalize((modelView * vec4(aTangent, 0.0)).xyz);
+	vec3 biTangent = normalize(cross(normal, tangent));
 
-//	vPassTangentBasis = uMV * tangentBasis;
-//	vPassTexcoord = uAtlas * aTexcoord;	
-//	gl_Position = uP * vPassTangentBasis[3];
+	Normal = normal;
+	TexCoords = vec2(aTexcoord.xy);
+	Tangent = tangent;
+
+	mat4 tangentBasis = mat4(
+		tangent,	0.0,
+		biTangent,	0.0,
+		aNormal,	0.0,
+		aPosition);
+
+	//vPassTangentBasis = modelView * tangentBasis;
+	//gl_Position = projectionMatrix * vPassTangentBasis[3];
 
 	mat4 transformation = projectionMatrix * viewMatrix * transformMatrix;
 	gl_Position = transformation * aPosition;
