@@ -20,16 +20,17 @@ uniform mat4 transformMatrix;
 out mat4 vPassTangentBasis;
 out vec2 TexCoords;
 out vec3 Tangent;
-out vec3 Normal;
 
 void main()
 {
-	mat4 modelView = viewMatrix * transformMatrix;
+	mat4 modelView =  viewMatrix * transformMatrix;
 	vec3 normal = normalize(aNormal);
-	vec3 tangent = normalize((modelView * vec4(aTangent, 0.0)).xyz);
+	vec3 tangent = normalize((projectionMatrix * vec4(aTangent, 0.0)).xyz);
+	//vec3 tangent = (projectionMatrix * (transformMatrix * vec4(normal, 0.0))).xyz;
+	//vec3 tangent = cross( normal, (projectionMatrix * vec4(0.0f, -1.0f, 0.0f, 0.0f)).xyz );
+
 	vec3 biTangent = normalize(cross(normal, tangent));
 
-	Normal = normal;
 	TexCoords = vec2(aTexcoord.xy);
 	Tangent = tangent;
 
@@ -39,9 +40,9 @@ void main()
 		aNormal,	0.0,
 		aPosition);
 
-	//vPassTangentBasis = modelView * tangentBasis;
-	//gl_Position = projectionMatrix * vPassTangentBasis[3];
+	vPassTangentBasis = modelView * tangentBasis;
+	gl_Position = projectionMatrix * vPassTangentBasis[3];
 
-	mat4 transformation = projectionMatrix * viewMatrix * transformMatrix;
-	gl_Position = transformation * aPosition;
+	//mat4 transformation = projectionMatrix * viewMatrix * transformMatrix;
+	//gl_Position = transformation * aPosition;
 }
