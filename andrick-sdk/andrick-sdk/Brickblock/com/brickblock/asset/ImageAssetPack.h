@@ -23,7 +23,7 @@ namespace bb
 
 		static andrick::Image* mspMetalPlateHeightMap;
 		static andrick::Image* mspMetalPlateNormalMap;
-		//---
+
 		static andrick::Image* mspMetalGrillHeightMap;
 		static andrick::Image* mspMetalGrillNormalMap;
 

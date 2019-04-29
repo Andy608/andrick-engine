@@ -26,6 +26,8 @@ namespace andrick
 
 		void loadInt(const std::string& uniformName, GLint data) const;
 		void loadFloat(const std::string& uniformName, GLfloat data) const;
+		void loadVec2(const std::string& uniformName, const glm::vec2& vec2) const;
+		void loadVec2(const std::string& uniformName, const GLfloat& x, const GLfloat& y) const;
 		void loadVec3(const std::string& uniformName, const glm::vec3& vec3) const;
 		void loadVec3(const std::string& uniformName, const GLfloat& x, const GLfloat& y, const GLfloat& z) const;
 		

@@ -15,9 +15,10 @@ namespace bb
 		static andrick::Mesh* mspBarrelMesh;
 		static andrick::Mesh* mspQuadMesh;
 		static andrick::Mesh* mspSuzanneMesh;
+		static andrick::Mesh* mspCubeMesh;
 
 		//Only used for cubemaps right now so this mesh doesn't have normals or texcoords cuz I'm lazy.
-		static andrick::Mesh* mspCubeMesh;
+		static andrick::Mesh* mspCubeMapMesh;
 
 	protected:
 		virtual GLboolean load() override;

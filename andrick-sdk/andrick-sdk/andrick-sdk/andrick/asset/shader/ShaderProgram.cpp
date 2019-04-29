@@ -68,6 +68,16 @@ namespace andrick
 		glUniform1f(getUniformID(uniformName), data);
 	}
 
+	void ShaderProgram::loadVec2(const std::string& uniformName, const glm::vec2& vec2) const
+	{
+		glUniform2f(getUniformID(uniformName), vec2.x, vec2.y);
+	}
+
+	void ShaderProgram::loadVec2(const std::string& uniformName, const GLfloat& x, const GLfloat& y) const
+	{
+		glUniform2f(getUniformID(uniformName), x, y);
+	}
+
 	void ShaderProgram::loadVec3(const std::string& uniformName, const glm::vec3& vec3) const
 	{
 		glUniform3f(getUniformID(uniformName), vec3.x, vec3.y, vec3.z);

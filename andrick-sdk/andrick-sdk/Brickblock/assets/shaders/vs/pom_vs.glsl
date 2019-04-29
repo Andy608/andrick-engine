@@ -23,7 +23,7 @@ void main()
 	vec3 biTangent = normalize(cross(normal, tangent));
 
 	TexCoords = vec2(aTexcoord.xy);
-	
+
 	mat4 tangentBasis = mat4(
 		tangent,	0.0,
 		biTangent,	0.0,
