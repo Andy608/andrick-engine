@@ -55,8 +55,13 @@ namespace bb
 		pFloor->setImage(*ImageAssetPack::mspStoneImage);
 		pFloor->getTransform()->setRotation(-90.0f, 0.0f, 0.0f);
 		pFloor->getTransform()->setScale(5.0f, 5.0f, 5.0f);
+		
 		pStoneHeightMap = new andrick::TextureWrapper(*ImageAssetPack::mspStoneHeightMap);
+		pStoneHeightMap->generateGLTexture();
+
 		pStoneNormalMap = new andrick::TextureWrapper(*ImageAssetPack::mspStoneNormalMap);
+		pStoneNormalMap->generateGLTexture();
+
 
 		pBarrel = new andrick::Model(MeshAssetPack::mspBarrelMesh);
 		pBarrel->setImage(*ImageAssetPack::mspBarrelImage);
@@ -248,6 +253,8 @@ namespace bb
 
 		//Render models
 		pFloor->getTextureWrapper()->bind(0);
+		pStoneHeightMap->bind(1);
+		pStoneNormalMap->bind(2);
 		currentProgram->loadInt("texture0", pFloor->getTextureWrapper()->getTextureUnit());
 		currentProgram->loadInt("texture1", pStoneHeightMap->getTextureUnit());
 		currentProgram->loadInt("texture2", pStoneNormalMap->getTextureUnit());
@@ -256,6 +263,9 @@ namespace bb
 		//currentProgram->loadInt("colRamp", pColRamp->getTextureUnit());
 
 		pFloor->render(alpha);
+		pFloor->getTextureWrapper()->unbind();
+		pStoneHeightMap->unbind();
+		pStoneNormalMap->unbind();
 		
 		//pColRamp->unbind();
 		//pFloor->getTextureWrapper()->unbind();
@@ -277,12 +287,16 @@ namespace bb
 		pSuzanne->prepModelTransform(alpha, *currentProgram);
 		
 		pSuzanne->getTextureWrapper()->bind();
-		//currentProgram->loadInt("texture0", pSuzanne->getTextureWrapper()->getTextureUnit());
+		pStoneHeightMap->bind(1);
+		pStoneNormalMap->bind(2);
+		currentProgram->loadInt("texture0", pSuzanne->getTextureWrapper()->getTextureUnit());
 		currentProgram->loadInt("texture1", pStoneHeightMap->getTextureUnit());
 		currentProgram->loadInt("texture2", pStoneNormalMap->getTextureUnit());
 
 		pSuzanne->render(alpha);
 		pSuzanne->getTextureWrapper()->unbind();
+		pStoneHeightMap->unbind();
+		pStoneNormalMap->unbind();
 
 		currentProgram = ShaderAssetPack::mspMandlebrotFractalProgram;
 		currentProgram->use();
