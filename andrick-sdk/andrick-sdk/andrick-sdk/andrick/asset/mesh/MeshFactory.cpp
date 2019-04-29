@@ -217,6 +217,14 @@ namespace andrick
 					sortedTangents.push_back(tangent.x);
 					sortedTangents.push_back(tangent.y);
 					sortedTangents.push_back(tangent.z);
+
+					sortedTangents.push_back(tangent.x);
+					sortedTangents.push_back(tangent.y);
+					sortedTangents.push_back(tangent.z);
+
+					sortedTangents.push_back(tangent.x);
+					sortedTangents.push_back(tangent.y);
+					sortedTangents.push_back(tangent.z);
 				}
 			}
 
