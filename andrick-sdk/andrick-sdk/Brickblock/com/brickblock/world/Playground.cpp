@@ -219,8 +219,8 @@ namespace bb
 		pLight->getTransform()->setPosition(x - 3.0f, 60.0f * (GLfloat)deltaTime, z);
 		pLight->getTransform()->addRotation(0.0f, 180.0f * (GLfloat)deltaTime, 0.0f);
 
-		pSuzanne->getTransform()->setPosition(-3.0f, (x * 0.5f) + 3.0f, 0.0f);
-		pSuzanne->getTransform()->addRotation(10.0f * (GLfloat)deltaTime, 0.0f, 0.0f);
+		//pSuzanne->getTransform()->setPosition(-3.0f, (x * 0.5f) + 3.0f, 0.0f);
+		//pSuzanne->getTransform()->addRotation(10.0f * (GLfloat)deltaTime, 0.0f, 0.0f);
 
 		///pFloor->getTransform()->addRotation(0.0f, 0.0f, -5.0f * (GLfloat)deltaTime);
 
@@ -239,6 +239,7 @@ namespace bb
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glPolygonMode(andrick::ModelRenderer::EnumCullType::FRONT_ONLY, andrick::ModelRenderer::EnumDrawType::FILL);
 
+		//glPolygonMode(andrick::ModelRenderer::EnumCullType::FRONT_ONLY, andrick::ModelRenderer::EnumDrawType::OUTLINE);
 		//Picking shader program
 		andrick::ShaderProgram* currentProgram = ShaderAssetPack::mspPomProgram;
 		currentProgram->use();
@@ -269,7 +270,9 @@ namespace bb
 		
 		//pColRamp->unbind();
 		//pFloor->getTextureWrapper()->unbind();
+		glPolygonMode(andrick::ModelRenderer::EnumCullType::FRONT_ONLY, andrick::ModelRenderer::EnumDrawType::FILL);
 
+		//glPolygonMode(andrick::ModelRenderer::EnumCullType::FRONT_AND_BACK, andrick::ModelRenderer::EnumDrawType::OUTLINE);
 		currentProgram = ShaderAssetPack::mspPomProgram; //mspPhongShadingProgram;
 		currentProgram->use();
 
@@ -297,8 +300,10 @@ namespace bb
 		pSuzanne->getTextureWrapper()->unbind();
 		pStoneHeightMap->unbind();
 		pStoneNormalMap->unbind();
+		glPolygonMode(andrick::ModelRenderer::EnumCullType::FRONT_ONLY, andrick::ModelRenderer::EnumDrawType::FILL);
 
-		currentProgram = ShaderAssetPack::mspMandlebrotFractalProgram;
+		//glPolygonMode(andrick::ModelRenderer::EnumCullType::FRONT_AND_BACK, andrick::ModelRenderer::EnumDrawType::OUTLINE);
+		currentProgram = ShaderAssetPack::mspPomProgram;
 		currentProgram->use();
 		
 		currentProgram->loadMat4("viewMatrix", GL_FALSE, mpCamera->getViewMatrix());
@@ -307,10 +312,17 @@ namespace bb
 		pBarrel->prepModelTransform(alpha, *currentProgram);
 		
 		pBarrel->getTextureWrapper()->bind();
+		pStoneHeightMap->bind(1);//--
+		pStoneNormalMap->bind(2);//--
 		currentProgram->loadInt("texture0", pBarrel->getTextureWrapper()->getTextureUnit());
-		
+		currentProgram->loadInt("texture1", pStoneHeightMap->getTextureUnit());//--
+		currentProgram->loadInt("texture2", pStoneNormalMap->getTextureUnit());//--
+
 		pBarrel->render(alpha);
 		pBarrel->getTextureWrapper()->unbind();
+		pStoneHeightMap->unbind();//--
+		pStoneNormalMap->unbind();//--
+		glPolygonMode(andrick::ModelRenderer::EnumCullType::FRONT_ONLY, andrick::ModelRenderer::EnumDrawType::FILL);
 
 		currentProgram = ShaderAssetPack::mspLightSourceProgram;
 		currentProgram->use();
