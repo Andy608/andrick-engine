@@ -2,8 +2,7 @@
 out vec4 FragColor;
   
 in vec2 TexCoords;
-in vec3 Tangent;
-in mat4 vPassTangentBasis;
+in mat4 TangentBasis;
 
 //uniform sampler2D screenTexture;
 uniform sampler2D texture0;
@@ -19,14 +18,14 @@ void main()
 
 	//How to get out of tangent space to view space (calculated in vertex shader)
 	mat4 tangentBasis = mat4(
-		normalize(vPassTangentBasis[0]),
-		normalize(vPassTangentBasis[1]),
-		normalize(vPassTangentBasis[2]),
+		normalize(TangentBasis[0]),
+		normalize(TangentBasis[1]),
+		normalize(TangentBasis[2]),
 		vec4(0.0)
 	);
 
 	//Pom
-	vec4 viewPos_unit = normalize(vec4(vPassTangentBasis[3].xyz, 1.0));
+	vec4 viewPos_unit = normalize(vec4(TangentBasis[3].xyz, 1.0));
 	vec3 rayDir_tan;
 	rayDir_tan.x = dot(tangentBasis[0], viewPos_unit);
 	rayDir_tan.y = dot(tangentBasis[1], viewPos_unit);
@@ -41,7 +40,7 @@ void main()
 //	vec3 c_current_texCoord;
 	vec3 c_current_texCoord_prime;
 
-	int numSamples = 8, i;
+	int numSamples = 100, i;
 	float dt = 1.0 / float(numSamples), t = 0.0;
 //	float n = float(numSamples);
 //	float dt = (uRange.y - uRange.x) / n; //Mapped range
@@ -77,14 +76,14 @@ void main()
 	//rtFragColor = vec4(vec3( float(i) * dt ), 1.0);
 	//return;
 
-	
+		
 	vec4 sample_dm = texture(texture0, TexCoords.xy);
 	vec4 sample_hm = texture(texture1, texcoord.xy);
 	vec4 sample_nm = texture(texture2, texcoord.xy) * 2.0 - 1.0;
 
 	//vec4 fragNrm_unit = tangentBasis[2];
 	vec4 fragNrm_unit = tangentBasis * sample_nm;
-	vec4 lightVec = vec4(0.0, 0.2, 1.0, 0.0);
+	vec4 lightVec = vec4(0.0, 0.0, 1.0, 0.0);
 
 	float kd = dot(fragNrm_unit, lightVec);
 	kd = max(kd, 0.0);
