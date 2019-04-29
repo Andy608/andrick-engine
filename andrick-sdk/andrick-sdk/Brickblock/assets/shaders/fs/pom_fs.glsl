@@ -88,7 +88,7 @@ void main()
 	float kd = dot(fragNrm_unit, lightVec);
 	kd = max(kd, 0.0);
 
-	FragColor = vec4(kd);
+	FragColor = vec4(kd);// * sample_dm;
 	//FragColor = fragNrm_unit;
 	FragColor.a = 1.0;
 	//FragColor = sample_dm;

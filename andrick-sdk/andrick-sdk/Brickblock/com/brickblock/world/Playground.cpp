@@ -19,6 +19,7 @@ namespace bb
 	const std::string& Playground::msCLASS_NAME = "Playground";
 
 	static std::vector<andrick::Model*> models;
+	static std::vector<andrick::TextureWrapper*> textures;
 
 	andrick::Model* pFloor;
 	andrick::Model* pBarrel;
@@ -49,6 +50,14 @@ namespace bb
 	andrick::TextureWrapper* pFBOSceneRenderTextureMultisample;
 	andrick::TextureWrapper* pStoneHeightMap;
 	andrick::TextureWrapper* pStoneNormalMap;
+	andrick::TextureWrapper* pMetalPlateHeightMap;
+	andrick::TextureWrapper* pMetalPlateNormalMap;
+	andrick::TextureWrapper* pMetalGrillHeightMap;
+	andrick::TextureWrapper* pMetalGrillNormalMap;
+	andrick::TextureWrapper* pBrickworkHeightMap;
+	andrick::TextureWrapper* pBrickworkNormalMap;
+	andrick::TextureWrapper* pConcreteHeightMap;
+	andrick::TextureWrapper* pConcreteNormalMap;
 	andrick::TextureWrapper* pFBOSceneRenderTexture;
 
 	andrick::CubeMap* pCubeMap;
@@ -101,16 +110,16 @@ namespace bb
 		pCube = new andrick::Model(MeshAssetPack::mspQuadMesh);
 		pCube->setImage(*ImageAssetPack::mspDefaultImage);
 
-		pCube2 = new andrick::Model(MeshAssetPack::mspTestMesh);
+		pCube2 = new andrick::Model(MeshAssetPack::mspQuadMesh);
 		pCube2->setImage(*ImageAssetPack::mspDefaultImage);
 
-		pCube3 = new andrick::Model(MeshAssetPack::mspTestMesh);
+		pCube3 = new andrick::Model(MeshAssetPack::mspQuadMesh);
 		pCube3->setImage(*ImageAssetPack::mspDefaultImage);
 
-		pCube4 = new andrick::Model(MeshAssetPack::mspTestMesh);
+		pCube4 = new andrick::Model(MeshAssetPack::mspQuadMesh);
 		pCube4->setImage(*ImageAssetPack::mspDefaultImage);
 
-		pCube5 = new andrick::Model(MeshAssetPack::mspTestMesh);
+		pCube5 = new andrick::Model(MeshAssetPack::mspQuadMesh);
 		pCube5->setImage(*ImageAssetPack::mspDefaultImage);
 
 		models.push_back(pFloor);
@@ -139,6 +148,43 @@ namespace bb
 
 		pStoneNormalMap = new andrick::TextureWrapper(*ImageAssetPack::mspStoneNormalMap);
 		pStoneNormalMap->generateGLTexture();
+
+		pMetalPlateHeightMap = new andrick::TextureWrapper(*ImageAssetPack::mspMetalPlateHeightMap);
+		pMetalPlateHeightMap->generateGLTexture();							   
+
+		pMetalPlateNormalMap = new andrick::TextureWrapper(*ImageAssetPack::mspMetalPlateNormalMap);
+		pMetalPlateNormalMap->generateGLTexture();
+		//--
+		pMetalGrillHeightMap = new andrick::TextureWrapper(*ImageAssetPack::mspMetalGrillHeightMap);
+		pMetalGrillHeightMap->generateGLTexture();
+			  
+		pMetalGrillNormalMap = new andrick::TextureWrapper(*ImageAssetPack::mspMetalGrillNormalMap);
+		pMetalGrillNormalMap->generateGLTexture();
+
+		pBrickworkHeightMap = new andrick::TextureWrapper(*ImageAssetPack::mspBrickworkHeightMap);
+		pBrickworkHeightMap->generateGLTexture();
+
+		pBrickworkNormalMap = new andrick::TextureWrapper(*ImageAssetPack::mspBrickworkNormalMap);
+		pBrickworkNormalMap->generateGLTexture();
+
+		pConcreteHeightMap = new andrick::TextureWrapper(*ImageAssetPack::mspConcreteHeightMap);
+		pConcreteHeightMap->generateGLTexture();
+
+		pConcreteNormalMap = new andrick::TextureWrapper(*ImageAssetPack::mspConcreteNormalMap);
+		pConcreteNormalMap->generateGLTexture();
+
+
+		textures.push_back(pColRamp);
+		textures.push_back(pStoneHeightMap);
+		textures.push_back(pStoneNormalMap);
+		textures.push_back(pMetalPlateNormalMap);
+		textures.push_back(pMetalPlateHeightMap);
+		textures.push_back(pMetalGrillNormalMap);
+		textures.push_back(pMetalGrillHeightMap);
+		textures.push_back(pBrickworkNormalMap);
+		textures.push_back(pBrickworkHeightMap);
+		textures.push_back(pConcreteNormalMap);
+		textures.push_back(pConcreteHeightMap);
 
 		//Setup multisample fbo
 		pSceneFBOMultisample = new andrick::FBOWrapper();
@@ -203,9 +249,6 @@ namespace bb
 		delete mpModelRenderer;
 		mpModelRenderer = nullptr;
 
-		delete pColRamp;
-		pColRamp = nullptr;
-
 		GLuint i;
 		for (i = 0; i < models.size(); ++i)
 		{
@@ -213,6 +256,13 @@ namespace bb
 		}
 
 		models.clear();
+
+		for (i = 0; i < textures.size(); ++i)
+		{
+			delete textures.at(i);
+		}
+
+		textures.clear();
 
 		delete pSceneFBO;
 		pSceneFBO = nullptr;
@@ -231,12 +281,6 @@ namespace bb
 
 		delete pFBOSceneRenderTextureMultisample;
 		pFBOSceneRenderTextureMultisample = nullptr;
-
-		delete pStoneHeightMap;
-		pStoneHeightMap = nullptr;
-
-		delete pStoneNormalMap;
-		pStoneNormalMap = nullptr;
 
 		delete pCubeMap;
 		pCubeMap = nullptr;
@@ -427,6 +471,21 @@ namespace bb
 		pStoneHeightMap->unbind();
 		pStoneNormalMap->unbind();
 
+		pCube2->prepModelTransform(alpha, *currentProgram);
+
+		pCube2->getTextureWrapper()->bind();
+		pMetalPlateHeightMap->bind(1);
+		pMetalPlateNormalMap->bind(2);
+		currentProgram->loadInt("texture0", pCube2->getTextureWrapper()->getTextureUnit());
+		currentProgram->loadInt("texture1", pMetalPlateHeightMap->getTextureUnit());
+		currentProgram->loadInt("texture2", pMetalPlateNormalMap->getTextureUnit());
+
+		pCube2->render(alpha);
+		pCube2->getTextureWrapper()->unbind();
+		pMetalPlateHeightMap->unbind();
+		pMetalPlateNormalMap->unbind();
+
+
 		////////////////////////////////////////
 
 		currentProgram = ShaderAssetPack::mspLightSourceProgram;
@@ -435,9 +494,6 @@ namespace bb
 		currentProgram->loadMat4("viewMatrix", GL_FALSE, mpCamera->getViewMatrix());
 		currentProgram->loadMat4("projectionMatrix", GL_FALSE, mpCamera->getProjectionMatrix());
 		currentProgram->loadVec3("color", 1.0f, 0.7f, 0.5f);
-
-		pCube2->prepModelTransform(alpha, *currentProgram);
-		pCube2->render(alpha);
 
 		pCube3->prepModelTransform(alpha, *currentProgram);
 		pCube3->render(alpha);

@@ -11,6 +11,18 @@ namespace bb
 	andrick::Image* ImageAssetPack::mspStoneHeightMap = nullptr;
 	andrick::Image* ImageAssetPack::mspStoneNormalMap = nullptr;
 
+	andrick::Image* ImageAssetPack::mspMetalPlateHeightMap = nullptr;
+	andrick::Image* ImageAssetPack::mspMetalPlateNormalMap = nullptr;
+
+	andrick::Image* ImageAssetPack::mspMetalGrillHeightMap = nullptr;
+	andrick::Image* ImageAssetPack::mspMetalGrillNormalMap = nullptr;
+
+	andrick::Image* ImageAssetPack::mspBrickworkHeightMap = nullptr;
+	andrick::Image* ImageAssetPack::mspBrickworkNormalMap = nullptr;
+
+	andrick::Image* ImageAssetPack::mspConcreteHeightMap = nullptr;
+	andrick::Image* ImageAssetPack::mspConcreteNormalMap = nullptr;
+
 	std::array<andrick::Image*, 6> ImageAssetPack::mspNebulaCubeMapImages = std::array<andrick::Image*, 6>();
 	std::array<andrick::Image*, 6> ImageAssetPack::mspCraterLakeCubeMapImages = std::array<andrick::Image*, 6>();
 	std::array<andrick::Image*, 6> ImageAssetPack::mspDebugCubeMapImages = std::array<andrick::Image*, 6>();
@@ -39,6 +51,18 @@ namespace bb
 		mspStoneHeightMap = new andrick::Image("stone_height_map", andrick::FileLocation(msIMAGE_DIR, "stone_hm", andrick::FileLocation::EnumExtensionType::PNG_EXT));
 		mspStoneNormalMap = new andrick::Image("stone_normal_map", andrick::FileLocation(msIMAGE_DIR, "stone_nm", andrick::FileLocation::EnumExtensionType::PNG_EXT));
 
+		mspMetalPlateHeightMap = new andrick::Image("metal_height_map", andrick::FileLocation(msIMAGE_DIR, "MetalPlate_hm", andrick::FileLocation::EnumExtensionType::PNG_EXT));
+		mspMetalPlateNormalMap = new andrick::Image("metal_normal_map", andrick::FileLocation(msIMAGE_DIR, "MetalPlate_nm", andrick::FileLocation::EnumExtensionType::PNG_EXT));
+
+		mspMetalGrillHeightMap = new andrick::Image("metalgrill_height_map", andrick::FileLocation(msIMAGE_DIR, "MetalGrill_hm", andrick::FileLocation::EnumExtensionType::PNG_EXT));
+		mspMetalGrillNormalMap = new andrick::Image("metalgrill_normal_map", andrick::FileLocation(msIMAGE_DIR, "MetalGrill_nm", andrick::FileLocation::EnumExtensionType::PNG_EXT));
+
+		mspBrickworkHeightMap = new andrick::Image("brick_height_map", andrick::FileLocation(msIMAGE_DIR, "brickwork_hm", andrick::FileLocation::EnumExtensionType::PNG_EXT));
+		mspBrickworkNormalMap = new andrick::Image("brick_normal_map", andrick::FileLocation(msIMAGE_DIR, "brickwork_nm", andrick::FileLocation::EnumExtensionType::PNG_EXT));
+
+		mspConcreteHeightMap = new andrick::Image("concrete_height_map", andrick::FileLocation(msIMAGE_DIR, "Concrete_hm", andrick::FileLocation::EnumExtensionType::PNG_EXT));
+		mspConcreteNormalMap = new andrick::Image("concrete_normal_map", andrick::FileLocation(msIMAGE_DIR, "Concrete_nm", andrick::FileLocation::EnumExtensionType::PNG_EXT));
+
 		initCubeMap(mspNebulaCubeMapImages, andrick::DirectoryLocation(msCUBE_MAP_DIR, "nebula"), "nebula", andrick::FileLocation::EnumExtensionType::TGA_EXT);
 		initCubeMap(mspCraterLakeCubeMapImages, andrick::DirectoryLocation(msCUBE_MAP_DIR, "craterlake"), "craterlake", andrick::FileLocation::EnumExtensionType::TGA_EXT);
 		initCubeMap(mspDebugCubeMapImages, andrick::DirectoryLocation(msCUBE_MAP_DIR, "cube_debug"), "debug", andrick::FileLocation::EnumExtensionType::PNG_EXT);
@@ -50,6 +74,15 @@ namespace bb
 		registerAsset(mspStoneImage);
 		registerAsset(mspStoneHeightMap);
 		registerAsset(mspStoneNormalMap);
+		registerAsset(mspMetalPlateHeightMap);
+		registerAsset(mspMetalPlateNormalMap);
+		registerAsset(mspMetalGrillHeightMap);
+		registerAsset(mspMetalGrillNormalMap);
+		registerAsset(mspBrickworkHeightMap);
+		registerAsset(mspBrickworkNormalMap);
+		registerAsset(mspConcreteHeightMap);
+		registerAsset(mspConcreteNormalMap);
+
 
 		registerCubeMap(mspNebulaCubeMapImages);
 		registerCubeMap(mspCraterLakeCubeMapImages);
