@@ -73,6 +73,11 @@ namespace andrick
 		glUniform3f(getUniformID(uniformName), vec3.x, vec3.y, vec3.z);
 	}
 
+	void ShaderProgram::loadVec3(const std::string& uniformName, const GLfloat& x, const GLfloat& y, const GLfloat& z) const
+	{
+		glUniform3f(getUniformID(uniformName), x, y, z);
+	}
+
 	void ShaderProgram::loadMat3(const std::string& uniformName, GLboolean transposeMatrix, const glm::mat3& matrix) const
 	{
 		glUniformMatrix3fv(getUniformID(uniformName), 1, transposeMatrix, glm::value_ptr(matrix));

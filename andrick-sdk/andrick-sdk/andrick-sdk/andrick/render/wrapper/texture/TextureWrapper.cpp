@@ -35,9 +35,13 @@ namespace andrick
 	TextureWrapper::TextureWrapper(const GLuint& width, const GLuint& height, GLubyte* pPixelData,
 		const EnumTextureType& textureType,
 		const GLboolean& generateMipmap,
-		const EnumInternalFormatType& colorComponents, const EnumDataFormat& dataFormat, const EnumDataType& dataType,
-		const EnumWrapStyle& wrapStyleS, const EnumWrapStyle& wrapStyleT,
-		const EnumMinFilter& minify, const EnumMagFilter& magnify) :
+		const EnumInternalFormatType& colorComponents, 
+		const EnumDataFormat& dataFormat, 
+		const EnumDataType& dataType,
+		const EnumWrapStyle& wrapStyleS, 
+		const EnumWrapStyle& wrapStyleT,
+		const EnumMinFilter& minify, 
+		const EnumMagFilter& magnify) :
 		mTextureWidth(width),
 		mTextureHeight(height),
 		mTextureType(textureType),
