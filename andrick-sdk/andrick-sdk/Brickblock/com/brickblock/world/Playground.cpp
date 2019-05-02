@@ -379,7 +379,7 @@ namespace bb
 		//pFloor->getTextureWrapper()->unbind();
 		glPolygonMode(andrick::ModelRenderer::EnumCullType::FRONT_ONLY, andrick::ModelRenderer::EnumDrawType::FILL);
 
-		currentProgram = ShaderAssetPack::mspJuliaFractalProgram;
+		currentProgram = ShaderAssetPack::mspPhongShadingProgram;
 		currentProgram->use();
 
 		//Loading general stuff to shader program
@@ -411,6 +411,7 @@ namespace bb
 		
 		currentProgram->loadMat4("viewMatrix", GL_FALSE, mpCamera->getViewMatrix());
 		currentProgram->loadMat4("projectionMatrix", GL_FALSE, mpCamera->getProjectionMatrix());
+		currentProgram->loadFloat("time", static_cast<GLfloat>(andrick::Timer::getCurrentTime()));
 		
 		pBarrel->prepModelTransform(alpha, *currentProgram);
 		
