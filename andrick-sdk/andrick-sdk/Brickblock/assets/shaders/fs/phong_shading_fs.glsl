@@ -140,7 +140,9 @@ out vec4 FragColor;
 
 in vec3 Normal;  
 in vec3 FragPos;
+in vec2 TexCoords;
 
+uniform sampler2D texture0;
 uniform vec3 lightPos;
 uniform vec3 viewPos;
 uniform vec3 lightColor;
@@ -164,7 +166,9 @@ void main()
     vec3 reflectDir = reflect(-lightDir, norm);  
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
     vec3 specular = specularStrength * spec * lightColor;  
-        
-    vec3 result = (ambient + diffuse + specular) * objectColor;
+
+	vec4 texColor = texture(texture0, TexCoords);
+
+    vec3 result = (ambient + diffuse + specular) * texColor.rgb;
     FragColor = vec4(result, 1.0);
 } 

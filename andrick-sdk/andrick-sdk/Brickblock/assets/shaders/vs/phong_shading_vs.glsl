@@ -121,6 +121,7 @@ layout (location = 2) in vec3 aNormal;
 
 out vec3 FragPos;
 out vec3 Normal;
+out vec2 TexCoords; 
 
 uniform mat4 transformMatrix;
 uniform mat4 viewMatrix;
@@ -131,6 +132,7 @@ void main()
 {
 	FragPos = vec3(transformMatrix * vec4(aPos, 1.0));
 	Normal = normalMatrix * aNormal;
+	TexCoords = aTex;
 
 	gl_Position = projectionMatrix * viewMatrix * vec4(FragPos, 1.0);
 }

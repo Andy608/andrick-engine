@@ -83,6 +83,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Users\Andre\Desktop\Files\Champlain\Graphics 2\andrick-engine\dependencies\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Lib>
       <AdditionalDependencies>glfw3dll.lib;glad.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
