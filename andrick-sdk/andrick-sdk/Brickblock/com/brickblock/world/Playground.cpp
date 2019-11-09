@@ -27,24 +27,11 @@ namespace bb
 	andrick::Model* pSuzanne;
 	andrick::Model* pFSQ;
 
-	andrick::Model* pPodium;
-	andrick::Model* pPodium2;
-	andrick::Model* pPodium3;
-	andrick::Model* pPodium4;
-	andrick::Model* pPodium5;
-
-	andrick::Model* pCube;
-	andrick::Model* pCube2;
-	andrick::Model* pCube3;
-	andrick::Model* pCube4;
-	andrick::Model* pCube5;
-
 	andrick::FBOWrapper* pSceneFBO;
 	andrick::RBOWrapper* pDepthStencilRBO;
 
 	andrick::FBOWrapper* pSceneFBOMultisample;
 	andrick::RBOWrapper* pDepthStencilRBOMultisample;
-
 
 	andrick::TextureWrapper* pColRamp;
 	andrick::TextureWrapper* pFBOSceneRenderTextureMultisample;
@@ -88,7 +75,7 @@ namespace bb
 
 		pBarrel = new andrick::Model(MeshAssetPack::mspBarrelMesh);
 		pBarrel->setImage(*ImageAssetPack::mspBarrelImage);
-		pBarrel->getTransform()->setPosition(2.0f, 2.0f, 0.0f);
+		pBarrel->getTransform()->setPosition(2.0f, 0.0f, 0.0f);
 
 		pLight = new andrick::Model(MeshAssetPack::mspTestMesh);
 		pLight->getTransform()->setPosition(-2.0f, 2.0f, -3.0f);
@@ -100,55 +87,11 @@ namespace bb
 
 		pFSQ = new andrick::Model(MeshAssetPack::mspQuadMesh);
 
-		pPodium = new andrick::Model(MeshAssetPack::mspTestMesh);
-		pPodium->setImage(*ImageAssetPack::mspDefaultImage);
-
-		pPodium2 = new andrick::Model(MeshAssetPack::mspTestMesh);
-		pPodium2->setImage(*ImageAssetPack::mspDefaultImage);
-
-		pPodium3 = new andrick::Model(MeshAssetPack::mspTestMesh);
-		pPodium3->setImage(*ImageAssetPack::mspDefaultImage);
-
-		pPodium4 = new andrick::Model(MeshAssetPack::mspTestMesh);
-		pPodium4->setImage(*ImageAssetPack::mspDefaultImage);
-
-		pPodium5 = new andrick::Model(MeshAssetPack::mspTestMesh);
-		pPodium5->setImage(*ImageAssetPack::mspDefaultImage);
-
-		////////////////////////
-
-		pCube = new andrick::Model(MeshAssetPack::mspQuadMesh);
-		pCube->setImage(*ImageAssetPack::mspDefaultImage);
-
-		pCube2 = new andrick::Model(MeshAssetPack::mspQuadMesh);
-		pCube2->setImage(*ImageAssetPack::mspDefaultImage);
-
-		pCube3 = new andrick::Model(MeshAssetPack::mspQuadMesh);
-		pCube3->setImage(*ImageAssetPack::mspDefaultImage);
-
-		pCube4 = new andrick::Model(MeshAssetPack::mspQuadMesh);
-		pCube4->setImage(*ImageAssetPack::mspDefaultImage);
-
-		pCube5 = new andrick::Model(MeshAssetPack::mspQuadMesh);
-		pCube5->setImage(*ImageAssetPack::mspDefaultImage);
-
 		models.push_back(pFloor);
 		models.push_back(pBarrel);
 		models.push_back(pLight);
 		models.push_back(pSuzanne);
 		models.push_back(pFSQ);
-
-		models.push_back(pPodium);
-		models.push_back(pPodium2);
-		models.push_back(pPodium3);
-		models.push_back(pPodium4);
-		models.push_back(pPodium5);
-
-		models.push_back(pCube);
-		models.push_back(pCube2);
-		models.push_back(pCube3);
-		models.push_back(pCube4);
-		models.push_back(pCube5);
 
 		pColRamp = new andrick::TextureWrapper(*ImageAssetPack::mspColorRampImage);
 		pColRamp->generateGLTexture();
@@ -326,13 +269,18 @@ namespace bb
 		time += (60.0f * static_cast<GLfloat>(deltaTime));
 		counter += deltaTime;
 
-		GLfloat x = (10.0f * (cos(andrick::MathHelper::toRadians(time))));
-		GLfloat z = (3.0f * (sin(andrick::MathHelper::toRadians(time))));
+		GLfloat x = (3.0f * (cos(andrick::MathHelper::toRadians(time * 0.125f * 0.5f))));
+		GLfloat z = (3.0f * (sin(andrick::MathHelper::toRadians(time * 0.125f * 0.5f))));
 
 		pFloor->getTransform()->addRotation(0.0f, 0.0f, 20.0f * (GLfloat)deltaTime);
-		//pFloor->getTransform()->setPosition(0.0f, x * (GLfloat)deltaTime, 0.0f);
+		pFloor->getTransform()->setPosition(0.0f, x * (GLfloat)deltaTime, 0.0f);
 
-		if (counter > 2.0f)
+		//mpCamera->getTransform()->setPosition((-x * 1.6), 0.2f, (z * 1.6) - 5);
+		//mpCamera->getTransform()->addRotation(0.0f, 7.5/2.0 * (GLfloat)deltaTime, 0.0f);
+
+		//pBarrel->getTransform()->addRotation(0.0f, 20.0f * deltaTime, 0.0f);
+
+		/*if (counter > 2.0f)
 		{
 			counter = 0.0f;
 			currentIndex = (currentIndex + 1) % pomTextureMaps.size();
@@ -340,7 +288,7 @@ namespace bb
 			pCurrentNormalMap = pomTextureMaps.at(currentIndex)[1];
 			pCurrentPomMin = pomRangeMaps.at(currentIndex)[0];
 			pCurrentPomMax = pomRangeMaps.at(currentIndex)[1];
-		}
+		}*/
 	}
 
 	void Playground::render(const GLdouble& alpha)
@@ -357,7 +305,7 @@ namespace bb
 
 		//glPolygonMode(andrick::ModelRenderer::EnumCullType::FRONT_ONLY, andrick::ModelRenderer::EnumDrawType::OUTLINE);
 		//Picking shader program
-		andrick::ShaderProgram* currentProgram = ShaderAssetPack::mspPomProgram;
+		andrick::ShaderProgram* currentProgram = ShaderAssetPack::mspMandlebrotFractalProgram;
 		currentProgram->use();
 
 		//Loading general stuff to shader program
@@ -416,14 +364,11 @@ namespace bb
 		//pSuzanne->getTextureWrapper()->unbind();
 		//pColRamp->unbind();
 
-		/*currentProgram = ShaderAssetPack::mspJuliaFractalProgram;
+		/*currentProgram = ShaderAssetPack::mspMandlebrotFractalProgram;
 		currentProgram->use();
-
 		currentProgram->loadMat4("viewMatrix", GL_FALSE, mpCamera->getViewMatrix());
 		currentProgram->loadMat4("projectionMatrix", GL_FALSE, mpCamera->getProjectionMatrix());
-
 		pBarrel->prepModelTransform(alpha, *currentProgram);
-
 		pBarrel->getTextureWrapper()->bind();
 		pStoneHeightMap->bind(1);
 		pStoneNormalMap->bind(2);
@@ -432,7 +377,6 @@ namespace bb
 		currentProgram->loadInt("texture0", pBarrel->getTextureWrapper()->getTextureUnit());
 		currentProgram->loadInt("texture1", pStoneHeightMap->getTextureUnit());
 		currentProgram->loadInt("texture2", pStoneNormalMap->getTextureUnit());
-
 		pBarrel->render(alpha);
 		pBarrel->getTextureWrapper()->unbind();
 		pStoneHeightMap->unbind();
@@ -443,23 +387,17 @@ namespace bb
 
 		/*currentProgram = ShaderAssetPack::mspLightSourceProgram;
 		currentProgram->use();
-
 		currentProgram->loadMat4("viewMatrix", GL_FALSE, mpCamera->getViewMatrix());
 		currentProgram->loadMat4("projectionMatrix", GL_FALSE, mpCamera->getProjectionMatrix());
 		currentProgram->loadVec3("color", 1.0f, 0.7f, 0.5f);
-
 		pPodium->prepModelTransform(alpha, *currentProgram);
 		pPodium->render(alpha);
-
 		pPodium2->prepModelTransform(alpha, *currentProgram);
 		pPodium2->render(alpha);
-
 		pPodium3->prepModelTransform(alpha, *currentProgram);
 		pPodium3->render(alpha);
-
 		pPodium4->prepModelTransform(alpha, *currentProgram);
 		pPodium4->render(alpha);
-
 		pPodium5->prepModelTransform(alpha, *currentProgram);
 		pPodium5->render(alpha);*/
 
@@ -559,24 +497,18 @@ namespace bb
 
 		/*currentProgram = ShaderAssetPack::mspLightSourceProgram;
 		currentProgram->use();
-
 		currentProgram->loadMat4("viewMatrix", GL_FALSE, mpCamera->getViewMatrix());
 		currentProgram->loadMat4("projectionMatrix", GL_FALSE, mpCamera->getProjectionMatrix());
 		currentProgram->loadVec3("color", 1.0f, 1.0f, 1.0f);
-
 		pLight->prepModelTransform(alpha, *currentProgram);
 		pLight->render(alpha);
-
 		glDepthFunc(GL_LEQUAL);
 		currentProgram = ShaderAssetPack::mspSkyboxProgram;
 		currentProgram->use();
-
 		currentProgram->loadMat4("view", GL_FALSE, glm::mat4(glm::mat3(mpCamera->getViewMatrix())));
 		currentProgram->loadMat4("projection", GL_FALSE, mpCamera->getProjectionMatrix());
-
 		pCubeMap->bind();
 		currentProgram->loadInt("skybox", pCubeMap->getTextureUnit());
-
 		MeshAssetPack::mspCubeMapMesh->render();
 		pCubeMap->unbind();*/
 
