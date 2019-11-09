@@ -78,11 +78,11 @@ void main()
 		
 	vec4 sample_dm = texture(texture0, TexCoords.xy);
 	vec4 sample_hm = texture(texture1, texcoord.xy);
-	vec4 sample_nm = texture(texture2, texcoord.xy) * 2.0 - 1.0;
+	vec4 sample_nm = (texture(texture2, texcoord.xy) * 2.0 - 1.0);
 
 	//vec4 fragNrm_unit = tangentBasis[2];
-	vec4 fragNrm_unit = tangentBasis * sample_nm;
-	vec4 lightVec = vec4(0.0, 0.0, 1.0, 0.0);
+	vec4 fragNrm_unit = sample_nm;
+	vec4 lightVec = vec4(0.5, 0.0, 0.5, 0.0);
 
 	float kd = dot(fragNrm_unit, lightVec);
 	kd = max(kd, 0.0);

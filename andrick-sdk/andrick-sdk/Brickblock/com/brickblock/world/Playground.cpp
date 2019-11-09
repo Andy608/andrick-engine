@@ -44,10 +44,12 @@ namespace bb
 
 	andrick::FBOWrapper* pSceneFBOMultisample;
 	andrick::RBOWrapper* pDepthStencilRBOMultisample;
-	
-	
+
+
 	andrick::TextureWrapper* pColRamp;
 	andrick::TextureWrapper* pFBOSceneRenderTextureMultisample;
+	andrick::TextureWrapper* pFBOSceneRenderTexture;
+
 	andrick::TextureWrapper* pStoneHeightMap;
 	andrick::TextureWrapper* pStoneNormalMap;
 	andrick::TextureWrapper* pMetalPlateHeightMap;
@@ -58,35 +60,42 @@ namespace bb
 	andrick::TextureWrapper* pBrickworkNormalMap;
 	andrick::TextureWrapper* pConcreteHeightMap;
 	andrick::TextureWrapper* pConcreteNormalMap;
-	andrick::TextureWrapper* pFBOSceneRenderTexture;
+
+	andrick::TextureWrapper* pCurrentHeightMap;
+	andrick::TextureWrapper* pCurrentNormalMap;
+
+	GLfloat pCurrentPomMin;
+	GLfloat pCurrentPomMax;
+	
+	std::vector<std::array<andrick::TextureWrapper*, 2>> pomTextureMaps;
+	std::vector<std::array<GLfloat, 2>> pomRangeMaps;
 
 	andrick::CubeMap* pCubeMap;
 
 	glm::vec2 pomRange = glm::vec2(0.9925, 0.9975);
 
 	Playground::Playground() :
-		mpCamera(new FreeRoamCamera(glm::vec3(0.0f, 3.0f, 0.0f), glm::vec3())),
+		mpCamera(new FreeRoamCamera(glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3())),
 		mpModelRenderer(new andrick::ModelRenderer())
 	{
 		//Temp: Set the main viewport camera to the temp camera.
 		andrick::AndrickWindow::getFocusedWindow()->getViewport().setCamera(mpCamera);
 
 		pFloor = new andrick::Model(MeshAssetPack::mspQuadMesh);
-		pFloor->setImage(*ImageAssetPack::mspLoveImage);
-		pFloor->getTransform()->setRotation(-90.0f, 0.0f, 180.0f);
+		pFloor->setImage(*ImageAssetPack::mspDefaultImage);
+		pFloor->getTransform()->setRotation(-90.0f, 0.0f, 0.0f);
 		pFloor->getTransform()->setScale(5.0f, 5.0f, 5.0f);
-		
+
 		pBarrel = new andrick::Model(MeshAssetPack::mspBarrelMesh);
 		pBarrel->setImage(*ImageAssetPack::mspBarrelImage);
 		pBarrel->getTransform()->setPosition(2.0f, 2.0f, 0.0f);
 
 		pLight = new andrick::Model(MeshAssetPack::mspTestMesh);
 		pLight->getTransform()->setPosition(-2.0f, 2.0f, -3.0f);
-		pLight->getTransform()->setScale(0.5, (1.0f / 1.2f) * 0.5f, 0.5f);
 
 		pSuzanne = new andrick::Model(MeshAssetPack::mspSuzanneMesh);
 		pSuzanne->setImage(*ImageAssetPack::mspDefaultImage,
-			andrick::TextureWrapper::EnumWrapStyle::REPEAT, andrick::TextureWrapper::EnumWrapStyle::REPEAT, 
+			andrick::TextureWrapper::EnumWrapStyle::REPEAT, andrick::TextureWrapper::EnumWrapStyle::REPEAT,
 			andrick::TextureWrapper::EnumMinFilter::NEAREST_MIPMAP_NEAREST, andrick::TextureWrapper::EnumMagFilter::NEAREST);
 
 		pFSQ = new andrick::Model(MeshAssetPack::mspQuadMesh);
@@ -151,14 +160,14 @@ namespace bb
 		pStoneNormalMap->generateGLTexture();
 
 		pMetalPlateHeightMap = new andrick::TextureWrapper(*ImageAssetPack::mspMetalPlateHeightMap);
-		pMetalPlateHeightMap->generateGLTexture();							   
+		pMetalPlateHeightMap->generateGLTexture();
 
 		pMetalPlateNormalMap = new andrick::TextureWrapper(*ImageAssetPack::mspMetalPlateNormalMap);
 		pMetalPlateNormalMap->generateGLTexture();
 
 		pMetalGrillHeightMap = new andrick::TextureWrapper(*ImageAssetPack::mspMetalGrillHeightMap);
 		pMetalGrillHeightMap->generateGLTexture();
-			  
+
 		pMetalGrillNormalMap = new andrick::TextureWrapper(*ImageAssetPack::mspMetalGrillNormalMap);
 		pMetalGrillNormalMap->generateGLTexture();
 
@@ -174,25 +183,41 @@ namespace bb
 		pConcreteNormalMap = new andrick::TextureWrapper(*ImageAssetPack::mspConcreteNormalMap);
 		pConcreteNormalMap->generateGLTexture();
 
-
 		textures.push_back(pColRamp);
 		textures.push_back(pStoneHeightMap);
 		textures.push_back(pStoneNormalMap);
-		textures.push_back(pMetalPlateNormalMap);
 		textures.push_back(pMetalPlateHeightMap);
-		textures.push_back(pMetalGrillNormalMap);
+		textures.push_back(pMetalPlateNormalMap);
 		textures.push_back(pMetalGrillHeightMap);
-		textures.push_back(pBrickworkNormalMap);
+		textures.push_back(pMetalGrillNormalMap);
 		textures.push_back(pBrickworkHeightMap);
-		textures.push_back(pConcreteNormalMap);
+		textures.push_back(pBrickworkNormalMap);
 		textures.push_back(pConcreteHeightMap);
+		textures.push_back(pConcreteNormalMap);
+
+		pomTextureMaps.push_back({ pStoneHeightMap, pStoneNormalMap });
+		pomTextureMaps.push_back({ pMetalPlateHeightMap, pMetalPlateNormalMap });
+		pomTextureMaps.push_back({ pMetalGrillHeightMap, pMetalGrillNormalMap });
+		pomTextureMaps.push_back({ pBrickworkHeightMap, pBrickworkNormalMap });
+		pomTextureMaps.push_back({ pConcreteHeightMap, pConcreteNormalMap });
+
+		pomRangeMaps.push_back({ 0.9865f, 0.9975f });
+		pomRangeMaps.push_back({ 0.9315f, 0.9975f });
+		pomRangeMaps.push_back({ 0.815f, 0.9975f });
+		pomRangeMaps.push_back({ 0.9915f, 0.9975f });
+		pomRangeMaps.push_back({ 0.8975f, 0.9975f });
+
+		pCurrentHeightMap = pomTextureMaps.at(0)[0];
+		pCurrentNormalMap = pomTextureMaps.at(0)[1];
+		pCurrentPomMin = pomRangeMaps.at(0)[0];
+		pCurrentPomMax = pomRangeMaps.at(0)[1];
 
 		//Setup multisample fbo
 		pSceneFBOMultisample = new andrick::FBOWrapper();
 		pDepthStencilRBOMultisample = new andrick::RBOWrapper();
 		pFBOSceneRenderTextureMultisample = new andrick::TextureWrapper(andrick::AndrickWindow::getFocusedWindow()->getSize(), nullptr,
-			andrick::EnumTextureType::TEXTURE_2D_MULTISAMPLE, GL_FALSE, 
-			andrick::EnumInternalFormatType::RGB, andrick::EnumDataFormat::RGB_FORMAT, andrick::EnumDataType::UNSIGNED_BYTE, 
+			andrick::EnumTextureType::TEXTURE_2D_MULTISAMPLE, GL_FALSE,
+			andrick::EnumInternalFormatType::RGB, andrick::EnumDataFormat::RGB_FORMAT, andrick::EnumDataType::UNSIGNED_BYTE,
 			andrick::TextureWrapper::EnumWrapStyle::CLAMP_TO_EDGE, andrick::TextureWrapper::EnumWrapStyle::CLAMP_TO_EDGE,
 			andrick::TextureWrapper::EnumMinFilter::LINEAR_MIN, andrick::TextureWrapper::EnumMagFilter::LINEAR_MAG);
 
@@ -209,13 +234,13 @@ namespace bb
 
 		pSceneFBOMultisample->bind();
 
-		pSceneFBOMultisample->attachTexture(*pFBOSceneRenderTextureMultisample, andrick::FBOWrapper::EnumBindType::FRAMEBUFFER, 
+		pSceneFBOMultisample->attachTexture(*pFBOSceneRenderTextureMultisample, andrick::FBOWrapper::EnumBindType::FRAMEBUFFER,
 			andrick::EnumAttachmentType::COLOR_ATTACHMENT0, andrick::EnumTextureType::TEXTURE_2D_MULTISAMPLE);
 
 		pDepthStencilRBOMultisample->setStorageMultisample(andrick::AndrickWindow::getFocusedWindow()->getSize(),
 			andrick::EnumInternalFormatType::DEPTH24_STENCIL8, pFBOSceneRenderTextureMultisample->getSampleSize());
 
-		pSceneFBOMultisample->attachRBO(*pDepthStencilRBOMultisample, 
+		pSceneFBOMultisample->attachRBO(*pDepthStencilRBOMultisample,
 			andrick::EnumAttachmentType::DEPTH_STENCIL_ATTACHMENT, andrick::EnumTextureType::TEXTURE_2D_MULTISAMPLE);
 
 		pSceneFBOMultisample->unbind();
@@ -224,10 +249,10 @@ namespace bb
 
 		//Attach the color component to the fbo
 		pSceneFBO->attachTexture(*pFBOSceneRenderTexture, andrick::FBOWrapper::EnumBindType::FRAMEBUFFER, andrick::EnumAttachmentType::COLOR_ATTACHMENT0);
-		
+
 		//Set the storage type for the rbo while the fbo is bound
 		pDepthStencilRBO->setStorage(andrick::AndrickWindow::getFocusedWindow()->getSize(), andrick::EnumInternalFormatType::DEPTH24_STENCIL8);
-		
+
 		//Attach the depth and stencil components to the fbo
 		pSceneFBO->attachRBO(*pDepthStencilRBO, andrick::EnumAttachmentType::DEPTH_STENCIL_ATTACHMENT);
 
@@ -238,7 +263,7 @@ namespace bb
 
 		pCubeMap = new andrick::CubeMap();
 
-		pCubeMap->addTextures(ImageAssetPack::mspNebulaCubeMapImages);
+		pCubeMap->addTextures(ImageAssetPack::mspCraterLakeCubeMapImages);
 		pCubeMap->generateGLCubeMap();
 	}
 
@@ -270,7 +295,7 @@ namespace bb
 
 		delete pDepthStencilRBO;
 		pDepthStencilRBO = nullptr;
-		
+
 		delete pFBOSceneRenderTexture;
 		pFBOSceneRenderTexture = nullptr;
 
@@ -295,46 +320,27 @@ namespace bb
 			models.at(i)->update(deltaTime);
 		}
 
-		///pFloor->getTransform()->addRotation(0.0f, 180.0f * (GLfloat)deltaTime, 0.0f);
-
 		static GLfloat time = 0.0f;
+		static GLfloat counter = 0.0f;
+		static GLint currentIndex = 0;
 		time += (60.0f * static_cast<GLfloat>(deltaTime));
+		counter += deltaTime;
 
-		GLfloat x = (3.0f * (cos(andrick::MathHelper::toRadians(time * 0.5f))));
-		GLfloat z = (3.0f * (sin(andrick::MathHelper::toRadians(time * 0.5f))));
+		GLfloat x = (10.0f * (cos(andrick::MathHelper::toRadians(time))));
+		GLfloat z = (3.0f * (sin(andrick::MathHelper::toRadians(time))));
 
-		pLight->getTransform()->setPosition(x, 5.0f, z);
-		pLight->getTransform()->addRotation(0.0f, 90.0f * (GLfloat)deltaTime, 0.0f);
+		pFloor->getTransform()->addRotation(0.0f, 0.0f, 20.0f * (GLfloat)deltaTime);
+		//pFloor->getTransform()->setPosition(0.0f, x * (GLfloat)deltaTime, 0.0f);
 
-		mpCamera->getTransform()->setPosition(-x * 2.5f, 7.0f, z * 2.5f);
-		mpCamera->getTransform()->addRotation(0.0f, 30 * (GLfloat)deltaTime, 0.0f);
-
-		/*pPodium->getTransform()->setPosition( -4.0f, 0.0f, 0.0f);
-		pPodium2->getTransform()->setPosition(-2.0f, 0.0f, 0.0f);
-		pPodium3->getTransform()->setPosition( 0.0f, 0.0f, 0.0f);
-		pPodium4->getTransform()->setPosition( 2.0f, 0.0f, 0.0f);
-		pPodium5->getTransform()->setPosition( 4.0f, 0.0f, 0.0f);
-
-		pCube->getTransform()->setScale( 0.5f, 0.415f, 0.5f);
-		pCube2->getTransform()->setScale(0.5f, 0.415f, 0.5f);
-		pCube3->getTransform()->setScale(0.5f, 0.415f, 0.5f);
-		pCube4->getTransform()->setScale(0.5f, 0.415f, 0.5f);
-		pCube5->getTransform()->setScale(0.5f, 0.415f, 0.5f);
-
-		pCube->getTransform()-> setRotation(-90.0f, 0.0f, 0.0f);
-		pCube2->getTransform()->setRotation(-90.0f, 0.0f, 0.0f);
-		pCube3->getTransform()->setRotation(-90.0f, 0.0f, 0.0f);
-		pCube4->getTransform()->setRotation(-90.0f, 0.0f, 0.0f);
-		pCube5->getTransform()->setRotation(-90.0f, 0.0f, 0.0f);
-
-		pCube->getTransform()-> setPosition(-4.0f, 1.25f, 0.0f);
-		pCube2->getTransform()->setPosition(-2.0f, 1.25f, 0.0f);
-		pCube3->getTransform()-> setPosition(0.0f, 1.25f, 0.0f);
-		pCube4->getTransform()-> setPosition(2.0f, 1.25f, 0.0f);
-		pCube5->getTransform()-> setPosition(4.0f, 1.25f, 0.0f);*/
-
-		pSuzanne->getTransform()->setPosition(0.0f, (x * 0.5f) + 5.0f, 0.0f);
-		pSuzanne->getTransform()->addRotation(x * 0.2f, 0.0f, 0.0f);
+		if (counter > 2.0f)
+		{
+			counter = 0.0f;
+			currentIndex = (currentIndex + 1) % pomTextureMaps.size();
+			pCurrentHeightMap = pomTextureMaps.at(currentIndex)[0];
+			pCurrentNormalMap = pomTextureMaps.at(currentIndex)[1];
+			pCurrentPomMin = pomRangeMaps.at(currentIndex)[0];
+			pCurrentPomMax = pomRangeMaps.at(currentIndex)[1];
+		}
 	}
 
 	void Playground::render(const GLdouble& alpha)
@@ -351,70 +357,73 @@ namespace bb
 
 		//glPolygonMode(andrick::ModelRenderer::EnumCullType::FRONT_ONLY, andrick::ModelRenderer::EnumDrawType::OUTLINE);
 		//Picking shader program
-		andrick::ShaderProgram* currentProgram = ShaderAssetPack::mspPhongShadingProgram;
+		andrick::ShaderProgram* currentProgram = ShaderAssetPack::mspPomProgram;
 		currentProgram->use();
 
 		//Loading general stuff to shader program
 		currentProgram->loadMat4("viewMatrix", GL_FALSE, mpCamera->getViewMatrix());
 		currentProgram->loadMat4("projectionMatrix", GL_FALSE, mpCamera->getProjectionMatrix());
-
-		currentProgram->loadVec3("lightColor", glm::vec3(1.0, 1.0, 1.0));
-		currentProgram->loadVec3("lightPos", pLight->getTransform()->getLerpedPosition());
-		currentProgram->loadVec3("viewPos", mpCamera->getTransform()->getLerpedPosition());
-
-		currentProgram->loadMat3("normalMatrix", GL_FALSE, andrick::MathHelper::createNormalMat(pFloor->getTransform()->getTransformationMat(), mpCamera->getViewMatrix()));
-		currentProgram->loadFloat("lightSz", 0.01f);
-
 		currentProgram->loadFloat("time", static_cast<GLfloat>(andrick::Timer::getCurrentTime()));
 
+		//Loading model stuff to shader program
 		pFloor->prepModelTransform(alpha, *currentProgram);
 
-		pFloor->getTextureWrapper()->bind();
+		//Render models
+		pFloor->getTextureWrapper()->bind(0);
+		pCurrentHeightMap->bind(1);
+		pCurrentNormalMap->bind(2);
 		currentProgram->loadInt("texture0", pFloor->getTextureWrapper()->getTextureUnit());
+		currentProgram->loadInt("texture1", pCurrentHeightMap->getTextureUnit());
+		currentProgram->loadInt("texture2", pCurrentNormalMap->getTextureUnit());
+		currentProgram->loadVec2("range", pCurrentPomMin, pCurrentPomMax);
+
+		//pColRamp->bind(1);
+		//currentProgram->loadInt("colRamp", pColRamp->getTextureUnit());
 
 		pFloor->render(alpha);
 		pFloor->getTextureWrapper()->unbind();
-		pColRamp->unbind();
-		
+		pCurrentHeightMap->unbind();
+		pCurrentNormalMap->unbind();
+
 		//pColRamp->unbind();
 		//pFloor->getTextureWrapper()->unbind();
 		glPolygonMode(andrick::ModelRenderer::EnumCullType::FRONT_ONLY, andrick::ModelRenderer::EnumDrawType::FILL);
 
-		currentProgram = ShaderAssetPack::mspPhongShadingProgram;
-		currentProgram->use();
+		//currentProgram = ShaderAssetPack::mspJuliaFractalProgram;
+		//currentProgram->use();
 
-		//Loading general stuff to shader program
-		currentProgram->loadMat4("viewMatrix", GL_FALSE, mpCamera->getViewMatrix());
-		currentProgram->loadMat4("projectionMatrix", GL_FALSE, mpCamera->getProjectionMatrix());
-		
-		currentProgram->loadVec3("lightColor", glm::vec3(1.0, 1.0, 1.0));
-		currentProgram->loadVec3("lightPos", pLight->getTransform()->getLerpedPosition());
-		currentProgram->loadVec3("viewPos", mpCamera->getTransform()->getLerpedPosition());
-		
-		currentProgram->loadMat3("normalMatrix", GL_FALSE, andrick::MathHelper::createNormalMat(pSuzanne->getTransform()->getTransformationMat(), mpCamera->getViewMatrix()));
-		currentProgram->loadFloat("lightSz", 0.01f);
+		////Loading general stuff to shader program
+		//currentProgram->loadMat4("viewMatrix", GL_FALSE, mpCamera->getViewMatrix());
+		//currentProgram->loadMat4("projectionMatrix", GL_FALSE, mpCamera->getProjectionMatrix());
 
-		currentProgram->loadFloat("time", static_cast<GLfloat>(andrick::Timer::getCurrentTime()));
+		//currentProgram->loadVec3("lightColor", glm::vec3(1.0, 1.0, 1.0));
+		//currentProgram->loadVec3("lightPos", pLight->getTransform()->getLerpedPosition());
+		//currentProgram->loadVec3("viewPos", mpCamera->getTransform()->getLerpedPosition());
 
-		pSuzanne->prepModelTransform(alpha, *currentProgram);
-		
-		pSuzanne->getTextureWrapper()->bind();
-		pColRamp->bind(1);
-		currentProgram->loadInt("texture0", pSuzanne->getTextureWrapper()->getTextureUnit());
-		currentProgram->loadInt("colRamp", pColRamp->getTextureUnit());
+		//currentProgram->loadMat3("normalMatrix", GL_FALSE, andrick::MathHelper::createNormalMat(pSuzanne->getTransform()->getTransformationMat(), mpCamera->getViewMatrix()));
+		//currentProgram->loadFloat("lightSz", 0.01f);
 
-		pSuzanne->render(alpha);
-		pSuzanne->getTextureWrapper()->unbind();
-		pColRamp->unbind();
+		//currentProgram->loadFloat("time", static_cast<GLfloat>(andrick::Timer::getCurrentTime()));
+
+		//pSuzanne->prepModelTransform(alpha, *currentProgram);
+
+		//pSuzanne->getTextureWrapper()->bind();
+		//pColRamp->bind(1);
+		//currentProgram->loadInt("texture0", pSuzanne->getTextureWrapper()->getTextureUnit());
+		//currentProgram->loadInt("colRamp", pColRamp->getTextureUnit());
+
+		//pSuzanne->render(alpha);
+		//pSuzanne->getTextureWrapper()->unbind();
+		//pColRamp->unbind();
 
 		/*currentProgram = ShaderAssetPack::mspJuliaFractalProgram;
 		currentProgram->use();
-		
+
 		currentProgram->loadMat4("viewMatrix", GL_FALSE, mpCamera->getViewMatrix());
 		currentProgram->loadMat4("projectionMatrix", GL_FALSE, mpCamera->getProjectionMatrix());
-		
+
 		pBarrel->prepModelTransform(alpha, *currentProgram);
-		
+
 		pBarrel->getTextureWrapper()->bind();
 		pStoneHeightMap->bind(1);
 		pStoneNormalMap->bind(2);
@@ -454,7 +463,7 @@ namespace bb
 		pPodium5->prepModelTransform(alpha, *currentProgram);
 		pPodium5->render(alpha);*/
 
-		/////////////////////// CUBE
+		///////////////////////// CUBE
 
 		//currentProgram = ShaderAssetPack::mspPomProgram;
 		//currentProgram->use();
@@ -548,7 +557,7 @@ namespace bb
 
 		////////////////////////////////////////
 
-		currentProgram = ShaderAssetPack::mspLightSourceProgram;
+		/*currentProgram = ShaderAssetPack::mspLightSourceProgram;
 		currentProgram->use();
 
 		currentProgram->loadMat4("viewMatrix", GL_FALSE, mpCamera->getViewMatrix());
@@ -569,7 +578,7 @@ namespace bb
 		currentProgram->loadInt("skybox", pCubeMap->getTextureUnit());
 
 		MeshAssetPack::mspCubeMapMesh->render();
-		pCubeMap->unbind();
+		pCubeMap->unbind();*/
 
 		glDepthFunc(GL_LESS);
 
@@ -585,7 +594,7 @@ namespace bb
 
 		pFBOSceneRenderTexture->bind();
 		currentProgram->loadInt("screenTexture", pFBOSceneRenderTexture->getTextureUnit());
-		
+
 		pFSQ->render(alpha);
 		pFBOSceneRenderTexture->unbind();
 
