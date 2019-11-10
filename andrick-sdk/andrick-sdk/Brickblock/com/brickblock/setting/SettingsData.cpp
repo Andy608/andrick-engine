@@ -83,9 +83,9 @@ namespace bb
 		keySetHelper.clear();
 
 		//Pause default setting
-		keySetHelper.insert(andrick::EnumInput::ANDRICK_KEY_ESCAPE);
-		mPauseSetting = new andrick::KeySetting(convertSetting(EnumGameSetting::PAUSE_KEYBINDING), "pause", keySetHelper);
-		keySetHelper.clear();
+		//keySetHelper.insert(andrick::EnumInput::ANDRICK_KEY_ESCAPE);
+		//mPauseSetting = new andrick::KeySetting(convertSetting(EnumGameSetting::PAUSE_KEYBINDING), "pause", keySetHelper);
+		//keySetHelper.clear();
 
 		//Mouse sensitivity default setting
 		mMouseSensitivity = new andrick::IntegerSetting(convertSetting(EnumGameSetting::MOUSE_SENSITIVITY), "mouse_sensitivity", 12);
@@ -102,7 +102,7 @@ namespace bb
 		andrick::SettingsProcessor::getInstance()->registerSetting(mMoveDownSetting);
 
 		andrick::SettingsProcessor::getInstance()->registerSetting(mQuitSetting);
-		andrick::SettingsProcessor::getInstance()->registerSetting(mPauseSetting);
+		//andrick::SettingsProcessor::getInstance()->registerSetting(mPauseSetting);
 
 		andrick::SettingsProcessor::getInstance()->registerSetting(mMouseSensitivity);
 		andrick::SettingsProcessor::getInstance()->registerSetting(mVerticalSync);
