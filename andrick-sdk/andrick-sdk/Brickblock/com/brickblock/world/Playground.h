@@ -9,6 +9,8 @@
 
 namespace bb
 {
+	class ShaderProgram;
+
 	class Playground : public andrick::TrackableObject, andrick::NonCopyable
 	{
 		friend class Brickblock;
@@ -24,6 +26,14 @@ namespace bb
 
 		void update(const GLdouble& deltaTime);
 		void render(const GLdouble& alpha);
+
+		void updatePomDemo(const double& deltaTime, const double& time, const float& switchTime = 2.0f);
+		void updatePhongDemo(const double& deltaTime, const double& time);
+
+		void renderPomDemo(const double& alpha, andrick::ShaderProgram*& currentProgram);
+		void renderPhongDemo(const double& alpha, andrick::ShaderProgram*& currentProgram);
+		void renderJuliaDemo(const double& alpha, andrick::ShaderProgram*& currentProgram);
+		void renderMandelbrotDemo(const double& alpha, andrick::ShaderProgram*& currentProgram);
 	};
 }
 
